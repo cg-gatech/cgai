@@ -27,6 +27,11 @@ const tutorials: { title: string; href: string; description: string }[] = [
     href: '/tutorial/sdf-basis',
     description: 'Simple 2D SDF shader',
   },
+  {
+    title: 'Google Colab Tutorial',
+    href: '/tutorial/colab-tutorial',
+    description: 'Google Colab Tutorial',
+  },
 ];
 
 const assignments: { title: string; href: string; description: string }[] = [
