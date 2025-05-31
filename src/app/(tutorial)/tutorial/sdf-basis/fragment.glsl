@@ -46,24 +46,23 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord)
     // our coloring implementation
     vec3 color = vec3(0.0, 0.0, 0.0);
 
-    // strategy 1
-    // color = vec3(abs(d/3.0));
-
-    // strategy 2
-    // float b = 1.0;
-    // if(abs(d) < 0.005){
-    //     b = 0.0;
-    // }
-    // color = vec3(b, b, b);
-
-    // strategy 3
-    // color = vec3(exp(-20.0*abs(d)), 1.0, 1.0);
-
 	// ShaderToy coloring implementation
-    color = (d > 0.0) ? vec3(0.9, 0.6, 0.3) : vec3(0.65, 0.85, 1.0);
-    color *= 1.0 - exp(-6.0 * abs(d));
-    color *= 0.8 + 0.2 * sin(100.0 * d);
-    color = mix(color, vec3(1.0), 1.0 - smoothstep(0.0, 0.01, abs(d)));
+    // color = (d > 0.0) ? vec3(0.9, 0.6, 0.3) : vec3(0.65, 0.85, 1.0);
+    // color *= 1.0 - exp(-6.0 * abs(d));
+    // color *= 0.8 + 0.2 * sin(100.0 * d);
+    // color = mix(color, vec3(1.0), 1.0 - smoothstep(0.0, 0.01, abs(d)));
+
+    color = (d > 0.0) ? vec3(0.6) : vec3(0.25);
+    float wfloor = 0.08;
+    float dfloor = floor(d / wfloor) * wfloor;
+    color *= exp(-1.0 * abs(dfloor));
+    float width = 0.003;
+    if (abs(dfloor - d) < width * 1.1) {
+        color = vec3(0.0);
+    }
+    if (abs(d) < width) {
+        color = vec3(1.0);
+    }
 
     fragColor = vec4(color, 1.0);
 }

@@ -18,14 +18,19 @@ import Image from 'next/image';
 
 const tutorials: { title: string; href: string; description: string }[] = [
   {
-    title: 'Shader basis',
-    href: '/tutorial/shader-basis',
-    description: 'Simple GLSL shader',
+    title: 'Hello Triangle',
+    href: '/tutorial/hello-triangle',
+    description: 'Hello Triangle',
   },
   {
-    title: 'SDF basis',
+    title: 'Shader Basis',
+    href: '/tutorial/shader-basis',
+    description: 'Simple GLSL Shader',
+  },
+  {
+    title: 'SDF Basis',
     href: '/tutorial/sdf-basis',
-    description: 'Simple 2D SDF shader',
+    description: 'Simple 2D SDF Shader',
   },
   {
     title: 'Google Colab Tutorial',
