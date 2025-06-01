@@ -18,13 +18,13 @@ bool inTriangle(vec2 p, vec2 p1, vec2 p2, vec2 p3, out vec3 bary) {
 
     float D = v0.x * v1.y - v0.y * v1.x;
     float Dv = v2.x * v1.y - v2.y * v1.x;
-    float Dv0 = v0.x * v2.y - v0.y * v2.x;
+    float Dw = v0.x * v2.y - v0.y * v2.x;
     if(D == 0.0) {
         return false;
     }
-    float u = Dv / D;
-    float v = Dv0 / D;
-    float w = 1.0 - u - v;
+    float v = Dv / D;
+    float w= Dw / D;
+    float u = 1.0 - v - w;
     bary = vec3(u, v, w);
     return (u >= 0.0 && v >= 0.0 && w >= 0.0);
 }
