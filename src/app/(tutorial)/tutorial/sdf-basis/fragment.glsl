@@ -54,14 +54,15 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord)
 
     color = (d > 0.0) ? vec3(0.6) : vec3(0.25);
     float wfloor = 0.08;
+    float hwfloor = wfloor * 0.5;
     float dfloor = floor(d / wfloor) * wfloor;
     color *= exp(-1.0 * abs(dfloor));
     float width = 0.006;
-    if (abs(dfloor - d) < width * 1.2) {
-        color = mix(color, vec3(0.0), 1.0 - smoothstep(0.0, width * 0.9, abs(dfloor - d)));
+    if (abs(d - dfloor - hwfloor) > hwfloor - width) {
+        color = mix(color, vec3(0.0), smoothstep(hwfloor - width, hwfloor, abs(d - dfloor - hwfloor)));
     }
-    if (abs(d) < width) {
-        color = mix(color, vec3(1.0), 1.0 - smoothstep(0.0, width, abs(d)));
+    if (abs(d) < width * 1.2) {
+        color = mix(color, vec3(1.0), 1.0 - smoothstep(0.0, width * 1.2, abs(d)));
     }
 
     fragColor = vec4(color, 1.0);
