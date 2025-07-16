@@ -28,12 +28,43 @@ float sdf_box(in vec2 p, float angle, in vec2 b) {
     return length(max(d, 0.0)) + min(max(d.x, d.y), 0.0);
 }
 
+vec3 colormap_jet(float x) {
+    x = clamp(x, 0.0, 1.0);
+    float r, g, b;
+
+    if (x < 0.7) {
+        r = 4.0 * x - 1.5;
+    } else {
+        r = -4.0 * x + 4.5;
+    }
+
+    if (x < 0.5) {
+        g = 4.0 * x - 0.5;
+    } else {
+        g = -4.0 * x + 3.5;
+    }
+
+    if (x < 0.3) {
+        b = 4.0 * x + 0.5;
+    } else {
+        b = -4.0 * x + 2.5;
+    }
+
+    return vec3(clamp(r, 0.0, 1.0),
+                clamp(g, 0.0, 1.0),
+                clamp(b, 0.0, 1.0));
+}
+
 vec3 vis_sdf_shader_toy(float d) {
     vec3 color = (d > 0.0) ? vec3(0.9, 0.6, 0.3) : vec3(0.65, 0.85, 1.0);
     color *= 1.0 - exp(-6.0 * abs(d));
     color *= 0.8 + 0.2 * sin(100.0 * d);
     color = mix(color, vec3(1.0), 1.0 - smoothstep(0.0, 0.01, abs(d)));
     return color;
+}
+
+vec3 vis_sdf_jet(float d){
+    return colormap_jet(exp(-abs(d)));
 }
 
 vec3 vis_sdf(float d) {
@@ -43,12 +74,12 @@ vec3 vis_sdf(float d) {
     float band = floor(d / bandwidth) * bandwidth;
     color *= exp(-abs(band));
 
-    float linewidth = 0.006;
+    float linewidth = 0.004;
     if(abs(d - band - half_bandwidth) > half_bandwidth - linewidth) {
         color = mix(color, vec3(0.0), smoothstep(half_bandwidth - linewidth, half_bandwidth, abs(d - band - half_bandwidth)));
     }
-    if(abs(d) < linewidth * 1.2) {
-        color = mix(color, vec3(1.0), 1.0 - smoothstep(0.0, linewidth * 1.2, abs(d)));
+    if(abs(d) < linewidth * 1.5) {
+        color = mix(color, vec3(1.0), 1.0 - smoothstep(0.0, linewidth * 1.5, abs(d)));
     }
     return color;
 }
@@ -56,12 +87,16 @@ vec3 vis_sdf(float d) {
 void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     vec2 p = (2.0 * fragCoord - iResolution.xy) / iResolution.y;    // p's range is between (-aspect_ratio,-1) to (+aspect_ratio,+1)
 
+    // circle
+    // float d = sdf_circle(p, vec2(0.0), 0.3);
+
     // rotating box
     vec2 b = vec2(0.2, 0.3);
     float d = sdf_box(p, iTime, b);
 
-    // our coloring implementation
+    // different visualization implementation
     // vec3 color = vis_sdf_shader_toy(d);
+    // vec3 color = vis_sdf_jet(d);
     vec3 color = vis_sdf(d);
 
     fragColor = vec4(color, 1.0);
