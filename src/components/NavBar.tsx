@@ -28,6 +28,11 @@ const tutorials: { title: string; href: string; description: string }[] = [
     description: 'Simple GLSL Shader',
   },
   {
+    title: 'Phong Shading',
+    href: '/tutorial/phong-shading',
+    description: 'Phong Shading Example',
+  },
+  {
     title: 'SDF Basis',
     href: '/tutorial/sdf-basis',
     description: 'Simple 2D SDF Shader',
@@ -55,6 +60,16 @@ const tutorials: { title: string; href: string; description: string }[] = [
 ];
 
 const assignments: { title: string; href: string; description: string }[] = [
+  {
+    title: 'Assignment 0 Demo',
+    href: '/assignment/A0',
+    description: 'A0 Demo: Ray Tracing',
+  },
+  {
+    title: 'Assignment 0 Doc',
+    href: '/assignment/A0_doc',
+    description: 'A0 Document: Ray Tracing',
+  },
   {
     title: 'Assignment 1A Demo',
     href: '/assignment/A1a',
