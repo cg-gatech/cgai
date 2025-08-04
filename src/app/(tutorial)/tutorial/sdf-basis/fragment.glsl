@@ -118,9 +118,9 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     float d = sdf_box(p, iTime, b);
 
     // triangle
-    // vec2 p0 = polar2cart(0.0, 0.5);
-    // vec2 p1 = polar2cart(0.0 + 2. * M_PI / 3., 0.5);
-    // vec2 p2 = polar2cart(0.0 + 4. * M_PI / 3., 0.5);
+    // vec2 p0 = polar2cart(iTime, 0.5);
+    // vec2 p1 = polar2cart(iTime + 2. * M_PI / 3., 0.5);
+    // vec2 p2 = polar2cart(iTime + 4. * M_PI / 3., 0.5);
     // float d = sdf_triangle(p, p0, p1, p2);
 
     // segment
