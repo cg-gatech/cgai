@@ -15,46 +15,47 @@ import {
 } from '@/components/ui/navigation-menu';
 import { BookAIcon, GithubIcon, InfoIcon, TreesIcon } from 'lucide-react';
 import Image from 'next/image';
+import { withBasePath } from '@/lib/withBasePath';
 
 const tutorials: { title: string; href: string; description: string }[] = [
   {
     title: 'Hello Triangle',
-    href: '/tutorial/hello-triangle',
+    href: withBasePath('/tutorial/hello-triangle'),
     description: 'Hello Triangle',
   },
   {
     title: 'Shader Basis',
-    href: '/tutorial/shader-basis',
+    href: withBasePath('/tutorial/shader-basis'),
     description: 'Simple GLSL Shader',
   },
   {
     title: 'Phong Shading',
-    href: '/tutorial/phong-shading',
+    href: withBasePath('/tutorial/phong-shading'),
     description: 'Phong Shading Example',
   },
   {
     title: 'SDF Basis',
-    href: '/tutorial/sdf-basis',
+    href: withBasePath('/tutorial/sdf-basis'),
     description: 'Simple 2D SDF Shader',
   },
   {
     title: 'Google Colab Tutorial',
-    href: '/tutorial/colab-tutorial',
+    href: withBasePath('/tutorial/colab-tutorial'),
     description: 'Google Colab Tutorial',
   },
   {
     title: 'Neural SDF Tutorial',
-    href: '/tutorial/neural-sdf-basis',
+    href: withBasePath('/tutorial/neural-sdf-basis'),
     description: 'Google Colab Tutorial',
   },
   {
     title: 'Pytorch Tutorial',
-    href: '/tutorial/pytorch-tutorial',
+    href: withBasePath('/tutorial/pytorch-tutorial'),
     description: 'Pytorch Tutorial',
   },
   {
     title: 'Mass Spring System',
-    href: '/tutorial/mass-spring-tutorial',
+    href: withBasePath('/tutorial/mass-spring-tutorial'),
     description: 'Mass Spring System',
   },
 ];

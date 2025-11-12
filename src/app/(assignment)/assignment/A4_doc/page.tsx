@@ -3,10 +3,10 @@
 import { useEffect, useRef } from 'react';
 import { NavBar } from '@/components/NavBar';
 import Image from 'next/image';
+import { withBasePath } from '@/lib/withBasePath';
 
 export default function AssignmentPage() {
   const iframeRef = useRef<HTMLIFrameElement>(null);
-  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
 
   useEffect(() => {
     const iframe = iframeRef.current;
@@ -39,7 +39,7 @@ export default function AssignmentPage() {
         {/* Logo and Title Section */}
         <div className="flex flex-col sm:flex-row items-center gap-4 w-full">
           {/* Logo */}
-          <Image src={`${basePath}/cgai_logo.png`} alt="CGAI logo" width={256} height={256} priority />
+          <Image src={withBasePath("/cgai_logo.png")} alt="CGAI logo" width={256} height={256} priority />
           {/* Title and Description */}
           <div className="text-center sm:text-left w-full">
             <p className="text-3xl font-bold font-[family-name:var(--font-geist-mono)] leading-loose">
@@ -54,7 +54,7 @@ export default function AssignmentPage() {
         {/* Assignment Content Section */}
         <iframe 
           ref={iframeRef}
-          src="/assignments/A4.html"
+          src={withBasePath("/assignments/A4.html")}
           className="w-full h-[5000px] border rounded-lg bg-yellow-50"
         />
       </main>

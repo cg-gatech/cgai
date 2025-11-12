@@ -6,9 +6,9 @@ import * as THREE from 'three';
 
 // Load Shadertoy shaders
 import vertexShader from '@/shaders/common/vertex.glsl';
-import bufferAShader from './bufferA.glsl';
-import bufferBShader from './bufferB.glsl';
-import imageShader from './image.glsl';
+import bufferAShader from '@/app/(tutorial)/tutorial/mass-spring-tutorial/bufferA.glsl';
+import bufferBShader from '@/app/(tutorial)/tutorial/mass-spring-tutorial/bufferB.glsl';
+import imageShader from '@/app/(tutorial)/tutorial/mass-spring-tutorial/image.glsl';
 
 const ShadertoyRenderer = ({ dpr }: { dpr: number }) => {
   const { viewport, gl, camera } = useThree();

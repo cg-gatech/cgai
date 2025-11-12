@@ -3,13 +3,13 @@
 import { useEffect, useState } from 'react';
 import { NavBar } from '@/components/NavBar';
 import Image from 'next/image';
+import { withBasePath } from '@/lib/withBasePath';
 
 export default function ReadingMaterialPage() {
   const [htmlContent, setHtmlContent] = useState('');
-  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
 
   useEffect(() => {
-    fetch('/reading_materials.html')
+    fetch(withBasePath('/reading_materials.html'))
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -27,7 +27,7 @@ export default function ReadingMaterialPage() {
         <div className="flex flex-col sm:flex-row items-center gap-4 w-full">
           {/* Logo */}
           <Image
-            src={`${basePath}/cgai_logo.png`}
+            src={withBasePath("/cgai_logo.png")}
             alt="CGAI logo"
             width={256}
             height={256}
