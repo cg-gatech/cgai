@@ -6,6 +6,7 @@ import Image from 'next/image';
 
 export default function AssignmentPage() {
   const iframeRef = useRef<HTMLIFrameElement>(null);
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
 
   useEffect(() => {
     const iframe = iframeRef.current;
@@ -38,7 +39,7 @@ export default function AssignmentPage() {
         {/* Logo and Title Section */}
         <div className="flex flex-col sm:flex-row items-center gap-4 w-full">
           {/* Logo */}
-          <Image src="/cgai_logo.png" alt="CGAI logo" width={256} height={256} priority />
+          <Image src={`${basePath}/cgai_logo.png`} alt="CGAI logo" width={256} height={256} priority />
           {/* Title and Description */}
           <div className="text-center sm:text-left w-full">
             <p className="text-3xl font-bold font-[family-name:var(--font-geist-mono)] leading-loose">

@@ -3,6 +3,8 @@ import Image from 'next/image';
 // import Landing from '@/components/landing/Landing';
 
 export default function Home() {
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+
   return (
     <>
       {/* <Landing /> */}
@@ -12,7 +14,7 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row items-center gap-4">
             {/* Logo */}
             <Image
-              src="/cgai_logo.png"
+              src={`${basePath}/cgai_logo.png`}
               alt="CGAI logo"
               width={256}
               height={256}

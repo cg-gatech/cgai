@@ -137,7 +137,10 @@ const assignments: { title: string; href: string; description: string }[] = [
   },
 ];
 
+
 export function NavBar() {
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+
   return (
     <NavigationMenu>
       <NavigationMenuList>
@@ -198,7 +201,7 @@ export function NavBar() {
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
               <Image
                 className="mr-2 invert"
-                src="/cgai_logo.png"
+                src={`${basePath}/cgai_logo.png`}
                 alt="CGAI logomark"
                 width={16}
                 height={16}

@@ -2,6 +2,8 @@ import Image from 'next/image';
 import React from 'react';
 
 const Logo: React.FC = () => {
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+
   return (
     <div className="absolute top-4 left-4 z-10">
       <a
@@ -9,7 +11,7 @@ const Logo: React.FC = () => {
         href="/"
         rel="noopener noreferrer"
       >
-        <Image src="/cgai_logo.png" alt="CGAI logomark" width={20} height={20} />
+        <Image src={`${basePath}/cgai_logo.png`} alt="CGAI logomark" width={20} height={20} />
         CGAI
       </a>
     </div>
