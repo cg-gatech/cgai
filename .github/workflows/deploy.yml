@@ -29,6 +29,7 @@ jobs:
     env:
       GITHUB_PAGES: "true"
       GITHUB_REPO: ${{ github.event.repository.name }}
+      NEXT_PUBLIC_BASE_PATH: "/${{ github.event.repository.name }}"
     steps:
       - name: Checkout
         uses: actions/checkout@v5
