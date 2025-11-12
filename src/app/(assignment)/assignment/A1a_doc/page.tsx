@@ -19,7 +19,7 @@ export default function AssignmentPage() {
       })
       .then((data) => {
         const fixedHtml = fixInnerHTMLLinks(data);
-        setHtmlContent(data)
+        setHtmlContent(fixedHtml);
       }) 
       .catch((error) => console.error('Failed to load HTML content:', error)); 
   }, []);

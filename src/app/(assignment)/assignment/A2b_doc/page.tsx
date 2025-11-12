@@ -1,9 +1,10 @@
-'use client'; 
+'use client';
 
 import { useEffect, useState } from 'react';
 import { NavBar } from '@/components/NavBar';
 import Image from 'next/image';
 import { withBasePath } from '@/lib/withBasePath';
+import { fixInnerHTMLLinks } from '@/lib/fixInnerHTMLLinks';
 
 export default function AssignmentPage() {
   const [htmlContent, setHtmlContent] = useState('');
@@ -16,8 +17,11 @@ export default function AssignmentPage() {
         }
         return response.text();
       })
-      .then((data) => setHtmlContent(data)) 
-      .catch((error) => console.error('Failed to load HTML content:', error)); 
+      .then((data) => {
+        const fixedHtml = fixInnerHTMLLinks(data);
+        setHtmlContent(fixedHtml);
+      })
+      .catch((error) => console.error('Failed to load HTML content:', error));
   }, []);
 
   return (
