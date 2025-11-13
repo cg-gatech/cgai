@@ -15,16 +15,11 @@ export default function AssignmentPage() {
     fetch(withBasePath("/assignments/A4.html"))
       .then((res) => res.text())
       .then((rawHTML) => {
-        // Step 2: Fix relative URLs in src/href attributes
+        // Step 1: Fix relative URLs in src/href attributes
         const fixedHTML = rawHTML.replace(
           /(src|href)=["']\/(?!\/)/g, // Match src="/..." or href="/..."
           `$1="${withBasePath("/")}`
         );
-
-        // Step 3: Create a blob and load it into the iframe
-        const blob = new Blob([fixedHTML], { type: "text/html" });
-        const blobUrl = URL.createObjectURL(blob);
-        iframe.src = blobUrl;
 
         iframe.onload = () => {
           const doc = iframe.contentDocument || iframe.contentWindow?.document;
