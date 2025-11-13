@@ -1,4 +1,4 @@
-'use client'; 
+'use client';
 
 import { useEffect, useState } from 'react';
 import { NavBar } from '@/components/NavBar';
@@ -19,10 +19,20 @@ export default function AssignmentPage() {
       })
       .then((data) => {
         const fixedHtml = fixInnerHTMLLinks(data);
-        console.log(fixedHtml);
-        setHtmlContent(fixedHtml);
-      }) 
-      .catch((error) => console.error('Failed to load HTML content:', error)); 
+
+        // Extract <style> tags and append them to <head>
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = fixedHtml;
+
+        const styles = tempDiv.querySelectorAll('style');
+        styles.forEach((styleTag) => {
+          document.head.appendChild(styleTag);
+          styleTag.remove(); // remove from content body
+        });
+
+        setHtmlContent(tempDiv.innerHTML);
+      })
+      .catch((error) => console.error('Failed to load HTML content:', error));
   }, []);
 
   return (
