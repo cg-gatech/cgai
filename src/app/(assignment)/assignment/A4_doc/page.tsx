@@ -13,25 +13,30 @@ export default function AssignmentPage() {
     if (iframe) {
       iframe.onload = () => {
         const doc = iframe.contentDocument || iframe.contentWindow?.document;
-        if (doc) {
-          const style = doc.createElement("style");
-          style.textContent = `
-            body {
-              word-wrap: break-word;
-              white-space: normal;
-              overflow-wrap: break-word;
-              line-height: 1.6;
-            }
-            
-            pre, code {
-              white-space: pre-wrap;
-              word-wrap: break-word;
-            }
-          `;
-          doc.head.appendChild(style);
-        }
-      };
-    }
+        if (!doc) return;
+
+        // Dynamically inject the <base> tag
+        const base = doc.createElement("base");
+        base.href = window.location.origin + withBasePath("/");
+        doc.head.prepend(base);
+
+        const style = doc.createElement("style");
+        style.textContent = `
+          body {
+            word-wrap: break-word;
+            white-space: normal;
+            overflow-wrap: break-word;
+            line-height: 1.6;
+          }
+          
+          pre, code {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+          }
+        `;
+        doc.head.appendChild(style);
+      }
+    };
   }, []);
   return (
     <div className="bg-robot-bg bg-cover bg-center grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">

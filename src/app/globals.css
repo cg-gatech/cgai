@@ -50,3 +50,80 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+/* Custom styles for headings */
+.h1-custom {
+  font-size: 2.25rem;    /* equivalent to text-4xl */
+  font-weight: 700;      /* equivalent to font-bold */
+  margin-bottom: 1.5rem; /* equivalent to mb-6 */
+}
+
+.h2-custom {
+  font-size: 1.5rem;   /* equivalent to text-2xl */
+  font-weight: 600;    /* equivalent to font-semibold */
+  margin-top: 1.5rem;  /* equivalent to mt-6 */
+  margin-bottom: 1rem; /* equivalent to mb-4 */
+}
+
+.h3-custom {
+  font-size: 1.25rem;    /* equivalent to text-xl */
+  font-weight: 500;      /* equivalent to font-medium */
+  margin-top: 1rem;      /* equivalent to mt-4 */
+  margin-bottom: 0.5rem; /* equivalent to mb-2 */
+}
+
+.h4-custom {
+  font-size: 1.05rem;    /* equivalent to text-xl */
+  font-weight: 500;      /* equivalent to font-medium */
+  margin-top: 1rem;      /* equivalent to mt-4 */
+  margin-bottom: 0.5rem; /* equivalent to mb-2 */
+  font-weight: bold;
+}
+
+/* Styling for code elements */
+.code-inline {
+  font-family: 'Fira Code', Consolas, 'Courier New', monospace;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.link-inline {
+  text-decoration: underline; /* Ensures the links are underlined */
+  color: #1d4ed8; /* Sets the blue color for the links */
+  font-family: 'Fira Code', Consolas, 'Courier New', monospace;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+/* Fixing the problem with ul and li elements */
+.ul-custom {
+  list-style-type: disc; /* Ensures the default bullet style */
+  margin-left: 2rem;     /* Adds left indentation for the list */
+  padding-left: 1.5rem;  /* Adds extra padding inside the list */
+}
+
+.li-custom {
+  margin-bottom: 0.5rem; /* Adds space between list items */
+}
+
+.image-container {
+  display: flex;
+  justify-content: left; /* Center images */
+  gap: 20px; /* Space between images */
+}
+
+.image-container img {
+  width: 25%;   /* Adjust width */
+  height: auto; /* Maintain aspect ratio */
+}
+
+.image-container2 {
+  display: flex;
+  justify-content: left; /* Center images */
+  gap: 20px; /* Space between images */
+}
+
+.image-container2 img {
+  width: 50%;   /* Adjust width */
+  height: auto; /* Maintain aspect ratio */
+}

@@ -8,74 +8,72 @@
       };
     </script>
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+    <style>
+        /* Custom styles for headings */
+        .h1-custom {
+            font-size: 2.25rem; /* equivalent to text-4xl */
+            font-weight: 700; /* equivalent to font-bold */
+            margin-bottom: 1.5rem; /* equivalent to mb-6 */
+        }
+
+        .h2-custom {
+            font-size: 1.5rem; /* equivalent to text-2xl */
+            font-weight: 600; /* equivalent to font-semibold */
+            margin-top: 1.5rem; /* equivalent to mt-6 */
+            margin-bottom: 1rem; /* equivalent to mb-4 */
+        }
+
+        .h3-custom {
+            font-size: 1.25rem; /* equivalent to text-xl */
+            font-weight: 500; /* equivalent to font-medium */
+            margin-top: 1rem; /* equivalent to mt-4 */
+            margin-bottom: 0.5rem; /* equivalent to mb-2 */
+        }
+
+        .h4-custom {
+            font-size: 1.05rem; /* equivalent to text-xl */
+            font-weight: 500; /* equivalent to font-medium */
+            margin-top: 1rem; /* equivalent to mt-4 */
+            margin-bottom: 0.5rem; /* equivalent to mb-2 */
+        }
+
+        /* Styling for code elements */
+        .code-inline {
+            font-family: 'Fira Code', Consolas, 'Courier New', monospace;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        .link-inline {
+            text-decoration: underline;  /* Ensures the links are underlined */
+            color: #1d4ed8;              /* Sets the blue color for the links */
+            font-family: 'Fira Code', Consolas, 'Courier New', monospace;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        /* Fixing the problem with ul and li elements */
+        ul {
+            list-style-type: disc;  /* Ensures the default bullet style */
+            margin-left: 2rem;      /* Adds left indentation for the list */
+            padding-left: 1.5rem;   /* Adds extra padding inside the list */
+        }
+
+        li {
+            margin-bottom: 0.5rem; /* Adds space between list items */
+        }
+
+        .image-container {
+            display: flex;
+            justify-content: center; /* Center images */
+            gap: 20px; /* Space between images */
+        }
+        .image-container img {
+            width: 50%; /* Adjust width */
+            height: auto; /* Maintain aspect ratio */
+        }
+    </style>
   </head>
-  
-<style>
-    /* Custom styles for headings */
-    .h1-custom {
-        font-size: 2.25rem; /* equivalent to text-4xl */
-        font-weight: 700; /* equivalent to font-bold */
-        margin-bottom: 1.5rem; /* equivalent to mb-6 */
-    }
-
-    .h2-custom {
-        font-size: 1.5rem; /* equivalent to text-2xl */
-        font-weight: 600; /* equivalent to font-semibold */
-        margin-top: 1.5rem; /* equivalent to mt-6 */
-        margin-bottom: 1rem; /* equivalent to mb-4 */
-    }
-
-    .h3-custom {
-        font-size: 1.25rem; /* equivalent to text-xl */
-        font-weight: 500; /* equivalent to font-medium */
-        margin-top: 1rem; /* equivalent to mt-4 */
-        margin-bottom: 0.5rem; /* equivalent to mb-2 */
-    }
-
-    .h4-custom {
-        font-size: 1.05rem; /* equivalent to text-xl */
-        font-weight: 500; /* equivalent to font-medium */
-        margin-top: 1rem; /* equivalent to mt-4 */
-        margin-bottom: 0.5rem; /* equivalent to mb-2 */
-    }
-
-    /* Styling for code elements */
-    .code-inline {
-        font-family: 'Fira Code', Consolas, 'Courier New', monospace;
-        font-size: 1.1rem;
-        font-weight: bold;
-    }
-
-    .link-inline {
-        text-decoration: underline;  /* Ensures the links are underlined */
-        color: #1d4ed8;              /* Sets the blue color for the links */
-        font-family: 'Fira Code', Consolas, 'Courier New', monospace;
-        font-size: 1.1rem;
-        font-weight: bold;
-    }
-
-    /* Fixing the problem with ul and li elements */
-    ul {
-        list-style-type: disc;  /* Ensures the default bullet style */
-        margin-left: 2rem;      /* Adds left indentation for the list */
-        padding-left: 1.5rem;   /* Adds extra padding inside the list */
-    }
-
-    li {
-        margin-bottom: 0.5rem; /* Adds space between list items */
-    }
-
-    .image-container {
-        display: flex; 
-        justify-content: center; /* Center images */
-        gap: 20px; /* Space between images */
-    }
-    .image-container img {
-        width: 50%; /* Adjust width */
-        height: auto; /* Maintain aspect ratio */
-    }
-
-</style>
 
 <h1 class="h1-custom">
     Assignment 2B: Neural Radiance Fields (NeRF)
@@ -90,27 +88,27 @@
     Before diving into coding, refer to our course slides and supplementary reading materials to understand NeRF and volume rendering. Here is the reading list:
 </p>
 <ul class="list-disc pl-8 mb-4">
-    <li>Course Slides on NeRF</li>
-    <li><a href="https://www.matthewtancik.com/nerf" class="link-inline">NeRF: Representing Scenes as Neural Radiance Fields for View Synthesis</a></li>
-    <li><a href="https://arxiv.org/pdf/2209.02417" class="link-inline">Volume Rendering Digest (for NeRF)</a></li>
-    <li><a href="https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html" class="link-inline">PyTorch Official Document (First Four Sections)</a></li>
-    <li><a href="https://cgai-gatech.vercel.app/tutorial/colab-tutorial" class="link-inline">CGAI Tutorial: Google Colab</a></li>
-    <li><a href="https://cgai-gatech.vercel.app/tutorial/pytorch-tutorial" class="link-inline">CGAI Tutorial: Training a Network in PyTorch</a></li>
+    <li class="li-custom">Course Slides on NeRF</li>
+    <li class="li-custom"><a href="https://www.matthewtancik.com/nerf" class="link-inline">NeRF: Representing Scenes as Neural Radiance Fields for View Synthesis</a></li>
+    <li class="li-custom"><a href="https://arxiv.org/pdf/2209.02417" class="link-inline">Volume Rendering Digest (for NeRF)</a></li>
+    <li class="li-custom"><a href="https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html" class="link-inline">PyTorch Official Document (First Four Sections)</a></li>
+    <li class="li-custom"><a href="https://cgai-gatech.vercel.app/tutorial/colab-tutorial" class="link-inline">CGAI Tutorial: Google Colab</a></li>
+    <li class="li-custom"><a href="https://cgai-gatech.vercel.app/tutorial/pytorch-tutorial" class="link-inline">CGAI Tutorial: Training a Network in PyTorch</a></li>
 </ul>
 
 <h2 class="h2-custom">Starter Code</h2>
 <p class="mb-4">
-    Please visit our GitHub repository for the starter code: <a href="https://github.com/cg-gatech/cgai" class="link-inline">https://github.com/cg-gatech/cgai</a>. 
+    Please visit our GitHub repository for the starter code: <a href="https://github.com/cg-gatech/cgai" class="link-inline">https://github.com/cg-gatech/cgai</a>.
     The assignment code is located in <code class="code-inline">src/app/(assignment)/assignment/A2b</code>. It contains:
 </p>
 <ul class="list-disc pl-8 mb-4">
-    <li><code class="code-inline">nerf.ipynb</code>: Jupyter notebook for training</li>
-    <li><code class="code-inline">fragment.glsl</code>: GLSL shader for rendering</li>
-    <li><code class="code-inline">tiny_lego.npz</code>: Dataset for tiny lego</li>
-    <li><code class="code-inline">tiny_chair.npz</code>: Dataset for tiny chair</li>
-    <li><code class="code-inline">tiny_hotdog.npz</code>: Dataset for tiny hotdog</li>
-    <li><code class="code-inline">tiny_drum.npz</code>: Dataset for tiny drum</li>
-    <li><code class="code-inline">hotdog.txt</code>: A given hotdog NeRF model</li>
+    <li class="li-custom"><code class="code-inline">nerf.ipynb</code>: Jupyter notebook for training</li>
+    <li class="li-custom"><code class="code-inline">fragment.glsl</code>: GLSL shader for rendering</li>
+    <li class="li-custom"><code class="code-inline">tiny_lego.npz</code>: Dataset for tiny lego</li>
+    <li class="li-custom"><code class="code-inline">tiny_chair.npz</code>: Dataset for tiny chair</li>
+    <li class="li-custom"><code class="code-inline">tiny_hotdog.npz</code>: Dataset for tiny hotdog</li>
+    <li class="li-custom"><code class="code-inline">tiny_drum.npz</code>: Dataset for tiny drum</li>
+    <li class="li-custom"><code class="code-inline">hotdog.txt</code>: A given hotdog NeRF model</li>
 </ul>
 
 <h2 class="h2-custom">Requirements</h2>
@@ -139,12 +137,12 @@
 </p>
 
 <ul class="list-disc pl-8 mb-4">
-    <li>Apply a Sigmoid activation to color to constrain it within [0,1], and use ReLU on density to ensure non-negative values.</li>
-    <li>Compute distances between adjacent depth samples using <code>z_vals</code>. Note that you can append a large value such as 1e10 to <code>deltas</code> to ensure that the opacity is almost 1 for the last sample point. Additionally, you need to add 1 to the beginning of the transmittance T_i as T_1 (as seen in the given A1A code) and discard the last element when you do the multiplications. From the formula below, you can see that T_1 is not well defined as the superscript of the sum <code>i-1</code> becomes 0 if <code>i=1</code>. Finally, apply the volume rendering equation (refer to Page 36 of the lecture slides):</li>
+    <li class="li-custom">Apply a Sigmoid activation to color to constrain it within [0,1], and use ReLU on density to ensure non-negative values.</li>
+    <li class="li-custom">Compute distances between adjacent depth samples using <code>z_vals</code>. Note that you can append a large value such as 1e10 to <code>deltas</code> to ensure that the opacity is almost 1 for the last sample point. Additionally, you need to add 1 to the beginning of the transmittance T_i as T_1 (as seen in the given A1A code) and discard the last element when you do the multiplications. From the formula below, you can see that T_1 is not well defined as the superscript of the sum <code>i-1</code> becomes 0 if <code>i=1</code>. Finally, apply the volume rendering equation (refer to Page 36 of the lecture slides):</li>
     <div class="image-container">
         <img src="/assignments/A2b_img/formula_rendering_fixed.png" alt="Volume rendering equation">
     </div>
-    <li>Compute final pixel color by summing contributions from each sample along the ray.</li>
+    <li class="li-custom">Compute final pixel color by summing contributions from each sample along the ray.</li>
 </ul>
 
 
@@ -153,10 +151,10 @@
     During training, NeRF learns to synthesize novel views by minimizing the difference between rendered and ground truth images. The training loop consists of:
 </p>
 <ul class="list-disc pl-8 mb-4">
-    <li>Generating ray origins and directions from camera parameters. Note that we have implemented this for you in the NeRF class.</li>
-    <li>Rendering an image by performing volume rendering (the one you implemented in 1.2) along each ray.</li>
-    <li>Computing the Mean Squared Error (MSE) loss against the ground truth image.</li>
-    <li>Performing backpropagation and updating model weights using an optimizer.</li>
+    <li class="li-custom">Generating ray origins and directions from camera parameters. Note that we have implemented this for you in the NeRF class.</li>
+    <li class="li-custom">Rendering an image by performing volume rendering (the one you implemented in 1.2) along each ray.</li>
+    <li class="li-custom">Computing the Mean Squared Error (MSE) loss against the ground truth image.</li>
+    <li class="li-custom">Performing backpropagation and updating model weights using an optimizer.</li>
 </ul>
 
 <h3 class="h4-custom">Step 1.4: Testing and Evaluation</h3>
@@ -187,7 +185,7 @@
 <p class="mb-4">
     A default hotdog NeRF is given to you in <code>hotdog.txt</code>, therefore, if you have correctly implemented Step 2 and directly run your fragment.glsl with the function <code>queryNetwork()</code> copied from <code>hotdog.txt</code>, you should get the top left result in the video below. Once you have implemented Step 1 together with Step 2, you should be able to obtain the video for the lego model (the right bottom one in the following video). Note that the video below with composited four object is only for demonstration purposes, in reality, you can only render one NeRF object at one time.
 </p>
-    
+
 <video controls autoplay loop muted>
     <source src="/assignments/a2b-ref.mp4" type="video/mp4">
     Your browser does not support the video tag.
@@ -200,24 +198,24 @@
 
 <h2 class="h2-custom">Submission</h2>
 <ul class="list-disc pl-8 mb-4">
-    <li>Source code for <code>nerf.ipynb</code> and <code>fragment.glsl.</code></li>
-    <li>Your default rendered video for the lego model.</li>
-    <li>Your output image from Step 1.5.</li>
-    <li>Your customized video with different datasets for creative expression.</li>
-    <li>A concise technical explanation of your implementation.</li>
+    <li class="li-custom">Source code for <code>nerf.ipynb</code> and <code>fragment.glsl.</code></li>
+    <li class="li-custom">Your default rendered video for the lego model.</li>
+    <li class="li-custom">Your output image from Step 1.5.</li>
+    <li class="li-custom">Your customized video with different datasets for creative expression.</li>
+    <li class="li-custom">A concise technical explanation of your implementation.</li>
 </ul>
 
 <h2 class="h2-custom">Grading</h2>
 <p>This assignment is worth a total of 8 points, with the grading criteria outlined as follows:</p>
 <ul class="list-disc pl-8 mb-4">
-    <li>
+    <li class="li-custom">
         <strong>Technical Contribution (7 points):</strong>
         <ul class="list-disc pl-8 mb-4">
-            <li>NeRF Model Implementation: 5 points (one point for each substep)</li>
-            <li>GLSL Rendering: 2 points</li>
+            <li class="li-custom">NeRF Model Implementation: 5 points (one point for each substep)</li>
+            <li class="li-custom">GLSL Rendering: 2 points</li>
         </ul>
     </li>
-    <li>
+    <li class="li-custom">
         <strong>Creative Expression (1 point):</strong> This aspect focuses on your ability to create new NeRF objects.
     </li>
 </ul>

@@ -1,80 +1,3 @@
-<style>
-    /* Custom styles for headings */
-    .h1-custom {
-        font-size: 2.25rem; /* equivalent to text-4xl */
-        font-weight: 700; /* equivalent to font-bold */
-        margin-bottom: 1.5rem; /* equivalent to mb-6 */
-    }
-
-    .h2-custom {
-        font-size: 1.5rem; /* equivalent to text-2xl */
-        font-weight: 600; /* equivalent to font-semibold */
-        margin-top: 1.5rem; /* equivalent to mt-6 */
-        margin-bottom: 1rem; /* equivalent to mb-4 */
-    }
-
-    .h3-custom {
-        font-size: 1.25rem; /* equivalent to text-xl */
-        font-weight: 500; /* equivalent to font-medium */
-        margin-top: 1rem; /* equivalent to mt-4 */
-        margin-bottom: 0.5rem; /* equivalent to mb-2 */
-    }
-
-    .h4-custom {
-        font-size: 1.05rem; /* equivalent to text-xl */
-        font-weight: 500; /* equivalent to font-medium */
-        margin-top: 1rem; /* equivalent to mt-4 */
-        margin-bottom: 0.5rem; /* equivalent to mb-2 */
-    }
-
-    /* Styling for code elements */
-    .code-inline {
-        font-family: 'Fira Code', Consolas, 'Courier New', monospace;
-        font-size: 1.1rem;
-        font-weight: bold;
-    }
-
-    .link-inline {
-        text-decoration: underline;  /* Ensures the links are underlined */
-        color: #1d4ed8;              /* Sets the blue color for the links */
-        font-family: 'Fira Code', Consolas, 'Courier New', monospace;
-        font-size: 1.1rem;
-        font-weight: bold;
-    }
-
-    /* Fixing the problem with ul and li elements */
-    ul {
-        list-style-type: disc;  /* Ensures the default bullet style */
-        margin-left: 2rem;      /* Adds left indentation for the list */
-        padding-left: 1.5rem;   /* Adds extra padding inside the list */
-    }
-
-    li {
-        margin-bottom: 0.5rem; /* Adds space between list items */
-    }
-
-    .image-container {
-        display: flex; 
-        justify-content: center; /* Center images */
-        gap: 20px; /* Space between images */
-    }
-    .image-container img {
-        width: 20%; /* Adjust width */
-        height: auto; /* Maintain aspect ratio */
-    }
-
-    .image-container2 {
-        display: flex; 
-        justify-content: center; /* Center images */
-        gap: 20px; /* Space between images */
-    }
-    .image-container2 img {
-        width: 30%; /* Adjust width */
-        height: auto; /* Maintain aspect ratio */
-    }
-
-</style>
-
 <h1 class="h1-custom">
     Assignment 2A: Volumetric Rendering
 </h1>
@@ -91,14 +14,14 @@
 </p>
 
 <ul class="list-disc pl-8 mb-4">
-    <li>Course Slides on Radiometry Foundation and Participated Media</li>
-    <li><a href="https://raytracing.github.io/books/RayTracingTheNextWeek.html#volumes" class="link-inline">Ray Tracing: The Next Week</a></li>
-    <li><a href="https://courses.cs.duke.edu/spring03/cps296.8/papers/max95opticalModelsForDirectVolumeRendering.pdf" class="link-inline">Optical models for direct volume rendering</a></li>
-    <li><a href="https://arxiv.org/abs/2209.02417" class="link-inline">Volume Rendering Digest (for NeRF)</a></li>
-    <li><a href="https://www.scratchapixel.com/lessons/3d-basic-rendering/volume-rendering-for-developers/volume-rendering-summary-equations.html" class="link-inline">Volume Rendering Notes from Scratchapixel</a></li>
-    <li><a href="https://developer.nvidia.com/gpugems/gpugems/part-vi-beyond-triangles/chapter-39-volume-rendering-techniques" class="link-inline">GPU Gem Chapter 39 Volume Rendering Techniques </a></li>
-    <li><a href="https://www.shadertoy.com/view/XlBSRz" class="link-inline">Shadertoy Example: Smoke Sphere</a></li>
-    <li><a href="https://www.shadertoy.com/view/ds3cWj" class="link-inline">Shadertoy Example: Cloud</a></li>
+    <li class="li-custom">Course Slides on Radiometry Foundation and Participated Media</li>
+    <li class="li-custom"><a href="https://raytracing.github.io/books/RayTracingTheNextWeek.html#volumes" class="link-inline">Ray Tracing: The Next Week</a></li>
+    <li class="li-custom"><a href="https://courses.cs.duke.edu/spring03/cps296.8/papers/max95opticalModelsForDirectVolumeRendering.pdf" class="link-inline">Optical models for direct volume rendering</a></li>
+    <li class="li-custom"><a href="https://arxiv.org/abs/2209.02417" class="link-inline">Volume Rendering Digest (for NeRF)</a></li>
+    <li class="li-custom"><a href="https://www.scratchapixel.com/lessons/3d-basic-rendering/volume-rendering-for-developers/volume-rendering-summary-equations.html" class="link-inline">Volume Rendering Notes from Scratchapixel</a></li>
+    <li class="li-custom"><a href="https://developer.nvidia.com/gpugems/gpugems/part-vi-beyond-triangles/chapter-39-volume-rendering-techniques" class="link-inline">GPU Gem Chapter 39 Volume Rendering Techniques </a></li>
+    <li class="li-custom"><a href="https://www.shadertoy.com/view/XlBSRz" class="link-inline">Shadertoy Example: Smoke Sphere</a></li>
+    <li class="li-custom"><a href="https://www.shadertoy.com/view/ds3cWj" class="link-inline">Shadertoy Example: Cloud</a></li>
 </ul>
 
 <h2 class="h2-custom">Starter Code</h2>
@@ -198,24 +121,24 @@ We expect your Creative Expression volumetric rendering scene to demonstrate the
 
 <h2 class="h2-custom">Submission</h2>
 <ul class="list-disc pl-8 mb-4">
-    <li>Your source code <code class="code-inline">fragment.glsl</code></li>
-    <li>Your default volumetric ray tracing video after completing the three steps</li>
-    <li>Your customized video with your own volumetric rendering for creative expression</li>
-    <li>A concise technical explanation of your implementation</li>
+    <li class="li-custom">Your source code <code class="code-inline">fragment.glsl</code></li>
+    <li class="li-custom">Your default volumetric ray tracing video after completing the three steps</li>
+    <li class="li-custom">Your customized video with your own volumetric rendering for creative expression</li>
+    <li class="li-custom">A concise technical explanation of your implementation</li>
 </ul>
 
 <h2 class="h2-custom">Grading</h2>
 <p>This assignment is worth a total of 8 points, with the grading criteria outlined as follows:</p>
 <ul class="list-disc pl-8 mb-4">
-    <li>
+    <li class="li-custom">
         <strong>Technical Contribution (7 points):</strong> The core of the grading is based on the correct implementation of loading volumetric data and volumetric rendering. The distribution of points is as follows:
         <ul class="list-disc pl-8 mb-4">
-            <li>Step 1: 2 points </li>
-            <li>Step 2: 2 points </li>
-            <li>Step 3: 3 points </li>
+            <li class="li-custom">Step 1: 2 points </li>
+            <li class="li-custom">Step 2: 2 points </li>
+            <li class="li-custom">Step 3: 3 points </li>
         </ul>
     </li>
-    <li>
+    <li class="li-custom">
         <strong>Creative Expression (1 point):</strong> This aspect focuses on your ability to load new volumetric data and render it out for new expressive scenes.
     </li>
 </ul>

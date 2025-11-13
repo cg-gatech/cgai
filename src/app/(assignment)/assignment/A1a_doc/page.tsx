@@ -19,18 +19,7 @@ export default function AssignmentPage() {
       })
       .then((data) => {
         const fixedHtml = fixInnerHTMLLinks(data);
-
-        // Extract <style> tags and append them to <head>
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = fixedHtml;
-
-        const styles = tempDiv.querySelectorAll('style');
-        styles.forEach((styleTag) => {
-          document.head.appendChild(styleTag);
-          styleTag.remove(); // remove from content body
-        });
-
-        setHtmlContent(tempDiv.innerHTML);
+        setHtmlContent(fixedHtml);
       })
       .catch((error) => console.error('Failed to load HTML content:', error));
   }, []);
