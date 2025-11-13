@@ -31,7 +31,7 @@ export default function SyllabusPage() {
         <div className="flex flex-col sm:flex-row items-center gap-4 w-full">
           {/* Logo */}
           <Image
-            src={withBasePath("cgai_logo.png")}
+            src={withBasePath("/cgai_logo.png")}
             alt="CGAI logo"
             width={256}
             height={256}
