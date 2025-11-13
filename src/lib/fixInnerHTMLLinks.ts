@@ -1,49 +1,36 @@
+// src/lib/fixInnerHTMLLinks.ts
+import { withBasePath } from './withBasePath';
+
 export const fixInnerHTMLLinks = (html: string): string => {
-  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
-  if (!basePath) return html;
+  const base = process.env.NEXT_PUBLIC_BASE_PATH || '';
+  if (!base) return html; // nothing to do
 
   const parser = new DOMParser();
   const doc = parser.parseFromString(html, 'text/html');
 
-  // Fix <a href="/...">
-  doc.querySelectorAll('a[href]').forEach((el) => {
-    const href = el.getAttribute('href');
-    if (href && href.startsWith('/')) {
-      el.setAttribute('href', basePath + href);
-    }
-  });
+  // elements and their attributes to check
+  const attrMap: Array<[string, 'src' | 'href']> = [
+    ['a', 'href'],
+    ['img', 'src'],
+    ['source', 'src'],
+    ['video', 'src'],
+    ['audio', 'src'],
+    ['link', 'href'],
+    ['script', 'src'],
+  ];
 
-  // Fix <img src="/...">
-  doc.querySelectorAll('img[src]').forEach((el) => {
-    const src = el.getAttribute('src');
-    if (src && src.startsWith('/')) {
-      el.setAttribute('src', basePath + src);
-    }
-  });
+  for (const [selector, attr] of attrMap) {
+    doc.querySelectorAll(selector).forEach((el) => {
+      const val = el.getAttribute(attr);
+      if (!val) return;
 
-  // Fix <video> and <audio> <source src="/...">
-  doc.querySelectorAll('source[src]').forEach((el) => {
-    const src = el.getAttribute('src');
-    if (src && src.startsWith('/')) {
-      el.setAttribute('src', basePath + src);
-    }
-  });
+      // If absolute URL or protocol-relative, leave it
+      if (/^(?:https?:)?\/\//i.test(val)) return;
 
-  // Fix <link href="/..."> (for CSS, icons, etc.)
-  doc.querySelectorAll('link[href]').forEach((el) => {
-    const href = el.getAttribute('href');
-    if (href && href.startsWith('/')) {
-      el.setAttribute('href', basePath + href);
-    }
-  });
-
-  // Fix <script src="/...">
-  doc.querySelectorAll('script[src]').forEach((el) => {
-    const src = el.getAttribute('src');
-    if (src && src.startsWith('/')) {
-      el.setAttribute('src', basePath + src);
-    }
-  });
+      // Otherwise rewrite using withBasePath (handles relative and root-relative)
+      el.setAttribute(attr, withBasePath(val));
+    });
+  }
 
   return doc.body.innerHTML;
 };
