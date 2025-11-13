@@ -10,33 +10,50 @@ export default function AssignmentPage() {
 
   useEffect(() => {
     const iframe = iframeRef.current;
-    if (iframe) {
-      iframe.onload = () => {
-        const doc = iframe.contentDocument || iframe.contentWindow?.document;
-        if (!doc) return;
+    if (!iframe) return;
+    
+    fetch(withBasePath("/assignments/A4.html"))
+      .then((res) => res.text())
+      .then((rawHTML) => {
+        // Step 2: Fix relative URLs in src/href attributes
+        const fixedHTML = rawHTML.replace(
+          /(src|href)=["']\/(?!\/)/g, // Match src="/..." or href="/..."
+          `$1="${withBasePath("/")}`
+        );
 
-        // Dynamically inject the <base> tag
-        const base = doc.createElement("base");
-        base.href = window.location.origin + withBasePath("/");
-        doc.head.prepend(base);
+        // Step 3: Create a blob and load it into the iframe
+        const blob = new Blob([fixedHTML], { type: "text/html" });
+        const blobUrl = URL.createObjectURL(blob);
+        iframe.src = blobUrl;
 
-        const style = doc.createElement("style");
-        style.textContent = `
-          body {
-            word-wrap: break-word;
-            white-space: normal;
-            overflow-wrap: break-word;
-            line-height: 1.6;
-          }
-          
-          pre, code {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-          }
-        `;
-        doc.head.appendChild(style);
-      }
-    };
+        iframe.onload = () => {
+          const doc = iframe.contentDocument || iframe.contentWindow?.document;
+          if (!doc) return;
+
+          // Dynamically inject the <base> tag
+          const base = doc.createElement("base");
+          base.href = window.location.origin + withBasePath("/");
+          doc.head.prepend(base);
+
+          const style = doc.createElement("style");
+          style.textContent = `
+            body {
+              word-wrap: break-word;
+              white-space: normal;
+              overflow-wrap: break-word;
+              line-height: 1.6;
+            }
+            
+            pre, code {
+              white-space: pre-wrap;
+              word-wrap: break-word;
+            }
+          `;
+          doc.head.appendChild(style);
+        };
+    })
+      .catch((err) => console.error("Failed to load iframe HTML:", err));
+
   }, []);
   return (
     <div className="bg-robot-bg bg-cover bg-center grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
@@ -59,8 +76,8 @@ export default function AssignmentPage() {
         {/* Assignment Content Section */}
         <iframe 
           ref={iframeRef}
-          src={withBasePath("/assignments/A4.html")}
           className="w-full h-[5000px] border rounded-lg bg-yellow-50"
+          title="Assignment 4"
         />
       </main>
     </div>
