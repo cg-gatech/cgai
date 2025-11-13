@@ -15,35 +15,48 @@ export default function AssignmentPage() {
     fetch(withBasePath("/assignments/A4.html"))
       .then((res) => res.text())
       .then((rawHTML) => {
-        // Step 1: Fix relative URLs in src/href attributes
+        // Step 2: Fix relative URLs in src/href attributes
         const fixedHTML = rawHTML.replace(
           /(src|href)=["']\/(?!\/)/g, // Match src="/..." or href="/..."
           `$1="${withBasePath("/")}`
         );
 
+        // Step 3: Write the fixed HTML directly into the iframe document
         const doc = iframe.contentDocument || iframe.contentWindow?.document;
         if (!doc) return;
 
-        // Dynamically inject the <base> tag
-        const base = doc.createElement("base");
-        base.href = window.location.origin + withBasePath("/");
-        doc.head.prepend(base);
+        // ✅ Safe in iframe context — suppress TS warning
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        doc.open();
+        doc.write(fixedHTML);
+        doc.close();
 
-        const style = doc.createElement("style");
-        style.textContent = `
-          body {
-            word-wrap: break-word;
-            white-space: normal;
-            overflow-wrap: break-word;
-            line-height: 1.6;
-          }
-          
-          pre, code {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-          }
-        `;
-        doc.head.appendChild(style);
+        iframe.onload = () => {
+          const doc = iframe.contentDocument || iframe.contentWindow?.document;
+          if (!doc) return;
+
+          // Dynamically inject the <base> tag
+          const base = doc.createElement("base");
+          base.href = window.location.origin + withBasePath("/");
+          doc.head.prepend(base);
+
+          const style = doc.createElement("style");
+          style.textContent = `
+            body {
+              word-wrap: break-word;
+              white-space: normal;
+              overflow-wrap: break-word;
+              line-height: 1.6;
+            }
+            
+            pre, code {
+              white-space: pre-wrap;
+              word-wrap: break-word;
+            }
+          `;
+          doc.head.appendChild(style);
+        };
     })
       .catch((err) => console.error("Failed to load iframe HTML:", err));
 
@@ -71,6 +84,7 @@ export default function AssignmentPage() {
           ref={iframeRef}
           className="w-full h-[5000px] border rounded-lg bg-yellow-50"
           title="Assignment 4"
+          allow='autoplay; fullscreen'
         />
       </main>
     </div>
