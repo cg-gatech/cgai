@@ -1,15 +1,47 @@
 export const fixInnerHTMLLinks = (html: string): string => {
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
-
-  if (!basePath) return html; // nothing to do if basePath is empty
+  if (!basePath) return html;
 
   const parser = new DOMParser();
   const doc = parser.parseFromString(html, 'text/html');
 
-  doc.querySelectorAll('a[href]').forEach((a) => {
-    const href = a.getAttribute('href');
+  // Fix <a href="/...">
+  doc.querySelectorAll('a[href]').forEach((el) => {
+    const href = el.getAttribute('href');
     if (href && href.startsWith('/')) {
-      a.setAttribute('href', basePath + href);
+      el.setAttribute('href', basePath + href);
+    }
+  });
+
+  // Fix <img src="/...">
+  doc.querySelectorAll('img[src]').forEach((el) => {
+    const src = el.getAttribute('src');
+    if (src && src.startsWith('/')) {
+      el.setAttribute('src', basePath + src);
+    }
+  });
+
+  // Fix <video> and <audio> <source src="/...">
+  doc.querySelectorAll('source[src]').forEach((el) => {
+    const src = el.getAttribute('src');
+    if (src && src.startsWith('/')) {
+      el.setAttribute('src', basePath + src);
+    }
+  });
+
+  // Fix <link href="/..."> (for CSS, icons, etc.)
+  doc.querySelectorAll('link[href]').forEach((el) => {
+    const href = el.getAttribute('href');
+    if (href && href.startsWith('/')) {
+      el.setAttribute('href', basePath + href);
+    }
+  });
+
+  // Fix <script src="/...">
+  doc.querySelectorAll('script[src]').forEach((el) => {
+    const src = el.getAttribute('src');
+    if (src && src.startsWith('/')) {
+      el.setAttribute('src', basePath + src);
     }
   });
 
