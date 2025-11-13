@@ -1,14 +1,15 @@
 /** @type {import('next').NextConfig} */
+
 const isGithubPages = process.env.GITHUB_PAGES === 'true';
 const repoName = process.env.GITHUB_REPO || ''; // 'cgai'
+const basePath = isGithubPages ? `/${repoName}` : '';
 
 const nextConfig = {
   // Only needed if you plan to deploy static files (GitHub Pages)
   ...(isGithubPages && {
-    output: 'export',
-    images: { unoptimized: true },
-    assetPrefix: `/${repoName}/`,
-    basePath: `/${repoName}`,
+    output: isGithubPages ? 'export' : undefined,
+    images: { unoptimized: isGithubPages },
+    basePath, assetPrefix: basePath
   }),
 
   webpack: (config, { isServer }) => {
@@ -28,7 +29,7 @@ const nextConfig = {
   },
 
   env: {
-    NEXT_PUBLIC_BASE_PATH: isGithubPages ? `/${repoName}` : '',
+    NEXT_PUBLIC_BASE_PATH: basePath,
   }
 
 //   transpilePackages: ['three'],
