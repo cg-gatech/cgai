@@ -21,31 +21,29 @@ export default function AssignmentPage() {
           `$1="${withBasePath("/")}`
         );
 
-        iframe.onload = () => {
-          const doc = iframe.contentDocument || iframe.contentWindow?.document;
-          if (!doc) return;
+        const doc = iframe.contentDocument || iframe.contentWindow?.document;
+        if (!doc) return;
 
-          // Dynamically inject the <base> tag
-          const base = doc.createElement("base");
-          base.href = window.location.origin + withBasePath("/");
-          doc.head.prepend(base);
+        // Dynamically inject the <base> tag
+        const base = doc.createElement("base");
+        base.href = window.location.origin + withBasePath("/");
+        doc.head.prepend(base);
 
-          const style = doc.createElement("style");
-          style.textContent = `
-            body {
-              word-wrap: break-word;
-              white-space: normal;
-              overflow-wrap: break-word;
-              line-height: 1.6;
-            }
-            
-            pre, code {
-              white-space: pre-wrap;
-              word-wrap: break-word;
-            }
-          `;
-          doc.head.appendChild(style);
-        };
+        const style = doc.createElement("style");
+        style.textContent = `
+          body {
+            word-wrap: break-word;
+            white-space: normal;
+            overflow-wrap: break-word;
+            line-height: 1.6;
+          }
+          
+          pre, code {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+          }
+        `;
+        doc.head.appendChild(style);
     })
       .catch((err) => console.error("Failed to load iframe HTML:", err));
 
