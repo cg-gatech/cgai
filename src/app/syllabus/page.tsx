@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { NavBar } from '@/components/NavBar';
 import Image from 'next/image';
 import { withBasePath } from '@/lib/withBasePath';
-import { fixInnerHTMLLinks } from '@/lib/fixInnerHTMLLinks';
 
 export default function SyllabusPage() {
   const [htmlContent, setHtmlContent] = useState('');
@@ -18,7 +17,11 @@ export default function SyllabusPage() {
         return response.text();
       })
       .then((data) => {
-        const fixedHtml = fixInnerHTMLLinks(data);
+        const fixedHtml = data.replace(
+          /(src|href)=["'](\/(?!\/)[^"']*)["']/g,
+          (_, attr, path) => `${attr}="${withBasePath(path)}"`
+        );
+
         setHtmlContent(fixedHtml);
       })
       .catch((error) => console.error('Failed to load HTML content:', error)); 
