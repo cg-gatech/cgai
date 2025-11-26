@@ -42,10 +42,10 @@ jobs:
             echo "runner=npx --no-install" >> $GITHUB_OUTPUT
             exit 0
 
-      - name: Setup Bun
-        uses: oven-sh/setup-bun@v2
+      - name: Setup Node
+        uses: actions/setup-node@v6
         with:
-          bun-version: "latest"
+          node-version: "latest"
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
