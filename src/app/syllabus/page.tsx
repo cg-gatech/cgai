@@ -9,7 +9,7 @@ export default function SyllabusPage() {
   const [htmlContent, setHtmlContent] = useState('');
 
   useEffect(() => {
-    fetch(withBasePath('/syllabus.html'))
+    fetch(withBasePath('/syllabus_html.html'))
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
