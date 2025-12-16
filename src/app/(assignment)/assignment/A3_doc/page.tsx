@@ -5,18 +5,6 @@ import { NavBar } from '@/components/NavBar';
 import Image from 'next/image';
 
 export default function AssignmentPage() {
-  // const [htmlContent, setHtmlContent] = useState('');
-
-  // useEffect(() => {
-  //   fetch('/assignments/A3.html')
-  //     .then((response) => {
-  //       if (!response.ok) {
-  //         throw new Error(`HTTP error! status: ${response.status}`);
-  //       }
-  //       return response.text();
-  //     })
-  //     .then((data) => setHtmlContent(data)) 
-  //     .catch((error) => console.error('Failed to load HTML content:', error)); 
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
@@ -69,14 +57,6 @@ export default function AssignmentPage() {
         </div>
         <NavBar />
         {/* Assignment Content Section */}
-        {/* {htmlContent ? (
-          <section
-            className="bg-yellow-50 text-black p-8 rounded-lg shadow-lg w-full"
-            dangerouslySetInnerHTML={{ __html: htmlContent }}
-          />
-        ) : (
-          <p>Loading...</p>
-        )} */}
         <iframe 
           ref={iframeRef}
           src="/assignments/A3.html"
