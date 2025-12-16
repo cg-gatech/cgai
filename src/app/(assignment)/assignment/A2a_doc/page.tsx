@@ -61,7 +61,7 @@ export default function AssignmentPage() {
         <iframe 
           ref={iframeRef}
           src="/assignments/A2a.html"
-          className="w-full h-[4000px] border rounded-lg bg-yellow-50"
+          className="w-full h-[4000px] bg-yellow-50 text-black p-8 rounded-lg shadow-lg"
         />
       </main>
     </div>
