@@ -1,22 +1,36 @@
 'use client'; 
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { NavBar } from '@/components/NavBar';
 import Image from 'next/image';
 
 export default function AssignmentPage() {
-  const [htmlContent, setHtmlContent] = useState('');
+  const iframeRef = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
-    fetch('/assignments/A2a.html')
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+    const iframe = iframeRef.current;
+    if (iframe) {
+      iframe.onload = () => {
+        const doc = iframe.contentDocument || iframe.contentWindow?.document;
+        if (doc) {
+          const style = doc.createElement("style");
+          style.textContent = `
+            body {
+              word-wrap: break-word;
+              white-space: normal;
+              overflow-wrap: break-word;
+              line-height: 1.6;
+            }
+            
+            pre, code {
+              white-space: pre-wrap;
+              word-wrap: break-word;
+            }
+          `;
+          doc.head.appendChild(style);
         }
-        return response.text();
-      })
-      .then((data) => setHtmlContent(data)) 
-      .catch((error) => console.error('Failed to load HTML content:', error)); 
+      };
+    }
   }, []);
 
   return (
@@ -44,14 +58,11 @@ export default function AssignmentPage() {
         </div>
         <NavBar />
         {/* Assignment Content Section */}
-        {htmlContent ? (
-          <section
-            className="bg-yellow-50 text-black p-8 rounded-lg shadow-lg w-full"
-            dangerouslySetInnerHTML={{ __html: htmlContent }}
-          />
-        ) : (
-          <p>Loading...</p>
-        )}
+        <iframe 
+          ref={iframeRef}
+          src="/assignments/A2a.html"
+          className="w-full h-[4000px] border rounded-lg bg-yellow-50"
+        />
       </main>
     </div>
   );
