@@ -1,27 +1,12 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { NavBar } from '@/components/NavBar';
 import Image from 'next/image';
 import { withBasePath } from '@/lib/withBasePath';
-import { fixInnerHTMLLinks } from '@/lib/fixInnerHTMLLinks';
 
 export default function AssignmentPage() {
-  const [htmlContent, setHtmlContent] = useState('');
   const iframeRef = useRef<HTMLIFrameElement>(null);
-
-  useEffect(() => {
-    fetch(withBasePath('/assignments/A3.html'))
-      .then((response) => {
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-        return response.text();
-      })
-      .then((data) => {
-        const fixedHtml = fixInnerHTMLLinks(data);
-        setHtmlContent(fixedHtml);
-      })
-      .catch((error) => console.error('Failed to load HTML content:', error));
-  }, []);
 
   useEffect(() => {
     const iframe = iframeRef.current;
@@ -31,6 +16,11 @@ export default function AssignmentPage() {
       const doc = iframe.contentDocument || iframe.contentWindow?.document;
       if (!doc) return;
 
+      /* ---------- Fix base path ---------- */
+      const base = doc.createElement('base');
+      base.href = window.location.origin + withBasePath('/');
+      doc.head.prepend(base);
+
       const style = doc.createElement("style");
       style.textContent = `
         body {
@@ -39,7 +29,7 @@ export default function AssignmentPage() {
           overflow-wrap: break-word;
           line-height: 1.6;
         }
-        
+
         pre, code {
           white-space: pre-wrap;
           word-wrap: break-word;
@@ -74,7 +64,7 @@ export default function AssignmentPage() {
         </div>
         <NavBar />
         {/* Assignment Content Section */}
-        <iframe 
+        <iframe
           ref={iframeRef}
           src={withBasePath("/assignments/A3.html")}
           className="w-full h-[7200px] bg-yellow-50 text-black p-8 rounded-lg shadow-lg"
