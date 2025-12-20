@@ -76,7 +76,7 @@ export default function AssignmentPage() {
         {/* Assignment Content Section */}
         <iframe 
           ref={iframeRef}
-          src="/assignments/A3.html"
+          src={withBasePath("/assignments/A3.html")}
           className="w-full h-[7200px] bg-yellow-50 text-black p-8 rounded-lg shadow-lg"
         />
       </main>
