@@ -82,7 +82,7 @@ export default function AssignmentPage() {
         {/* Assignment Content Section */}
         <iframe 
           ref={iframeRef}
-          className="w-full h-[5000px] border rounded-lg bg-yellow-50"
+          className="w-full h-[5400px] bg-yellow-50 text-black p-8 rounded-lg shadow-lg"
           title="Assignment 4"
           allow='autoplay; fullscreen'
         />

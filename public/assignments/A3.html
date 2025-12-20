@@ -1,3 +1,7 @@
+<script id="MathJax-script" defer 
+src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.min.js">
+</script>
+
 <h1 class="h1-custom">
     Assignment 3: Gaussian Splatting
 </h1>
@@ -62,37 +66,27 @@ To view the default initial effect for this assignment, you can either use the n
         <li class="li-custom">scalar rotation <b>&theta;</b> (Note: We could also use a unit-length complex number in the spirit of using quaternions in 3D, but a scalar rotation is perfectly fine.)</li>
     </ul>
 
-    <p>Its value at point <b>p</b> is given by</p>
+    <p>Its value at point <b>p</b> is given by
+        \[ f(p)=\exp \left(-\frac{1}{2}(p-c)^T\Sigma^{-1}(p-c)\right), \]
+    </p>
 
-    <div class="image-container2">
-        <img src="/assignments/A3_img/a3_eq1.png" alt="Explanation of 2D gaussian's value at specific point p">
-    </div>
+    <p>where the covariance matrix <b>&Sigma;</b> describes the shape of the Gaussian, and we build it as
+        \[ \Sigma=RSS^TR^T, \]
+    </p>
 
-    <p>where the covariance matrix <b>&Sigma;</b> describes the shape of the Gaussian, and we build it as</p>
-
-    <div class="image-container2">
-        <img src="/assignments/A3_img/a3_eq2.png" alt="Explanation of 2D gaussian's covariance matrix creation">
-    </div>
-
-    <p>making use of (1) <b>(AB)<sup>-1</sup> = B<sup>-1</sup> A<sup>-1</sup>, and (2) R<sup>-1</sup> = R<sup>T</sup></b> for rotational matrices, we have</p>
-
-    <div class="image-container2">
-        <img src="/assignments/A3_img/a3_eq3.png" alt="Explanation of 2D gaussian's inverse covariance matrix creation">
-    </div>
+    <p>making use of (1) <b>(AB)<sup>-1</sup> = B<sup>-1</sup> A<sup>-1</sup>, and (2) R<sup>-1</sup> = R<sup>T</sup></b> for rotational matrices, we have
+        \[ \Sigma^{-1}=R(SS^T)^{-1}R^T. \]
+    </p>
 
     <br>
 
-    <p>If we want to write out our 2D Gaussian function explicitly, we have:</p>
+    <p>If we want to write out our 2D Gaussian function explicitly, we have:
+        \[ f\left(\begin{bmatrix}p_x\\p_y\end{bmatrix}\right)=\exp\left(-\frac{1}{2}\begin{bmatrix}p_x-c_x&p_y-c_y\end{bmatrix}\Sigma^{-1}\begin{bmatrix}p_x-c_x\\p_y-c_y\end{bmatrix}\right), \]
+    </p>
 
-    <div class="image-container2">
-        <img src="/assignments/A3_img/a3_eq4.png" alt="Equation representing 2D Gaussian function">
-    </div>
-
-    <p>where</p>
-
-    <div class="image-container2">
-        <img src="/assignments/A3_img/a3_eq5.png" alt="Expanded Equation of 2D gaussian's inverse covariance matrix creation">
-    </div>
+    <p>where
+        \[ \Sigma^{-1}=\begin{bmatrix}\cos\theta&-\sin\theta\\\sin\theta&\cos\theta\end{bmatrix}\begin{bmatrix}\frac{1}{\sigma_x^2}&0\\0&\frac{1}{\sigma_y^2}\end{bmatrix}\begin{bmatrix}\cos\theta&\sin\theta\\-\sin\theta&\cos\theta\end{bmatrix}. \]
+    </p>
 
 </br>
 
@@ -117,11 +111,8 @@ To view the default initial effect for this assignment, you can either use the n
 
 <p>
     Thus, we reconstruct each pixel <b>p</b> of our 2D image <b>I</b> by summing together contributions from <b>N</b> Gaussians as
+    \[ I(p)=\sum_{i=1}^N\mathbf{\alpha}_if_i(p). \]
 </p>
-
-<div class="image-container2">
-    <img src="/assignments/A3_img/a3_eq6.png" alt="Explanation of accumulation of Gaussian Contribution across image">
-</div>
 
 </br>
 
@@ -150,7 +141,7 @@ To view the default initial effect for this assignment, you can either use the n
     Once you have implemented this step, you should be able to observe the optimization process for the "synthetic" image as shown in the video below. 
 </p>
 
-<video controls autoplay loop muted>
+<video controls autoplay loop muted  style="max-width: 75%; height: auto;">
     <source src="/assignments/A3_img/anim-synthetic.mp4" type="video/mp4">
     Your browser does not support the video tag.
 </video>
@@ -186,7 +177,7 @@ Hint: When using colab, create a folder named <code>data</code> and upload your 
     Once you have implemented this step, you should be able to observe the optimization process for the provided target image as shown in the video below. 
 </p>
 
-<video controls autoplay loop muted>
+<video controls autoplay loop muted style="max-width: 75%; height: auto;">
     <source src="/assignments/A3_img/anim-image.mp4" type="video/mp4">
     Your browser does not support the video tag.
 </video>
@@ -226,7 +217,7 @@ Once you finish implementation of Step 1 - 2.3 with the Mona Lisa image, you sho
     <img src="/assignments/A3_img/a3-ref.png" alt="Optimized Mona Lisa Output">
 </div> -->
 
-<video controls autoplay loop muted>
+<video controls autoplay loop muted style="max-width: 75%; height: auto;">
     <source src="/assignments/A3-ref2.mp4" type="video/mp4">
     Your browser does not support the video tag.
 </video>
@@ -236,7 +227,7 @@ Once you finish implementation of Step 1 - 2.3 with the Mona Lisa image, you sho
     You might want to implement 3.2 and 3.3 first before copying your Mona Lisa Gaussian parameters from the Jupyter notebook to the GLSL shader. When you use the default parameters provided in the shader, you should see a looping animation below.
 </p>
 
-<video controls autoplay loop muted>
+<video controls autoplay loop muted style="max-width: 75%; height: auto;">
     <source src="/assignments/A3-ref1.mp4" type="video/mp4">
     Your browser does not support the video tag.
 </video>

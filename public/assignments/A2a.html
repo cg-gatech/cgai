@@ -1,3 +1,7 @@
+<script id="MathJax-script" defer 
+src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.min.js">
+</script>
+
 <h1 class="h1-custom">
     Assignment 2A: Volumetric Rendering
 </h1>
@@ -43,17 +47,17 @@ To view the default initial effect for this assignment, you can either use the n
 
 <h3 class="h3-custom">Step 1: calculate color and density from sdf</h3>
 <p class="mb-4">
-    You are tasked to convert the SDF value into a <code>vec4</code>, where the first three components store RGB color and the fourth represents density. 
-    We provided you the SDF value in the <code>distance</code> variable. You should use the given <code>palette</code> function to map the value to an RGB color. 
-    Notice, we use the <code>-distance</code> value for calculating <code>palette</code> to ensure uniform color tone with Step 2.
+    You are tasked to convert the SDF value into a <code class="code-inline">vec4</code>, where the first three components store RGB color and the fourth represents density. 
+    We provided you the SDF value in the <code class="code-inline">distance</code> variable. You should use the given <code class="code-inline">palette</code> function to map the value to an RGB color. 
+    Notice, we use the <code class="code-inline">-distance</code> value for calculating <code class="code-inline">palette</code> to ensure uniform color tone with Step 2.
     Finally, you will set the density to 1.0 for points inside the object (SDF < 0) and 0.0 for points outside (SDF ≥ 0).
 </p>
 <h3 class="h3-custom">Step 2: calculate color and density from CT data</h3>
 <p class="mb-4">
-    You are asked to convert the CT data into a <code>vec4</code>, where the first three components represent RGB color and the fourth component represents density. 
-    You first need to retrieve the density value from the first channel of the volumetric texture <code>iVolume</code>. 
-    You can use the built-in <code>texture</code> function in GLSL to query <code>iVolume</code> based on the texture coordinate <code>tex_coord</code>.
-    Then, you will use the provided <code>palette</code> function to map the density value to an RGB color. Optionally, you can multiply the resulting <code>vec4</code> by a constant (e.g. 2.0) to enhance visualization.
+    You are asked to convert the CT data into a <code class="code-inline">vec4</code>, where the first three components represent RGB color and the fourth component represents density. 
+    You first need to retrieve the density value from the first channel of the volumetric texture <code class="code-inline">iVolume</code>. 
+    You can use the built-in <code class="code-inline">texture</code> function in GLSL to query <code class="code-inline">iVolume</code> based on the texture coordinate <code class="code-inline">tex_coord</code>.
+    Then, you will use the provided <code class="code-inline">palette</code> function to map the density value to an RGB color. Optionally, you can multiply the resulting <code class="code-inline">vec4</code> by a constant (e.g. 2.0) to enhance visualization.
 </p>
 
 <h3 class="h3-custom">Step 3: ray tracing with volumetric data</h3>
@@ -63,59 +67,59 @@ To view the default initial effect for this assignment, you can either use the n
     <!-- Considering only absorption in the volumetric rendering equation, for uniform density (i.e. uniform extinction coefficient), the transmittance (probability) of a ligh can be descibed using: -->
 
     Recall the volumetric rendering equation for only considering absorption can be written as:</br>
-    <div class="image-container2">
-        <img src="/assignments/A2a_img/r_eq1.png" alt="cases" width="auto" height="auto">
-    </div>
+    \[ C(\mathbf{r})=\int_{t_n}^{t_f}T(t)\sigma(\mathbf{r}(t))\mathbf{c}(\mathbf{r}(t))dt. \]
     </br>
-    the discritized version is:</br>
-    <div class="image-container">
-        <img src="/assignments/A2a_img/r_eq2.png" alt="cases" width="auto" height="auto">
-    </div>
+    The discritized version is:</br>
+    \[ C=\sum_{i=1}^n\int_{t_i}^{t_{i+1}}T(t)\sigma_ic_idt. \]
     </br>
     Assuming a small truncation of volumetric data with uniform density, the inner integral can be written as:</br>
-    <div class="image-container2">
-        <img src="/assignments/A2a_img/r_eq4.png" alt="cases" width="auto" height="auto">
-    </div>
+    \[ \int_0^{\Delta}T\sigma dt=\int_0^{\Delta}\sigma e^{-\sigma t}dt=(1-e^{-\sigma\Delta}). \]
     </br>
     Hence, the final version becomes:</br>
-    <div class="image-container">
-        <img src="/assignments/A2a_img/r_eq5.png" alt="cases" width="auto" height="auto">
-    </div>
+    \[
+    \sum_{i=1}^{n}
+    \underbrace{T_i}_{\text{Term 1}}
+    \underbrace{\left(1 - e^{-\sigma_i \Delta_i}\right)c_i}_{\text{Term 2}},
+    \]
     </br>
     with the accumulated transmittance defined as:</br>
-    <div class="image-container2">
-        <img src="/assignments/A2a_img/r_eq6.png" alt="cases" width="auto" height="auto">
-    </div>
+    \[
+    T_i
+    = \prod_{j=1}^{i-1} e^{-\sigma_j \Delta_j}
+    = e^{\sum_{j=1}^{i-1} -\sigma_j \Delta_j}.
+    \]
     </br>
 
     Here, within the summation, the first term gives the probability that the light pass through the previous media and reaches the current point, hence gives the attenuation that need to be applied to the color.
     The second term denotes the probability the light terminates here and hence the camera sees the color of the media.  <br/>
 
+    </br>
+
     We provide you the for-loop for calculating this summation. In each iteration, you should <br/>
-    <strong>(1)</strong> Read in the color and density value from both the sphere SDF (using <code>readSDFVolume</code>) and the CT texture (using <code>readCTVolume</code>). 
+    <strong>(1)</strong> Read in the color and density value from both the sphere SDF (using <code class="code-inline">readSDFVolume</code>) and the CT texture (using <code class="code-inline">readCTVolume</code>). 
     You will place the CT volume by subtracting the query point with an offset of its center and place the sphere SDF volume centering using the same method. The center of the CT volume is located at [2, 0, 0] and the center of the SDF volume is located at [-2, 0, 0].<br/>
     <strong>(2)</strong> Following the equations given above, you will first use the accumualted transmittance and the extinction coefficient to accumulate color at the current point:</br>
-    <div class="image-container2">
-        <img src="/assignments/A2a_img/r_eq7.png" alt="cases" width="auto" height="auto">
-    </div>
+    \[
+    C+=T_i(1-e^{-\sigma_i\Delta_i})c_i.
+    \]
     </br>
-    <strong>(3)</strong> You will accumulate the transmittance in preparetion for the next iteration.</br>
-    <div class="image-container">
-        <img src="/assignments/A2a_img/r_eq8.png" alt="cases" width="auto" height="auto">
-    </div>
+    <strong>(3)</strong> You will accumulate the transmittance in preparetion for the next iteration:</br>
+    \[
+    T_{i+1}=T_ie^{-\sigma_i\Delta_i}.
+    \]
     </br>
 </p>
 
 <p>Once you finish implementation of the steps above, you should see a video shown below:</p>
 
-<video controls autoplay loop muted>
+<video controls autoplay loop muted style="max-width: 75%; height: auto;">
     <source src="/assignments/A2a-ref.mp4" type="video/mp4">
     Your browser does not support the video tag.
 </video>
 
 <h2 class="h2-custom">Creative Expression</h2>
 In the Creative Expression section of this assignment, you are encouraged to create your own volumetric rendering scene by leveraging the volumetric ray tracing framework you've implemented. You may choose to render new volumetric data (we've provided a few in the starter code, you may also download new ones from this
-<a href="https://klacansky.com/open-scivis-datasets/" class="link-inline">link</a>), or you may choose to render new SDF functions as a volumetric media. You are encouraged to play with the default <code>palette</code> function to achieve different volumetric appearance. 
+<a href="https://klacansky.com/open-scivis-datasets/" class="link-inline">link</a>), or you may choose to render new SDF functions as a volumetric media. You are encouraged to play with the default <code class="code-inline">palette</code> function to achieve different volumetric appearance. 
 
 We expect your Creative Expression volumetric rendering scene to demonstrate the visual appealing aspect of participating media. The creative expression theme for this assignment is <strong>Nebulous Realms</strong>.
 

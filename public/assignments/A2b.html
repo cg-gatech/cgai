@@ -113,7 +113,7 @@
 
 <h2 class="h2-custom">Requirements</h2>
 <p class="mb-4">
-    This assignment consists of two main components: implementing a simplified NeRF model and rendering it in a GLSL-based WebGL environment. You may choose to either first train the NeRF by following the substeps in Step I and then visualize it in the GLSL shader in Step II, or complete the rendering functions in Step II first, verify them using the given neural hotdog model provided (<code>hotdog.txt</code>), and then return to implement Step I. The two steps are briefly described as follows.
+    This assignment consists of two main components: implementing a simplified NeRF model and rendering it in a GLSL-based WebGL environment. You may choose to either first train the NeRF by following the substeps in Step I and then visualize it in the GLSL shader in Step II, or complete the rendering functions in Step II first, verify them using the given neural hotdog model provided (<code class="code-inline">hotdog.txt</code>), and then return to implement Step I. The two steps are briefly described as follows.
 </p>
 
 <h3 class="h3-custom">Step 1: NeRF Model Implementation</h3>
@@ -122,14 +122,12 @@
 </p>
 <h3 class="h4-custom">Step 1.1: Positional Encoding</h3>
 <p class="mb-4">
-    To enable the network to learn high-frequency details, NeRF applies positional encoding to 3D input coordinates. This transformation extends each coordinate into a higher-dimensional space by applying a series of sine and cosine functions (refer to Page 42 of the lecture slides). Note that there are two differences between the formula used here and the one presented in the lecture slides. First, we explicitly include the input <code>p</code> itself at the beginning. Second, we do not multiply by <code>&pi;</code>. Both implementations follow the original NeRF code and conceptually have the same effect as the one in the lecture. However, you must adhere to this instruction as the final serialization function assumes this design; deviating from it may lead to rendering issues.
+    To enable the network to learn high-frequency details, NeRF applies positional encoding to 3D input coordinates. This transformation extends each coordinate into a higher-dimensional space by applying a series of sine and cosine functions (refer to Page 42 of the lecture slides). Note that there are two differences between the formula used here and the one presented in the lecture slides. First, we explicitly include the input <code class="code-inline">p</code> itself at the beginning. Second, we do not multiply by <code class="code-inline">&pi;</code>. Both implementations follow the original NeRF code and conceptually have the same effect as the one in the lecture. However, you must adhere to this instruction as the final serialization function assumes this design; deviating from it may lead to rendering issues.
+    \[ \gamma(p)=(p,\sin(2^0p),\cos(2^0p),\dots,\sin(2^{L-1}p),\cos(2^{L-1})) \]
 </p>
-<div class="image-container">
-    <img src="/assignments/A2b_img/posenc_nopi.png" alt="Positional Encoding">
-</div>
 <h3 class="h4-custom">Step 1.2: Volume Rendering</h3>
 <p class="mb-4">
-    NeRF generates images using volume rendering, which involves integrating density and color values along rays cast from the camera. The core steps include partitioning the range between the <code>near</code> and <code>far</code> planes into <code>N_samples</code> evenly spaced bins, sampling depth values from each bin (refer to Page 35 of the lecture slides), computing 3D sample positions along rays, applying positional encoding, and passing the encoded features through the NeRF network to predict color and density.
+    NeRF generates images using volume rendering, which involves integrating density and color values along rays cast from the camera. The core steps include partitioning the range between the <code class="code-inline">near</code> and <code class="code-inline">far</code> planes into <code class="code-inline">N_samples</code> evenly spaced bins, sampling depth values from each bin (refer to Page 35 of the lecture slides), computing 3D sample positions along rays, applying positional encoding, and passing the encoded features through the NeRF network to predict color and density.
 </p>
 
 <p class="mb-4">
@@ -138,10 +136,9 @@
 
 <ul class="list-disc pl-8 mb-4">
     <li class="li-custom">Apply a Sigmoid activation to color to constrain it within [0,1], and use ReLU on density to ensure non-negative values.</li>
-    <li class="li-custom">Compute distances between adjacent depth samples using <code>z_vals</code>. Note that you can append a large value such as 1e10 to <code>deltas</code> to ensure that the opacity is almost 1 for the last sample point. Additionally, you need to add 1 to the beginning of the transmittance T_i as T_1 (as seen in the given A1A code) and discard the last element when you do the multiplications. From the formula below, you can see that T_1 is not well defined as the superscript of the sum <code>i-1</code> becomes 0 if <code>i=1</code>. Finally, apply the volume rendering equation (refer to Page 36 of the lecture slides):</li>
-    <div class="image-container">
-        <img src="/assignments/A2b_img/formula_rendering_fixed.png" alt="Volume rendering equation">
-    </div>
+    <li class="li-custom">Compute distances between adjacent depth samples using <code class="code-inline">z_vals</code>. Note that you can append a large value such as 1e10 to <code class="code-inline">deltas</code> to ensure that the opacity is almost 1 for the last sample point. Additionally, you need to add 1 to the beginning of the transmittance T_i as T_1 (as seen in the given A1A code) and discard the last element when you do the multiplications. From the formula below, you can see that T_1 is not well defined as the superscript of the sum <code class="code-inline">i-1</code> becomes 0 if <code class="code-inline">i=1</code>. Finally, apply the volume rendering equation:
+        \[ C_{\mathbf{r}}=\sum_{i=1}^nT_i(1-\exp(-\sigma_i\Delta_i))\mathbf{c}_i,\quad T_i=\exp\left(-\sum_{j=1}^{i-1}\sigma_j\Delta_j\right). \]
+    </li>
     <li class="li-custom">Compute final pixel color by summing contributions from each sample along the ray.</li>
 </ul>
 
@@ -160,10 +157,8 @@
 <h3 class="h4-custom">Step 1.4: Testing and Evaluation</h3>
 <p class="mb-4">
     After training, evaluate NeRF by rendering test images from test viewpoints. Compute the Peak Signal-to-Noise Ratio (PSNR) to measure image quality:
+    \[ PSNR=-10\cdot\log_{10}(\text{MSELoss}). \]
 </p>
-<div class="image-container">
-    <img src="/assignments/A2b_img/formula_psnr_smaller2.png" alt="PSNR Formula">
-</div>
 <p class="mb-4">
     Compare rendered results with ground truth images and analyze performance.
 </p>
@@ -179,26 +174,26 @@
 
 <h3 class="h3-custom">Step 2: Rendering with GLSL</h3>
 <p class="mb-4">
-    After training your NeRF model, serialize your model by running the final cell of the notebook, as you did in A1b, and copy the learned weights to the function <code>queryNetwork()</code> in the shader file <code>fragment.glsl</code> and implement the volume rendering algorithm in WebGL. Note that you should <strong>call <code>rotate(p)</code> before you pass it into <code>queryNetwork()</code></strong> to ensure the correct view. You may reuse most of your A1a implementation code. However, you should now use NeRF to predict the rgb value and the density value for a specific point. You need to use the Sigmoid and ReLU functions as what you did in your pytorch code.
+    After training your NeRF model, serialize your model by running the final cell of the notebook, as you did in A1b, and copy the learned weights to the function <code class="code-inline">queryNetwork()</code> in the shader file <code class="code-inline">fragment.glsl</code> and implement the volume rendering algorithm in WebGL. Note that you should <strong>call <code class="code-inline">rotate(p)</code> before you pass it into <code class="code-inline">queryNetwork()</code></strong> to ensure the correct view. You may reuse most of your A1a implementation code. However, you should now use NeRF to predict the rgb value and the density value for a specific point. You need to use the Sigmoid and ReLU functions as what you did in your pytorch code.
 </p>
 
 <p class="mb-4">
-    A default hotdog NeRF is given to you in <code>hotdog.txt</code>, therefore, if you have correctly implemented Step 2 and directly run your fragment.glsl with the function <code>queryNetwork()</code> copied from <code>hotdog.txt</code>, you should get the top left result in the video below. Once you have implemented Step 1 together with Step 2, you should be able to obtain the video for the lego model (the right bottom one in the following video). Note that the video below with composited four object is only for demonstration purposes, in reality, you can only render one NeRF object at one time.
+    A default hotdog NeRF is given to you in <code class="code-inline">hotdog.txt</code>, therefore, if you have correctly implemented Step 2 and directly run your fragment.glsl with the function <code class="code-inline">queryNetwork()</code> copied from <code class="code-inline">hotdog.txt</code>, you should get the top left result in the video below. Once you have implemented Step 1 together with Step 2, you should be able to obtain the video for the lego model (the right bottom one in the following video). Note that the video below with composited four object is only for demonstration purposes, in reality, you can only render one NeRF object at one time.
 </p>
 
-<video controls autoplay loop muted>
+<video controls autoplay loop muted style="max-width: 75%; height: auto;">
     <source src="/assignments/a2b-ref.mp4" type="video/mp4">
     Your browser does not support the video tag.
 </video>
 
 <h2 class="h2-custom">Creative Expression</h2>
 <p class="mb-4">
-    In the Creative Expression section of this assignment, you are encouraged to train your customized NeRF model. You may either use one of the datasets provided in our starter code, or you may download new datasets, e.g., from <a href="https://www.kaggle.com/datasets/nguyenhung1903/nerf-synthetic-dataset" class="link-inline">Nerf Synthetic Dataset</a> and train their NeRF representations in Colab. Note that you should convert their datasets into a compatible form that your pytorch code can use. For example, the dataset should have three keys "images", "poses" and "focal". Refer to the <code>NeRFDataset</code> class in the notebook for more details. Furthermore, you may adjust some hyperparameters (e.g., the number of frequencies of positional encoding, the learning rate, etc.) to improve the appearance of your NeRF model. However, NeRF is inherently not a small model, and this implementation has already been significantly simplified to ensure successful shader compilation and enable real-time rendering. <strong>Therefore, we do not recommend modifying the network structure such as adding hidden layers or increasing the number of hidden features because it may lead to shader compilation failure and require adjustments to the final serialization function.</strong> For example, increasing the hidden layer size from 64 (the default) to 128 can cause shader compilation failure. The creative expression theme for this assignment is <strong>Radiant Reality</strong>.
+    In the Creative Expression section of this assignment, you are encouraged to train your customized NeRF model. You may either use one of the datasets provided in our starter code, or you may download new datasets, e.g., from <a href="https://www.kaggle.com/datasets/nguyenhung1903/nerf-synthetic-dataset" class="link-inline">Nerf Synthetic Dataset</a> and train their NeRF representations in Colab. Note that you should convert their datasets into a compatible form that your pytorch code can use. For example, the dataset should have three keys "images", "poses" and "focal". Refer to the <code class="code-inline">NeRFDataset</code> class in the notebook for more details. Furthermore, you may adjust some hyperparameters (e.g., the number of frequencies of positional encoding, the learning rate, etc.) to improve the appearance of your NeRF model. However, NeRF is inherently not a small model, and this implementation has already been significantly simplified to ensure successful shader compilation and enable real-time rendering. <strong>Therefore, we do not recommend modifying the network structure such as adding hidden layers or increasing the number of hidden features because it may lead to shader compilation failure and require adjustments to the final serialization function.</strong> For example, increasing the hidden layer size from 64 (the default) to 128 can cause shader compilation failure. The creative expression theme for this assignment is <strong>Radiant Reality</strong>.
 </p>
 
 <h2 class="h2-custom">Submission</h2>
 <ul class="list-disc pl-8 mb-4">
-    <li class="li-custom">Source code for <code>nerf.ipynb</code> and <code>fragment.glsl.</code></li>
+    <li class="li-custom">Source code for <code class="code-inline">nerf.ipynb</code> and <code class="code-inline">fragment.glsl.</code></li>
     <li class="li-custom">Your default rendered video for the lego model.</li>
     <li class="li-custom">Your output image from Step 1.5.</li>
     <li class="li-custom">Your customized video with different datasets for creative expression.</li>
