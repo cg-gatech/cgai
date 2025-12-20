@@ -4,16 +4,17 @@ import { Suspense, useRef, useState, useEffect } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 
-import vertexShader from './vertex.glsl';
-import fragmentShader from './fragment.glsl';
+import vertexShader from '@/app/(tutorial)/tutorial/phong-shading/vertex.glsl';
+import fragmentShader from '@/app/(tutorial)/tutorial/phong-shading/fragment.glsl';
 import useDevicePixelRatio from '@/hooks/useDevicePixelRatio';
 
 import { useLoader } from '@react-three/fiber';
 import { OBJLoader } from 'three/examples/jsm/Addons.js';
+import { withBasePath } from '@/lib/withBasePath';
 
 const Test = ({ dpr }: { dpr: number }) => {
   const { viewport, mouse, camera } = useThree();
-  const obj = useLoader(OBJLoader, '/tutorial/phong-shading/mesh.obj');
+  const obj = useLoader(OBJLoader, withBasePath('/tutorial/phong-shading/mesh.obj'));
   const mesh = obj.children.find(child => child instanceof THREE.Mesh) as THREE.Mesh | undefined;
   if (!mesh) {
     throw new Error('No mesh found in OBJ file');

@@ -3,19 +3,27 @@
 import { useEffect, useState } from 'react';
 import { NavBar } from '@/components/NavBar';
 import Image from 'next/image';
+import { withBasePath } from '@/lib/withBasePath';
 
 export default function SyllabusPage() {
   const [htmlContent, setHtmlContent] = useState('');
 
   useEffect(() => {
-    fetch('/syllabus.html')
+    fetch(withBasePath('/syllabus_html.html'))
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         return response.text();
       })
-      .then((data) => setHtmlContent(data)) 
+      .then((data) => {
+        const fixedHtml = data.replace(
+          /(src|href)=["'](\/(?!\/)[^"']*)["']/g,
+          (_, attr, path) => `${attr}="${withBasePath(path)}"`
+        );
+
+        setHtmlContent(fixedHtml);
+      })
       .catch((error) => console.error('Failed to load HTML content:', error)); 
   }, []);
 
@@ -26,7 +34,7 @@ export default function SyllabusPage() {
         <div className="flex flex-col sm:flex-row items-center gap-4 w-full">
           {/* Logo */}
           <Image
-            src="/cgai_logo.png"
+            src={withBasePath("/cgai_logo.png")}
             alt="CGAI logo"
             width={256}
             height={256}

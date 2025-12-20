@@ -2,84 +2,6 @@
 src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.min.js">
 </script>
 
-<style>
-    /* Custom styles for headings */
-    .h1-custom {
-        font-size: 2.25rem; /* equivalent to text-4xl */
-        font-weight: 700; /* equivalent to font-bold */
-        margin-bottom: 1.5rem; /* equivalent to mb-6 */
-    }
-
-    .h2-custom {
-        font-size: 1.5rem; /* equivalent to text-2xl */
-        font-weight: 600; /* equivalent to font-semibold */
-        margin-top: 1.5rem; /* equivalent to mt-6 */
-        margin-bottom: 1rem; /* equivalent to mb-4 */
-    }
-
-    .h3-custom {
-        font-size: 1.25rem; /* equivalent to text-xl */
-        font-weight: 500; /* equivalent to font-medium */
-        margin-top: 1rem; /* equivalent to mt-4 */
-        margin-bottom: 0.5rem; /* equivalent to mb-2 */
-    }
-
-    .h4-custom {
-        font-size: 1.05rem; /* equivalent to text-xl */
-        font-weight: 500; /* equivalent to font-medium */
-        margin-top: 1rem; /* equivalent to mt-4 */
-        margin-bottom: 0.5rem; /* equivalent to mb-2 */
-        font-weight: bold;
-    }
-
-    /* Styling for code elements */
-    .code-inline {
-        font-family: 'Fira Code', Consolas, 'Courier New', monospace;
-        font-size: 1.1rem;
-        font-weight: bold;
-    }
-
-    .link-inline {
-        text-decoration: underline;  /* Ensures the links are underlined */
-        color: #1d4ed8;              /* Sets the blue color for the links */
-        font-family: 'Fira Code', Consolas, 'Courier New', monospace;
-        font-size: 1.1rem;
-        font-weight: bold;
-    }
-
-    /* Fixing the problem with ul and li elements */
-    ul {
-        list-style-type: disc;  /* Ensures the default bullet style */
-        margin-left: 2rem;      /* Adds left indentation for the list */
-        padding-left: 1.5rem;   /* Adds extra padding inside the list */
-    }
-
-    li {
-        margin-bottom: 0.5rem; /* Adds space between list items */
-    }
-
-    .image-container {
-        display: flex; 
-        justify-content: left; /* Center images */
-        gap: 20px; /* Space between images */
-    }
-    .image-container img {
-        width: 25%; /* Adjust width */
-        height: auto; /* Maintain aspect ratio */
-    }
-
-    .image-container2 {
-        display: flex; 
-        justify-content: left; /* Center images */
-        gap: 20px; /* Space between images */
-    }
-    .image-container2 img {
-        width: 50%; /* Adjust width */
-        height: auto; /* Maintain aspect ratio */
-    }
-
-</style>
-
 <h1 class="h1-custom">
     Assignment 4: Position-based Dynamics
 </h1>
@@ -95,12 +17,12 @@ src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.min.
 </p>
 
 <ul class="list-disc pl-8 mb-4">
-    <li>Course Slides on Particle-based Simulation and Position-based Dynamics</li>
-    <li><a href="https://matthias-research.github.io/pages/publications/posBasedDyn.pdf/" class="link-inline">Original Position Based Dynamics (PBD) Paper</a>
-    <li><a href="https://mmacklin.com/2017-EG-CourseNotes.pdf" class="link-inline">A Survey on Position Based Dynamics</a>
-    <li><a href="https://matthias-research.github.io/pages/publications/XPBD.pdf" class="link-inline">Extended Position Based Dynamics (XPBD) Paper</a>
-    <li><a href="https://www.shadertoy.com/view/ds3fDM" class="link-inline">Shadertoy Example: XPBD Simulation of a Rope</a></li>
-    <li><a href="https://www.shadertoy.com/view/cdlXDH" class="link-inline">Shadertoy Example: Another XPBD Simulation of Gummy Worms</a></li>
+    <li class="li-custom">Course Slides on Particle-based Simulation and Position-based Dynamics</li>
+    <li class="li-custom"><a href="https://matthias-research.github.io/pages/publications/posBasedDyn.pdf/" class="link-inline">Original Position Based Dynamics (PBD) Paper</a>
+    <li class="li-custom"><a href="https://mmacklin.com/2017-EG-CourseNotes.pdf" class="link-inline">A Survey on Position Based Dynamics</a>
+    <li class="li-custom"><a href="https://matthias-research.github.io/pages/publications/XPBD.pdf" class="link-inline">Extended Position Based Dynamics (XPBD) Paper</a>
+    <li class="li-custom"><a href="https://www.shadertoy.com/view/ds3fDM" class="link-inline">Shadertoy Example: XPBD Simulation of a Rope</a></li>
+    <li class="li-custom"><a href="https://www.shadertoy.com/view/cdlXDH" class="link-inline">Shadertoy Example: Another XPBD Simulation of Gummy Worms</a></li>
 </ul>
 
 <h2 class="h2-custom">Starter Code</h2>
@@ -135,8 +57,8 @@ To view the default initial effect for this assignment, you can either use the n
 <p class="mb-4">
     Implement the constraint Jacobian in <code class="code-inline">spring_constraint_gradient()</code>:
     \[ \nabla\epsilon_{\text{spring}} = \frac{\mathbf{x}_a - \mathbf{x}_b}{\|\mathbf{x}_a - \mathbf{x}_b\|} \]
-    <ul>
-        <li><strong>Note:</strong> Handle singularity for \( \|\mathbf{x}_a - \mathbf{x}_b\| = 0 \) by returning \((0,0).\)</li>
+    <ul class="ul-custom">
+        <li class="li-custom"><strong>Note:</strong> Handle singularity for \( \|\mathbf{x}_a - \mathbf{x}_b\| = 0 \) by returning \((0,0).\)</li>
     </ul>
 </p>
 
@@ -144,9 +66,9 @@ To view the default initial effect for this assignment, you can either use the n
 <p class="mb-4">
     Solve the constrained optimization problem in <code class="code-inline">solve_spring()</code>:
     \[ \lambda = \frac{-\epsilon_{\text{spring}}}{\underbrace{\sum m^{-1}\|∇\epsilon_\text{spring}\|^2}_{\text{inertial term}} + \underbrace{\alpha/\Delta t^2}_{{\text{compliance term}}}} \]
-    <ul>
-        <li>\( m \) = particle mass (\( m^{-1} \) stored in <code>inv_mass</code>)</li>
-        <li>You do not need to calculate the compliance term since it's provided in the code.</li>
+    <ul class="ul-custom">
+        <li class="li-custom">\( m \) = particle mass (\( m^{-1} \) stored in <code>inv_mass</code>)</li>
+        <li class="li-custom">You do not need to calculate the compliance term since it's provided in the code.</li>
     </ul>
 </p>
 
@@ -163,9 +85,9 @@ To view the default initial effect for this assignment, you can either use the n
     \| \mathbf{x}_a - \mathbf{x}_b \| - d_{\text{min}} & \text{if } \|\mathbf{x}_a - \mathbf{x}_b\| < d_{\text{min}} \\
     0 & \text{otherwise}
     \end{cases} \]
-    <ul>
-        <li>It's equivalent to adding a spring when two particles are close enough.</li>
-        <li>\( d_{\text{min}} = 0.2 \) is given by the parameter collision_dist </li>
+    <ul class="ul-custom">
+        <li class="li-custom">It's equivalent to adding a spring when two particles are close enough.</li>
+        <li class="li-custom">\( d_{\text{min}} = 0.2 \) is given by the parameter collision_dist </li>
     </ul>
 </p>
 
@@ -182,9 +104,9 @@ To view the default initial effect for this assignment, you can either use the n
 <p class="mb-4">
     Implement the collision solver in <code class="code-inline">solve_collision_constraint()</code> using XPBD:
     \[ \lambda = \frac{-\epsilon_{\text{coll}}}{\underbrace{\sum m^{-1}\|∇\epsilon_\text{coll}\|^2}_{\text{inertial term}} + \underbrace{\alpha/\Delta t^2}_{{\text{compliance term}}}} \]
-    <ul>
-        <li>Similar to the spring solver, but now using the collision constraint.</li>
-        <li>You again don't need to calculate the compliance term since it's already provided.</li>
+    <ul class="ul-custom">
+        <li class="li-custom">Similar to the spring solver, but now using the collision constraint.</li>
+        <li class="li-custom">You again don't need to calculate the compliance term since it's already provided.</li>
     </ul>
 </p>
 
@@ -247,10 +169,10 @@ To view the default initial effect for this assignment, you can either use the n
 <p class="mb-4">
     In this step, you will implement the full constraint solver in <code class="code-inline">solve_constraints()</code>using previously defined functions:</p>
     
-    <ul>
-        <li><strong>Spring constraints:</strong> Solve all spring constraints defined in <code class="code-inline">springs[1]</code> to <code class="code-inline">springs[n_springs - 1]</code> using <code class="code-inline">solve_spring()</code>. Spring 0 is a specific spring that is only active when left mouse button is pressed down. The starter code has already taken care of it.</li>
-        <li><strong>Ground constraints:</strong> Solve for all particles (except the mouse-controlled particle \( 0 \)) using <code class="code-inline">solve_ground_constraint()</code>.</li>
-        <li><strong>Collision constraints:</strong> Solve pairwise collisions for all particles (except the mouse-controlled particle \( 0 \)) using <code class="code-inline">solve_collision_constraint()</code>.</li>
+    <ul class="ul-custom">
+        <li class="li-custom"><strong>Spring constraints:</strong> Solve all spring constraints defined in <code class="code-inline">springs[1]</code> to <code class="code-inline">springs[n_springs - 1]</code> using <code class="code-inline">solve_spring()</code>. Spring 0 is a specific spring that is only active when left mouse button is pressed down. The starter code has already taken care of it.</li>
+        <li class="li-custom"><strong>Ground constraints:</strong> Solve for all particles (except the mouse-controlled particle \( 0 \)) using <code class="code-inline">solve_ground_constraint()</code>.</li>
+        <li class="li-custom"><strong>Collision constraints:</strong> Solve pairwise collisions for all particles (except the mouse-controlled particle \( 0 \)) using <code class="code-inline">solve_collision_constraint()</code>.</li>
     </ul>
 </p>
 
@@ -270,26 +192,26 @@ To view the default initial effect for this assignment, you can either use the n
 
 <h2 class="h2-custom">Submission</h2>
 <ul class="list-disc pl-8 mb-4">
-    <li>Source code for <code>fragment.glsl.</code></li>
-    <li>Your default rendered video showcasing the results of your simulated rope.</li>
-    <li>Your customized video with the modified initialization for creative expression.</li>
-    <li>A concise technical explanation of your implementation.</li>
+    <li class="li-custom">Source code for <code>fragment.glsl.</code></li>
+    <li class="li-custom">Your default rendered video showcasing the results of your simulated rope.</li>
+    <li class="li-custom">Your customized video with the modified initialization for creative expression.</li>
+    <li class="li-custom">A concise technical explanation of your implementation.</li>
 </ul>
 
 
 <h2 class="h2-custom">Grading</h2>
 <p>This assignment is worth a total of 16 points, with the grading criteria outlined as follows:</p>
 <ul class="list-disc pl-8 mb-4">
-    <li>
+    <li class="li-custom">
         <strong>Technical Contribution (14 points):</strong> The core of the grading is based on the correct implementation of three XBD constraints and optimizations. The distribution of points is as follows:
         <ul class="list-disc pl-8 mb-4">
-            <li>Step 1: 1+1+2=4 points </li>
-            <li>Step 2: 1+1+2=4 points </li>            
-            <li>Step 3: 1+1+2=4 points </li>
-            <li>Step 4: 2 points </li>
+            <li class="li-custom">Step 1: 1+1+2=4 points </li>
+            <li class="li-custom">Step 2: 1+1+2=4 points </li>            
+            <li class="li-custom">Step 3: 1+1+2=4 points </li>
+            <li class="li-custom">Step 4: 2 points </li>
         </ul>
     </li>
-    <li>
+    <li class="li-custom">
         <strong>Creative Expression (2 points):</strong> This aspect focuses on your ability to create different XPBD simulations. You are encouraged to explore different types of constraints, shapes, and the ways to initialize points in the scene. The theme for the creative expression is <strong>Physics on Points</strong>.
     </li>
 </ul>

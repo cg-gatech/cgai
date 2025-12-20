@@ -9,73 +9,6 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
   </head>
-  
-<style>
-    /* Custom styles for headings */
-    .h1-custom {
-        font-size: 2.25rem; /* equivalent to text-4xl */
-        font-weight: 700; /* equivalent to font-bold */
-        margin-bottom: 1.5rem; /* equivalent to mb-6 */
-    }
-
-    .h2-custom {
-        font-size: 1.5rem; /* equivalent to text-2xl */
-        font-weight: 600; /* equivalent to font-semibold */
-        margin-top: 1.5rem; /* equivalent to mt-6 */
-        margin-bottom: 1rem; /* equivalent to mb-4 */
-    }
-
-    .h3-custom {
-        font-size: 1.25rem; /* equivalent to text-xl */
-        font-weight: 500; /* equivalent to font-medium */
-        margin-top: 1rem; /* equivalent to mt-4 */
-        margin-bottom: 0.5rem; /* equivalent to mb-2 */
-    }
-
-    .h4-custom {
-        font-size: 1.05rem; /* equivalent to text-xl */
-        font-weight: 500; /* equivalent to font-medium */
-        margin-top: 1rem; /* equivalent to mt-4 */
-        margin-bottom: 0.5rem; /* equivalent to mb-2 */
-    }
-
-    /* Styling for code elements */
-    .code-inline {
-        font-family: 'Fira Code', Consolas, 'Courier New', monospace;
-        font-size: 1.1rem;
-        font-weight: bold;
-    }
-
-    .link-inline {
-        text-decoration: underline;  /* Ensures the links are underlined */
-        color: #1d4ed8;              /* Sets the blue color for the links */
-        font-family: 'Fira Code', Consolas, 'Courier New', monospace;
-        font-size: 1.1rem;
-        font-weight: bold;
-    }
-
-    /* Fixing the problem with ul and li elements */
-    ul {
-        list-style-type: disc;  /* Ensures the default bullet style */
-        margin-left: 2rem;      /* Adds left indentation for the list */
-        padding-left: 1.5rem;   /* Adds extra padding inside the list */
-    }
-
-    li {
-        margin-bottom: 0.5rem; /* Adds space between list items */
-    }
-
-    .image-container {
-        display: flex; 
-        justify-content: center; /* Center images */
-        gap: 20px; /* Space between images */
-    }
-    .image-container img {
-        width: 50%; /* Adjust width */
-        height: auto; /* Maintain aspect ratio */
-    }
-
-</style>
 
 <h1 class="h1-custom">
     Final Project: Dream Worlds
@@ -95,8 +28,8 @@ We recommend that you start from one of the GLSL assignments (e.g., A1A, A2A, A3
 <p class="mb-4">
 The requirements for Creative Expression Track include:  
 <ul class="list-disc pl-8 mb-4">
-    <li>(1) The final rendered scene must be sufficiently complex and visually appealing.</li>
-    <li>(2) The final rendered scene must include at least one of the following elements: SDF, radiance field, splats, or physics.</li>
+    <li class="li-custom">(1) The final rendered scene must be sufficiently complex and visually appealing.</li>
+    <li class="li-custom">(2) The final rendered scene must include at least one of the following elements: SDF, radiance field, splats, or physics.</li>
 </ul>
 </p>
 
@@ -108,8 +41,8 @@ For the technical exploration track, you are expected to investigate one technic
 <p class="mb-4">
 The requirements for Technical Exploration Track include:  
 <ul class="list-disc pl-8 mb-4">
-    <li>(1) By default, the exploration topic must be related to one of the four central topics studied in the class: SDF, radiance field, splats, or physics. Please discuss your plan with the instructor if you wish to explore a topic outside this scope.</li>
-    <li>(2) You are expected to submit a detailed technical report (3–4 pages) documenting the full process of your exploration, including motivation, methodology, experiments, and conclusions.</li>
+    <li class="li-custom">(1) By default, the exploration topic must be related to one of the four central topics studied in the class: SDF, radiance field, splats, or physics. Please discuss your plan with the instructor if you wish to explore a topic outside this scope.</li>
+    <li class="li-custom">(2) You are expected to submit a detailed technical report (3–4 pages) documenting the full process of your exploration, including motivation, methodology, experiments, and conclusions.</li>
 </ul>
 </p>
 
@@ -123,27 +56,27 @@ The requirements for Technical Exploration Track include:
 
 <h3 class="h3-custom">Creative Expression Track</h3>
 <ul class="list-disc pl-8 mb-4">
-    <li>Submit your <strong>final image</strong> and/or <strong>final video</strong>.</li>
-    <li>Submit a <strong>short description</strong> of your work (1-2 pages). The description should include the following contents:
+    <li class="li-custom">Submit your <strong>final image</strong> and/or <strong>final video</strong>.</li>
+    <li class="li-custom">Submit a <strong>short description</strong> of your work (1-2 pages). The description should include the following contents:
         <ol class="list-decimal pl-6 mt-2">
-            <li><strong>- Image Overview:</strong> Provide a one-paragraph summary of the expressive theme and the techniques you used to realize it.</li>
-            <li><strong>- Implementation:</strong> Provide a one-paragraph summary of the key implementation aspects.</li>
-            <li><strong>- Contributions:</strong> If this is a team project, clearly describe each team member’s contributions.</li>
+            <li class="li-custom"><strong>- Image Overview:</strong> Provide a one-paragraph summary of the expressive theme and the techniques you used to realize it.</li>
+            <li class="li-custom"><strong>- Implementation:</strong> Provide a one-paragraph summary of the key implementation aspects.</li>
+            <li class="li-custom"><strong>- Contributions:</strong> If this is a team project, clearly describe each team member’s contributions.</li>
         </ol>        
     </li>
-    <li>Submit your source code.</li>
+    <li class="li-custom">Submit your source code.</li>
 </ul>
 
 <h3 class="h3-custom">Technical Exploration Track</h3>
 <ul class="list-disc pl-8 mb-4">
-    <li>Submit a technical report (3–4 pages, single-column format) written in the style of a short scientific paper. The report must include the following sections:</li> 
+    <li class="li-custom">Submit a technical report (3–4 pages, single-column format) written in the style of a short scientific paper. The report must include the following sections:</li> 
         <ol class="list-decimal pl-6 mt-2"> 
-            <li> <strong>- Problem:</strong> Briefly summarize the question to explore, and clearly state the motivation, goals, and main contributions. </li> 
-            <li> <strong>- Method:</strong> Describe the mathematical models, algorithms, and key implementation details. Include relevant equations, diagrams, and pseudocode structure as needed. Justify major design choices. </li> 
-            <li> <strong>- Results:</strong> Present qualitative and/or quantitative results. Include visual outputs or plots and describe key observations. </li> 
-            <li> <strong>- Conclusion:</strong> Summarize key findings. If this is a team project, specify each member’s contribution. Optionally, mention limitations or future directions. </li> 
+            <li class="li-custom"> <strong>- Problem:</strong> Briefly summarize the question to explore, and clearly state the motivation, goals, and main contributions. </li> 
+            <li class="li-custom"> <strong>- Method:</strong> Describe the mathematical models, algorithms, and key implementation details. Include relevant equations, diagrams, and pseudocode structure as needed. Justify major design choices. </li> 
+            <li class="li-custom"> <strong>- Results:</strong> Present qualitative and/or quantitative results. Include visual outputs or plots and describe key observations. </li> 
+            <li class="li-custom"> <strong>- Conclusion:</strong> Summarize key findings. If this is a team project, specify each member’s contribution. Optionally, mention limitations or future directions. </li> 
         </ol>
-    <li>Submit your source code.</li>
+    <li class="li-custom">Submit your source code.</li>
 </ul>
 
 <h2 class="h2-custom">Grading</h2>
@@ -151,43 +84,43 @@ The requirements for Technical Exploration Track include:
 <h3 class="h3-custom">Creative Expression Track</h3>
 <p>The grading policy for the total <strong>16</strong> points of the final project is specified as below.</p>
 <ul class="list-disc pl-8 mb-4">
-    <li><strong>Final image or animation</strong> (<strong>4 pts</strong>)
+    <li class="li-custom"><strong>Final image or animation</strong> (<strong>4 pts</strong>)
         <ol class="list-decimal pl-6 mt-2">
-            <li>- We will assess the visual quality and correctness of the generated graphics, including coherence, technical execution, and relation to the chosen theme.</li>
+            <li class="li-custom">- We will assess the visual quality and correctness of the generated graphics, including coherence, technical execution, and relation to the chosen theme.</li>
         </ol>
     </li>
-    <li><strong>Technical Implementation</strong> (<strong>8 pts</strong>)
+    <li class="li-custom"><strong>Technical Implementation</strong> (<strong>8 pts</strong>)
         <ol class="list-decimal pl-6 mt-2">
-            <li>- We will assess the correctness, complexity, and completeness of the implemented pipeline, including model choices, algorithmic components, and integration.</li>
+            <li class="li-custom">- We will assess the correctness, complexity, and completeness of the implemented pipeline, including model choices, algorithmic components, and integration.</li>
         </ol>
     </li>
-    <li><strong>Creative Expression</strong> (<strong>4 pts</strong>)
+    <li class="li-custom"><strong>Creative Expression</strong> (<strong>4 pts</strong>)
         <ol class="list-decimal pl-6 mt-2">
-            <li>- We will evaluate how effectively the submission conveys the intended expressive theme through visuals, with respect to originality, aesthetic quality, and coherence.</li>
+            <li class="li-custom">- We will evaluate how effectively the submission conveys the intended expressive theme through visuals, with respect to originality, aesthetic quality, and coherence.</li>
         </ol>
     </li>
-    <li><strong>Extra credits</strong> (up to <strong>2 pts</strong>) will be given for technical innovations or visual quality clearly beyond expectations.</li>
+    <li class="li-custom"><strong>Extra credits</strong> (up to <strong>2 pts</strong>) will be given for technical innovations or visual quality clearly beyond expectations.</li>
 </ul>
 
 <h3 class="h3-custom">Technical Exploration Track</h3>
 <p>The grading policy for the total <strong>16</strong> points of the final project is specified as below.</p>
 <ul class="list-disc pl-8 mb-4">
-    <li><strong>Technical report</strong> (<strong>4 pts</strong>)
+    <li class="li-custom"><strong>Technical report</strong> (<strong>4 pts</strong>)
         <ol class="list-decimal pl-6 mt-2">
-            <li>- We will assess the clarity, structure, and completeness of the report, including problem motivation, method details, and result interpretation.</li>
+            <li class="li-custom">- We will assess the clarity, structure, and completeness of the report, including problem motivation, method details, and result interpretation.</li>
         </ol>
     </li>
-    <li><strong>Technical Implementation</strong> (<strong>8 pts</strong>)
+    <li class="li-custom"><strong>Technical Implementation</strong> (<strong>8 pts</strong>)
         <ol class="list-decimal pl-6 mt-2">
-            <li>- We will evaluate correctness and efficiency of the implementation, including mathematical formulation, algorithm design, and implementationquality.</li>
+            <li class="li-custom">- We will evaluate correctness and efficiency of the implementation, including mathematical formulation, algorithm design, and implementationquality.</li>
         </ol>
     </li>
-    <li><strong>Results and Analysis</strong> (<strong>4 pts</strong>)
+    <li class="li-custom"><strong>Results and Analysis</strong> (<strong>4 pts</strong>)
         <ol class="list-decimal pl-6 mt-2">
-            <li>- We will assess the quality and rigor of the results, including visualizations, performance, and observations derived from experiments.</li>
+            <li class="li-custom">- We will assess the quality and rigor of the results, including visualizations, performance, and observations derived from experiments.</li>
         </ol>
     </li>
-    <li><strong>Extra credits</strong> (up to <strong>2 pts</strong>) will be given for technically ambitious contributions with clearly novel algorithms or in-depth analysis.</li>
+    <li class="li-custom"><strong>Extra credits</strong> (up to <strong>2 pts</strong>) will be given for technically ambitious contributions with clearly novel algorithms or in-depth analysis.</li>
 </ul>
 
 
@@ -196,7 +129,7 @@ The requirements for Technical Exploration Track include:
 
 <h2 class="h2-custom">Timeline</h2>
 <ul class="list-disc pl-8 mb-4">
-    <li>All submissions and gallery work sharings are due on <strong>May 1</strong>.</li>
+    <li class="li-custom">All submissions and gallery work sharings are due on <strong>May 1</strong>.</li>
 </ul>
 
 

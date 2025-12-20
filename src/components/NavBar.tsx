@@ -15,46 +15,47 @@ import {
 } from '@/components/ui/navigation-menu';
 import { BookAIcon, GithubIcon, InfoIcon, TreesIcon } from 'lucide-react';
 import Image from 'next/image';
+import { withBasePath } from '@/lib/withBasePath';
 
 const tutorials: { title: string; href: string; description: string }[] = [
   {
     title: 'Hello Triangle',
-    href: '/tutorial/hello-triangle',
+    href: withBasePath('/tutorial/hello-triangle'),
     description: 'Hello Triangle',
   },
   {
     title: 'Shader Basis',
-    href: '/tutorial/shader-basis',
+    href: withBasePath('/tutorial/shader-basis'),
     description: 'Simple GLSL Shader',
   },
   {
     title: 'Phong Shading',
-    href: '/tutorial/phong-shading',
+    href: withBasePath('/tutorial/phong-shading'),
     description: 'Phong Shading Example',
   },
   {
     title: 'SDF Basis',
-    href: '/tutorial/sdf-basis',
+    href: withBasePath('/tutorial/sdf-basis'),
     description: 'Simple 2D SDF Shader',
   },
   {
     title: 'Google Colab Tutorial',
-    href: '/tutorial/colab-tutorial',
+    href: withBasePath('/tutorial/colab-tutorial'),
     description: 'Google Colab Tutorial',
   },
   {
     title: 'Neural SDF Tutorial',
-    href: '/tutorial/neural-sdf-basis',
+    href: withBasePath('/tutorial/neural-sdf-basis'),
     description: 'Google Colab Tutorial',
   },
   {
     title: 'Pytorch Tutorial',
-    href: '/tutorial/pytorch-tutorial',
+    href: withBasePath('/tutorial/pytorch-tutorial'),
     description: 'Pytorch Tutorial',
   },
   {
     title: 'Mass Spring System',
-    href: '/tutorial/mass-spring-tutorial',
+    href: withBasePath('/tutorial/mass-spring-tutorial'),
     description: 'Mass Spring System',
   },
 ];
@@ -62,80 +63,81 @@ const tutorials: { title: string; href: string; description: string }[] = [
 const assignments: { title: string; href: string; description: string }[] = [
   {
     title: 'Assignment 0 Demo',
-    href: '/assignment/A0',
+    href: withBasePath('/assignment/A0'),
     description: 'A0 Demo: Ray Tracing',
   },
   {
     title: 'Assignment 0 Doc',
-    href: '/assignment/A0_doc',
+    href: withBasePath('/assignment/A0_doc'),
     description: 'A0 Document: Ray Tracing',
   },
   {
     title: 'Assignment 1A Demo',
-    href: '/assignment/A1a',
+    href: withBasePath('/assignment/A1a'),
     description: 'A1a Demo: SDF and Ray Marching',
   },
   {
     title: 'Assignment 1A Doc',
-    href: '/assignment/A1a_doc',
+    href: withBasePath('/assignment/A1a_doc'),
     description: 'A1a Document: SDF and Ray Marching',
   },
   {
     title: 'Assignment 1B Demo',
-    href: '/assignment/A1b',
+    href: withBasePath('/assignment/A1b'),
     description: 'A1b Demo: Neural Implicit Surface',
   },
   {
     title: 'Assignment 1B Doc',
-    href: '/assignment/A1b_doc',
+    href: withBasePath('/assignment/A1b_doc'),
     description: 'A1b Document: Neural Implicit Surface',
   },
   {
     title: 'Assignment 2A Demo',
-    href: '/assignment/A2a',
+    href: withBasePath('/assignment/A2a'),
     description: 'A2a Demo: Volumetric Rendering',
   },
   {
     title: 'Assignment 2A Doc',
-    href: '/assignment/A2a_doc',
+    href: withBasePath('/assignment/A2a_doc'),
     description: 'A2a Document: Volumetric Rendering',
   },
   {
     title: 'Assignment 2B Demo',
-    href: '/assignment/A2b',
+    href: withBasePath('/assignment/A2b'),
     description: 'A2b Demo: Neural Radiance Fields',
   },
   {
     title: 'Assignment 2B Doc',
-    href: '/assignment/A2b_doc',
+    href: withBasePath('/assignment/A2b_doc'),
     description: 'A2b Document: Neural Radiance Fields',
   },
   {
     title: 'Assignment 3 Demo',
-    href: '/assignment/A3',
+    href: withBasePath('/assignment/A3'),
     description: 'A3 Demo: Gaussian Splatting',
   },
   {
     title: 'Assignment 3 Doc',
-    href: '/assignment/A3_doc',
+    href: withBasePath('/assignment/A3_doc'),
     description: 'A3 Document: Gaussian Splatting',
   },
   {
     title: 'Assignment 4 Demo',
-    href: '/assignment/A4',
+    href: withBasePath('/assignment/A4'),
     description: 'A4 Demo: Position-based Dynamics',
   },
   {
     title: 'Assignment 4 Doc',
-    href: '/assignment/A4_doc',
+    href: withBasePath('/assignment/A4_doc'),
     description: 'A4 Document: Position-based Dynamics',
   },
   {
     title: 'Final Project Doc',
-    href: '/assignment/Final_doc',
+    href: withBasePath('/assignment/Final_doc'),
     description: 'Final Project Document',
   },
 ];
+
 
 export function NavBar() {
   return (
@@ -198,7 +200,7 @@ export function NavBar() {
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
               <Image
                 className="mr-2 invert"
-                src="/cgai_logo.png"
+                src={withBasePath("/cgai_logo.png")}
                 alt="CGAI logomark"
                 width={16}
                 height={16}
