@@ -1,0 +1,307 @@
+<script id="MathJax-script" defer src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.min.js">
+</script>
+
+<style>
+    /* Custom styles for headings */
+    .h1-custom {
+        font-size: 2.25rem;
+        /* equivalent to text-4xl */
+        font-weight: 700;
+        /* equivalent to font-bold */
+        margin-bottom: 1.5rem;
+        /* equivalent to mb-6 */
+    }
+
+    .h2-custom {
+        font-size: 1.5rem;
+        /* equivalent to text-2xl */
+        font-weight: 600;
+        /* equivalent to font-semibold */
+        margin-top: 1.5rem;
+        /* equivalent to mt-6 */
+        margin-bottom: 1rem;
+        /* equivalent to mb-4 */
+    }
+
+    .h3-custom {
+        font-size: 1.25rem;
+        /* equivalent to text-xl */
+        font-weight: 500;
+        /* equivalent to font-medium */
+        margin-top: 1rem;
+        /* equivalent to mt-4 */
+        margin-bottom: 0.5rem;
+        /* equivalent to mb-2 */
+    }
+
+    .h4-custom {
+        font-size: 1.05rem;
+        /* equivalent to text-xl */
+        font-weight: 500;
+        /* equivalent to font-medium */
+        margin-top: 1rem;
+        /* equivalent to mt-4 */
+        margin-bottom: 0.5rem;
+        /* equivalent to mb-2 */
+        font-weight: bold;
+    }
+
+    /* Styling for code elements */
+    .code-inline {
+        font-family: 'Fira Code', Consolas, 'Courier New', monospace;
+        font-size: 1.1rem;
+        font-weight: bold;
+    }
+
+    .link-inline {
+        text-decoration: underline;
+        /* Ensures the links are underlined */
+        color: #1d4ed8;
+        /* Sets the blue color for the links */
+        font-family: 'Fira Code', Consolas, 'Courier New', monospace;
+        font-size: 1.1rem;
+        font-weight: bold;
+    }
+
+    /* Fixing the problem with ul and li elements */
+    ul {
+        list-style-type: disc;
+        /* Ensures the default bullet style */
+        margin-left: 2rem;
+        /* Adds left indentation for the list */
+        padding-left: 1.5rem;
+        /* Adds extra padding inside the list */
+    }
+
+    li {
+        margin-bottom: 0.5rem;
+        /* Adds space between list items */
+    }
+
+    .image-container {
+        display: flex;
+        justify-content: center;
+        /* Center images */
+        gap: 20px;
+        /* Space between images */
+    }
+
+    .image-container img {
+        width: 40%;
+        /* Adjust width */
+        height: auto;
+        /* Maintain aspect ratio */
+    }
+</style>
+
+<h1 class="h1-custom">
+    Assignment 0: Ray Tracing
+</h1>
+
+<p class="mb-4">
+    Welcome to our journey through Computer Graphics in the AI Era! Let's first get comfortable with the fundamentals of
+    traditional computer graphics. In this introductory assignment, you will implement a simple ray tracing pipeline
+    entirely in GLSL. You will begin with ray-object intersections, then add realistic shadows, shading models, surface
+    texturing, and finally, reflective surfaces that bring polish to your scene. Each stage builds on the last, helping
+    you develop a clear understanding of how light, geometry, and materials interact to form compelling images. By the
+    end, you will have built a fully functional ray tracer—pixel by pixel, bounce by bounce. Let's get tracing!
+</p>
+
+<h2 class="h2-custom">Reading</h2>
+<p class="mb-4">
+    Before diving into our code, you may refer to our course slides as well as the supplementary reading materials to
+    get a comprehensive understanding of ray tracing. Here is the reading list:
+</p>
+<ul class="list-disc pl-8 mb-4">
+    <li>Course Slides on Rendering and Ray Tracing</li>
+    <li><a href="https://raytracing.github.io/books/RayTracingInOneWeekend.html" class="link-inline">Ray Tracing in One
+            Weekend</a></li>
+</ul>
+
+<h2 class="h2-custom">Starter Code</h2>
+<p>
+    Please visit the following GitHub repository to get our latest starter code: <a
+        href="https://github.com/cg-gatech/cgai" class="link-inline">https://github.com/cg-gatech/cgai</a>.
+    Follow the manual on the project page to install the necessary packages, and ensure you can access the default CGAI
+    web page after starting the npm server. The starter code for this assignment is located in the folder <code
+        class="code-inline">src/app/(assignment)/assignment/A0</code>. This folder contains two files: <code
+        class="code-inline">page.tsx</code> and <code class="code-inline">fragment.glsl</code>. Your implementation will
+    focus on <code class="code-inline">fragment.glsl</code>.
+</p>
+
+To view the default initial effect for this assignment, you can either use the navigation bar by clicking Assignments
+and then Assignment 0, or directly access the URL: <a href="http://localhost:3000/assignment/A0"
+    class="link-inline">http://localhost:3000/assignment/A0</a> (Note that the port number may vary depending on the
+available ports on your local computer). After successfully completing the setup, you should see a black window.
+
+<h2 class="h2-custom">Requirements</h2>
+<p class="mb-4">
+    For this assignment, you are expected to implement five features of a ray tracer: <em>ray-object intersection</em>,
+    <em>shading</em>, <em>shadow</em>, <em>texturing</em>, and <em>reflection</em>. We will briefly discuss each step as
+    follows.
+</p>
+
+<h3 class="h3-custom">Step 1: Ray-Object Intersection</h3>
+<p class="mb-4">
+    You are required to implement ray-object intersections for basic shapes: planes, spheres and boxes. As a starting
+    point, we have provided you with the ray-plane intersection function <code
+        class="code-inline">Hit hitPlane(const Ray r, const Plane pl) </code> in the <code
+        class="code-inline">fragment.glsl</code> file. You should uncomment this implementation, study the underlying
+    principles, and follow a similar approach to implement ray-sphere and ray-box intersection functions. Each
+    ray-object intersection function should return intersection details including the distance, intersection point,
+    surface normal, and object material.
+</p>
+
+<h3 class="h4-custom">Step 1.1: Ray-Sphere Intersection</h3>
+
+<p class="mb-4">
+    Implement the ray-sphere intersection function <code
+        class="code-inline">Hit hitSphere(const Ray r, const Sphere s)</code> by solving the quadratic equation derived
+    from the following system:
+    \[
+    \begin{cases}
+    \mathbf{p} = \mathbf{o} + t\mathbf{d},\ t>0,\\
+    |\mathbf{p} - \mathbf{c}|^2 = r^2.
+    \end{cases}
+    \]
+    Once implemented correctly, you should see two blue sphere on a red background, which represents the plane:
+<div class="image-container">
+    <img src="/assignments/A0_img/image1.png" alt="Image 1">
+</div>
+</p>
+
+<h3 class="h4-custom">Step 1.2: Ray-Box Intersection</h3>
+<p class="mb-4">
+    Implement the ray-box intersection function <code class="code-inline">Hit hitBox(const Ray r, const Box b)</code>.
+
+    This can be completed in two steps. First, implement an intersection test with an axis-aligned bounding box, whose
+    faces are parallel to the coordinate axes. The intersection can be determined using the following system:
+    \[
+    \begin{cases}
+    \mathbf{p} = \mathbf{o} + t\mathbf{d},\ t>0,\\
+    \mathbf{p}_x \in [b_{x,\text{min}}, b_{x,\text{max}}],\\
+    \mathbf{p}_y \in [b_{y,\text{min}}, b_{y,\text{max}}],\\
+    \mathbf{p}_z \in [b_{z,\text{min}}, b_{z,\text{max}}].
+    \end{cases}
+    \]
+    Start by computing the intersection intervals along each axis, then identify the overlapping range across all axes,
+    and finally return the closest valid intersection point. When implemented correctly, you should see:
+
+<div class="image-container">
+    <img src="/assignments/A0_img/image2.png" alt="Image 2">
+</div>
+
+Next, extend this test to support arbitrary (rotated) boxes. In our code, boxes are rotated about their centers:
+\[
+\mathbf{x}-\mathbf{o}_{\text{box}}=\mathbf{R}(\mathbf{x}-\mathbf{o}_{\text{box}}),
+\]
+where \(\mathbf{R}\) is the rotation matrix. To handle this, transform the ray into the box's local coordinate system:
+\[
+\begin{cases}
+\mathbf{o}_{\text{local}}=\mathbf{R}^T(\mathbf{o}-\mathbf{o}_{\text{box}})\\
+\mathbf{d}_{\text{local}}=\mathbf{R}^T\mathbf{d}.
+\end{cases}
+\]
+You can then apply the same intersection test as before. Be careful to track which variables are expressed in the local
+coordinate system and which are in world coordinates. When implemented correctly, you should see:
+
+<div class="image-container">
+    <img src="/assignments/A0_img/image3.png" alt="Image 3">
+</div>
+
+</p>
+
+<h3 class="h4-custom">Step 2: Phong Shading</h3>
+<p class="mb-4">
+    Implement the phong-shading function <code
+        class="code-inline">vec3 shading_phong(Light light, int matId, vec3 e, vec3 p, vec3 s, vec3 n)</code>. Recall
+    that in the Phong shading model:
+    \[
+    \mathbf{L}_\text{phong}=\sum_{j\in\text{light}}(k_a\mathbf{I}^j_a+k_d\mathbf{I}^j_d\max(0,\mathbf{l}^j\cdot\mathbf{n})+k_s\mathbf{I}^j_s\max(0,\mathbf{v}\cdot\mathbf{r})^p).
+    \]
+    Once implemented correctly, you should see the following image:
+<div class="image-container">
+    <img src="/assignments/A0_img/image4.png" alt="Image 4">
+</div>
+</p>
+
+<h3 class="h4-custom">Step 3: Shadow</h3>
+<p class="mb-4">
+    Implement the shadow function <code class="code-inline">bool isShadowed(Light light, Hit h)</code>. Start by
+    generating a shadow ray from the intersection point toward the light source. Then, use <code
+        class="code-inline">Hit findHit(Ray r)</code> to check if the ray intersects any objects. To avoid
+    self-shadowing artifacts, offset the ray's origin slightly along the surface normal using a small value <code
+        class="code-inline">Epsilon</code>. Once implemented correctly, you should see the following image:
+
+<div class="image-container">
+    <img src="/assignments/A0_img/image5.png" alt="Image 5">
+</div>
+</p>
+
+<h3 class="h4-custom">Step 4: Texture Mapping</h3>
+<p class="mb-4">
+    Implement the texture mapping function <code class="code-inline">vec3 sampleDiffuse(int matId, vec3 p)</code>. You
+    should first compute the UV coordinates of the intersection point, then use the built-in
+    <code class="code-inline">texture()</code> function to sample from the texture image. The resulting texture color
+    should be multiplied with the material's base color to compute the diffuse term. If implemented correctly, you
+    should see the following image:
+
+<div class="image-container">
+    <img src="/assignments/A0_img/image6.png" alt="Image 6">
+</div>
+
+</p>
+
+<h3 class="h4-custom">Step 5: Reflection and Recursive Ray Tracing</h3>
+<p class="mb-4">
+    We have reached the final step of our ray tracing journey. Implement the reflections and recursive ray tracing
+    function.
+    Start by setting <code class="code-inline">numberOfSampling</code> to 50. Then, define the reflected ray and use it
+    to
+    continue the ray tracing process recursively. After implementing this final piece of code, you will see reflective
+    surfaces appear on objects, significantly enhancing the realism of the rendering. For example, the black sphere
+    takes on a metallic appearance. The final result should look like this:
+<div class="image-container">
+    <img src="/assignments/A0_img/image7.png" alt="Image 7">
+</div>
+
+</p>
+
+<h2 class="h2-custom">Creative Expression</h2>
+[TODO]
+
+<h2 class="h2-custom">Submission</h2>
+<ul class="list-disc pl-8 mb-4">
+    <li>Your source code <code class="code-inline">fragment.glsl</code></li>
+    <li>Your default ray tracing result image after completing all steps (ideally with an aspect ratio close to
+        16:9)</li>
+    <li>Your customized ray tracing result image showcasing creative expression</li>
+    <li>A concise technical explanation of your implementation</li>
+</ul>
+
+<h2 class="h2-custom">Grading</h2>
+<p>This assignment is worth a total of 8 points, with the grading criteria outlined as follows:</p>
+<ul class="list-disc pl-8 mb-4">
+    <li>
+        <strong>Technical Contribution (6 points):</strong> The core of the grading is based on the correct implementation of the ray tracing pipeline. The distribution of points is as follows:
+        <ul class="list-disc pl-8 mb-4">
+            <li>Step 1: 2 points </li>
+            <li>Step 2-5: 1 point each </li>
+        </ul>
+    </li>
+    <li>
+        <strong>Creative Expression (2 point):</strong> awarded for demonstrating your ability to edit the scene and materials (e.g., changing object placement, lighting setup, textures, or reflection settings).
+    </li>
+</ul>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        if (window.MathJax) {
+            MathJax.typesetPromise().then(() => {
+                console.log("MathJax successfully rendered formulas!");
+            }).catch((err) => console.error("MathJax rendering failed:", err));
+        } else {
+            console.error("MathJax failed to load.");
+        }
+    });
+</script>
