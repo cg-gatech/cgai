@@ -3,12 +3,13 @@
 import { useEffect, useState } from 'react';
 import { NavBar } from '@/components/NavBar';
 import Image from 'next/image';
+import { withBasePath } from '@/lib/withBasePath';
 
 export default function AssignmentPage() {
   const [htmlContent, setHtmlContent] = useState('');
 
   useEffect(() => {
-    fetch('/assignments/Final.html')
+    fetch(withBasePath('/assignments/Final.html'))
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -26,7 +27,7 @@ export default function AssignmentPage() {
         <div className="flex flex-col sm:flex-row items-center gap-4 w-full">
           {/* Logo */}
           <Image
-            src="/cgai_logo.png"
+            src={withBasePath("/cgai_logo.png")}
             alt="CGAI logo"
             width={256}
             height={256}
