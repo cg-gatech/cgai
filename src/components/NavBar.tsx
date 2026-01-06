@@ -61,64 +61,64 @@ const tutorials: { title: string; href: string; description: string }[] = [
 
 const assignments: { title: string; href: string; description: string }[] = [
   {
-    title: 'Assignment 0 Demo',
-    href: '/assignment/A0',
-    description: 'A0 Demo: Ray Tracing',
+    title: 'Assignment 1 Demo',
+    href: '/assignment/A1',
+    description: 'A1 Demo: Ray Tracing',
   },
   {
-    title: 'Assignment 0 Doc',
-    href: '/assignment/A0_doc',
-    description: 'A0 Document: Ray Tracing',
-  },
-  {
-    title: 'Assignment 1A Demo',
-    href: '/assignment/A1a',
-    description: 'A1a Demo: SDF and Ray Marching',
-  },
-  {
-    title: 'Assignment 1A Doc',
-    href: '/assignment/A1a_doc',
-    description: 'A1a Document: SDF and Ray Marching',
-  },
-  {
-    title: 'Assignment 1B Demo',
-    href: '/assignment/A1b',
-    description: 'A1b Demo: Neural Implicit Surface',
-  },
-  {
-    title: 'Assignment 1B Doc',
-    href: '/assignment/A1b_doc',
-    description: 'A1b Document: Neural Implicit Surface',
+    title: 'Assignment 1 Doc',
+    href: '/assignment/A1_doc',
+    description: 'A1 Document: Ray Tracing',
   },
   {
     title: 'Assignment 2A Demo',
     href: '/assignment/A2a',
-    description: 'A2a Demo: Volumetric Rendering',
+    description: 'A2a Demo: SDF and Ray Marching',
   },
   {
     title: 'Assignment 2A Doc',
     href: '/assignment/A2a_doc',
-    description: 'A2a Document: Volumetric Rendering',
+    description: 'A2a Document: SDF and Ray Marching',
   },
   {
     title: 'Assignment 2B Demo',
     href: '/assignment/A2b',
-    description: 'A2b Demo: Neural Radiance Fields',
+    description: 'A2b Demo: Neural Implicit Surface',
   },
   {
     title: 'Assignment 2B Doc',
     href: '/assignment/A2b_doc',
-    description: 'A2b Document: Neural Radiance Fields',
+    description: 'A2b Document: Neural Implicit Surface',
   },
   {
-    title: 'Assignment 3 Demo',
-    href: '/assignment/A3',
-    description: 'A3 Demo: Gaussian Splatting',
+    title: 'Assignment 3A Demo',
+    href: '/assignment/A3a',
+    description: 'A3a Demo: Volumetric Rendering',
   },
   {
-    title: 'Assignment 3 Doc',
-    href: '/assignment/A3_doc',
-    description: 'A3 Document: Gaussian Splatting',
+    title: 'Assignment 3A Doc',
+    href: '/assignment/A3a_doc',
+    description: 'A3a Document: Volumetric Rendering',
+  },
+  {
+    title: 'Assignment 3B Demo',
+    href: '/assignment/A3b',
+    description: 'A3b Demo: Neural Radiance Fields',
+  },
+  {
+    title: 'Assignment 3B Doc',
+    href: '/assignment/A3b_doc',
+    description: 'A3b Document: Neural Radiance Fields',
+  },
+  {
+    title: 'Assignment 4 Demo',
+    href: '/assignment/A4',
+    description: 'A4 Demo: Gaussian Splatting',
+  },
+  {
+    title: 'Assignment 4 Doc',
+    href: '/assignment/A4_doc',
+    description: 'A4 Document: Gaussian Splatting',
   },
   {
     title: 'Assignment 4 Demo',
@@ -126,9 +126,9 @@ const assignments: { title: string; href: string; description: string }[] = [
     description: 'A4 Demo: Position-based Dynamics',
   },
   {
-    title: 'Assignment 4 Doc',
-    href: '/assignment/A4_doc',
-    description: 'A4 Document: Position-based Dynamics',
+    title: 'Assignment 5 Doc',
+    href: '/assignment/A5_doc',
+    description: 'A5 Document: Position-based Dynamics',
   },
   {
     title: 'Final Project Doc',
