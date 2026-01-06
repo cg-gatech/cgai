@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////
 //// CS 8803/4803 CGAI: Computer Graphics in AI Era
-//// Assignment 1A: SDF and Ray Marching
+//// Assignment 2A: SDF and Ray Marching
 /////////////////////////////////////////////////////
 
 precision highp float;              //// set default precision of float variables to high precision

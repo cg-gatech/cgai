@@ -11,7 +11,7 @@ import { useFBO } from '@react-three/drei';
 const HW0 = ({ dpr }: { dpr: number }) => {
   const { viewport, pointer } = useThree();
 
-  const floorTex = new THREE.TextureLoader().load('/assignments/A0_img/marble.jpg');
+  const floorTex = new THREE.TextureLoader().load('/assignments/A1_img/marble.jpg');
   floorTex.wrapS = floorTex.wrapT = THREE.RepeatWrapping;
   floorTex.repeat.set(1, 1);
   floorTex.needsUpdate = true;

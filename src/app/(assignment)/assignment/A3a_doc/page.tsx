@@ -52,7 +52,7 @@ export default function AssignmentPage() {
               CS8803/4803 CGA: Computer Graphics in AI Era
             </p>
             <p className="text-2xl font-[family-name:var(--font-geist-mono)] mt-2 leading-relaxed">
-              Assignment 2A: Volumetric Rendering
+              Assignment 3A: Volumetric Rendering
             </p>
           </div>
         </div>
@@ -60,7 +60,7 @@ export default function AssignmentPage() {
         {/* Assignment Content Section */}
         <iframe 
           ref={iframeRef}
-          src="/assignments/A2a.html"
+          src="/assignments/A3a.html"
           className="w-full h-[4200px] bg-yellow-50 text-black p-8 rounded-lg shadow-lg"
         />
       </main>

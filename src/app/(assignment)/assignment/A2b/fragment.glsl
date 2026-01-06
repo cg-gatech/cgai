@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////
 //// CS 8803/4803 CGAI: Computer Graphics in AI Era
-//// Assignment 1B: Neural SDF
+//// Assignment 2B: Neural SDF
 /////////////////////////////////////////////////////
 
 precision highp float;              //// set default precision of float variables to high precision
@@ -153,7 +153,7 @@ float sdf(vec3 p)
 /////////////////////////////////////////////////////
 //// Step 4: ray marching
 //// You are asked to implement the ray marching algorithm within the following for-loop.
-//// You are allowed to reuse your previous implementation in A1a for this function.
+//// You are allowed to reuse your previous implementation in A2a for this function.
 /////////////////////////////////////////////////////
 
 //// ray marching: origin - ray origin; dir - ray direction 
@@ -175,7 +175,7 @@ float rayMarching(vec3 origin, vec3 dir)
 /////////////////////////////////////////////////////
 //// Step 5: normal calculation
 //// You are asked to calculate the sdf normal based on finite difference.
-//// You are allowed to reuse your previous implementation in A1a for this function.
+//// You are allowed to reuse your previous implementation in A2a for this function.
 /////////////////////////////////////////////////////
 
 //// normal: p - query point

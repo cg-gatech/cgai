@@ -81,7 +81,7 @@ src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.min.
 </style>
 
 <h1 class="h1-custom">
-    Assignment 3: Gaussian Splatting
+    Assignment 4: Gaussian Splatting
 </h1>
 
 <p class="mb-4">
@@ -110,22 +110,22 @@ src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.min.
 <h2 class="h2-custom">Starter Code</h2>
 <p class="mb-4">
     Please visit the following GitHub repository to get our latest starter code: <a href="https://github.com/cg-gatech/cgai" class="link-inline">https://github.com/cg-gatech/cgai</a>. Make sure to run 'git pull' to synchronize the latest version. Make sure you can access the default CGAI web page after starting the npm server. 
-    The starter code for this assignment is located in the folder <code class="code-inline">src/app/(assignment)/assignment/A3</code>. This folder contains several files, including the main page <code class="code-inline">page.tsx</code>, the Jupyter notebook file <code class="code-inline">2DGS_A3_solution.ipynb</code>, and the GLSL shader 
-    <code class="code-inline">fragment.glsl</code>. Your implementation will focus on <code class="code-inline">2DGS_A3_solution.ipynb</code> and <code class="code-inline">fragment.glsl</code>.
+    The starter code for this assignment is located in the folder <code class="code-inline">src/app/(assignment)/assignment/A4</code>. This folder contains several files, including the main page <code class="code-inline">page.tsx</code>, the Jupyter notebook file <code class="code-inline">2DGS_A4_solution.ipynb</code>, and the GLSL shader 
+    <code class="code-inline">fragment.glsl</code>. Your implementation will focus on <code class="code-inline">2DGS_A4_solution.ipynb</code> and <code class="code-inline">fragment.glsl</code>.
 </p>
 
 </br>
 
 <p class="mb-4">
 
-To view the default initial effect for this assignment, you can either use the navigation bar by clicking Assignments and then Assignment 3, or directly access the URL: <a href="http://localhost:3000/assignment/A3" class="link-inline">http://localhost:3000/assignment/A3</a> 
+To view the default initial effect for this assignment, you can either use the navigation bar by clicking Assignments and then Assignment 4, or directly access the URL: <a href="http://localhost:3000/assignment/A4" class="link-inline">http://localhost:3000/assignment/A4</a> 
 (Note that the port number may vary depending on the available ports on your local computer). After successfully completing the setup, you should see a blank window.
 </p>
 
 <h2 class="h2-custom">Requirements</h2>
 <p class="mb-4">
     For this assignment, you are expected to optimize two components to reconstruct both a "synthetic" and a real target image: <em>create 2D gaussians</em>, <em>optimize gaussians on a "synthetic" image</em>, <em>optimize gaussians on an image of your choice</em>, and <em>render optimized gaussians</em>. 
-    We will briefly discuss each step as follows, but more information and equation explanations can be found in the Jupyter notebook file <code class="code-inline">2DGS_A3_solution.ipynb</code>, along with your starter code.
+    We will briefly discuss each step as follows, but more information and equation explanations can be found in the Jupyter notebook file <code class="code-inline">2DGS_A4_solution.ipynb</code>, along with your starter code.
 </p>
 
 <h3 class="h3-custom">Step 0: Create 2D Gaussians</h3>
@@ -220,7 +220,7 @@ To view the default initial effect for this assignment, you can either use the n
 </p>
 
 <video controls autoplay loop muted  style="max-width: 75%; height: auto;">
-    <source src="/assignments/A3_img/anim-synthetic.mp4" type="video/mp4">
+    <source src="/assignments/A4_img/anim-synthetic.mp4" type="video/mp4">
     Your browser does not support the video tag.
 </video>
 
@@ -233,7 +233,7 @@ To view the default initial effect for this assignment, you can either use the n
 </br>
 Hint: When using colab, create a folder named <code>data</code> and upload your target image into it.
 <div class="image-container">
-    <img src="/assignments/A3_img/monalisaSetup.png" alt="Picture of colab setup of data folder">
+    <img src="/assignments/A4_img/monalisaSetup.png" alt="Picture of colab setup of data folder">
 </div>
 
 </br>
@@ -256,7 +256,7 @@ Hint: When using colab, create a folder named <code>data</code> and upload your 
 </p>
 
 <video controls autoplay loop muted style="max-width: 75%; height: auto;">
-    <source src="/assignments/A3_img/anim-image.mp4" type="video/mp4">
+    <source src="/assignments/A4_img/anim-image.mp4" type="video/mp4">
     Your browser does not support the video tag.
 </video>
 
@@ -292,11 +292,11 @@ Hint: When using colab, create a folder named <code>data</code> and upload your 
 Once you finish implementation of Step 1 - 2.3 with the Mona Lisa image, you should see the looping animation shown below:
 
 <!-- <div class="image-container">
-    <img src="/assignments/A3_img/a3-ref.png" alt="Optimized Mona Lisa Output">
+    <img src="/assignments/A4_img/a4-ref.png" alt="Optimized Mona Lisa Output">
 </div> -->
 
 <video controls autoplay loop muted style="max-width: 75%; height: auto;">
-    <source src="/assignments/A3-ref2.mp4" type="video/mp4">
+    <source src="/assignments/A4-ref2.mp4" type="video/mp4">
     Your browser does not support the video tag.
 </video>
 
@@ -306,7 +306,7 @@ Once you finish implementation of Step 1 - 2.3 with the Mona Lisa image, you sho
 </p>
 
 <video controls autoplay loop muted style="max-width: 75%; height: auto;">
-    <source src="/assignments/A3-ref1.mp4" type="video/mp4">
+    <source src="/assignments/A4-ref1.mp4" type="video/mp4">
     Your browser does not support the video tag.
 </video>
 
@@ -320,7 +320,7 @@ We expect your Creative Expression gaussian splatting scenes to demonstrate how 
 
 <h2 class="h2-custom">Submission</h2>
 <ul class="list-disc pl-8 mb-4">
-    <li>Your source code <code class="code-inline">2DGS_A3_solution.ipynb</code> and <code class="code-inline">fragment.glsl</code></li>
+    <li>Your source code <code class="code-inline">2DGS_A4_solution.ipynb</code> and <code class="code-inline">fragment.glsl</code></li>
     <li>Your customized "synthetic" gaussian splat video in the same format as the Mona Lisa GLSL video above</li>
     <li>Your creative target gaussian splat video in the same format as the Mona Lisa GLSL video above</li>
     <li>The answer to Reflection Question 1 in the Jupyter Notebook or on a seperate document</li>
@@ -347,4 +347,4 @@ We expect your Creative Expression gaussian splatting scenes to demonstrate how 
 </ul>
 
 <h2 class="h2-custom">Sharing Your Work</h2>
-<p>You are encouraged to share your graphical work with the class. If you want to do so, please upload your image to the Ed Discussion post <strong>A3 Gallery: Art of Points</strong>. This is an excellent opportunity to engage with your peers and gain recognition for your work. Share with us the point of art you create!</p>
+<p>You are encouraged to share your graphical work with the class. If you want to do so, please upload your image to the Ed Discussion post <strong>A4 Gallery: Art of Points</strong>. This is an excellent opportunity to engage with your peers and gain recognition for your work. Share with us the point of art you create!</p>

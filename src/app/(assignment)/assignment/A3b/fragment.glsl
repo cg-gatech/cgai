@@ -1,7 +1,7 @@
 
 /////////////////////////////////////////////////////
 //// CS 8803/4803 CGAI: Computer Graphics in AI Era
-//// Assignment 2B: Neural Radiance Fields (NeRF)
+//// Assignment 3B: Neural Radiance Fields (NeRF)
 /////////////////////////////////////////////////////
 
 precision highp float;              //// set default precision of float variables to high precision
@@ -57,7 +57,7 @@ float rand(vec2 co) {
 
 /////////////////////////////////////////////////////
 //// You are asked to implement the front-to-back volumetric ray tracing algorithm for NeRF to accummulate colors along each ray.
-//// You may reuse most of the code from A2a, however, you would use your trained NeRF model to predict the RGB and sigma value.
+//// You may reuse most of the code from A3a, however, you would use your trained NeRF model to predict the RGB and sigma value.
 //// To call your trained NeRF model, call queryNetwork(vec3 p)
 //// We have given you a default hotdog model in hotdog.txt, replace that with your own NeRF.
 //// Caution: After calling your NeRF, you should use Sigmoid for RGB and ReLU for sigma, as you do in your pytorch code.

@@ -18,7 +18,7 @@ vec3 gauss_colors[NUM_GAUSSIANS] = vec3[NUM_GAUSSIANS](vec3(0.70, 0.10, 0.20),ve
 //======================================================= Copy-Paste Area End =========================================================
 
 /////////////////////////////////////////////////////
-//// Here, you are asked to build the inverse covariance matrix, similar to in the 2DGS_A3_solution.ipynb file.
+//// Here, you are asked to build the inverse covariance matrix, similar to in the 2DGS_A4_solution.ipynb file.
 //// You must create the rotation matrix R, the inverse squared sigma matrix D, and the final inverse covariance matrix. 
 /////////////////////////////////////////////////////
 

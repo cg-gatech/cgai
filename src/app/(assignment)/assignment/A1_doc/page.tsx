@@ -29,7 +29,7 @@ export default function AssignmentPage() {
               CS8803/4803 CGA: Computer Graphics in AI Era
             </p>
             <p className="text-2xl font-[family-name:var(--font-geist-mono)] mt-2 leading-relaxed">
-              Assignment 0: Ray Tracing
+              Assignment 1: Ray Tracing
             </p>
           </div>
         </div>
@@ -37,7 +37,7 @@ export default function AssignmentPage() {
         {/* Assignment Content Section */}
         <iframe 
           ref={iframeRef}
-          src="/assignments/A0.html"
+          src="/assignments/A1.html"
           className="bg-yellow-50 text-black p-8 rounded-lg shadow-lg w-full h-[4800px]"
         />
       </main>

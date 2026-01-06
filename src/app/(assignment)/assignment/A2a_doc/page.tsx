@@ -52,7 +52,7 @@ export default function AssignmentPage() {
               CS8803/4803 CGA: Computer Graphics in AI Era
             </p>
             <p className="text-2xl font-[family-name:var(--font-geist-mono)] mt-2 leading-relaxed">
-              Assignment 1A: Signed Distance Field and Ray Marching
+              Assignment 2A: Signed Distance Field and Ray Marching
             </p>
           </div>
         </div>
@@ -60,7 +60,7 @@ export default function AssignmentPage() {
         {/* Assignment Content Section */}
         <iframe 
           ref={iframeRef}
-          src="/assignments/A1a.html"
+          src="/assignments/A2a.html"
           className="w-full h-[3400px] bg-yellow-50 text-black p-8 rounded-lg shadow-lg"
         />
       </main>

@@ -1,7 +1,7 @@
 
 /////////////////////////////////////////////////////
 //// CS 8803/4803 CGAI: Computer Graphics in AI Era
-//// Assignment 2A: Volumetric Ray Tracing
+//// Assignment 3A: Volumetric Ray Tracing
 /////////////////////////////////////////////////////
 
 precision highp float;              //// set default precision of float variables to high precision
@@ -113,7 +113,7 @@ vec4 readCTVolume(vec3 p)
 //// Step 3: ray tracing with volumetric data
 //// You are asked to implement the front-to-back volumetric ray tracing algorithm to accummulate colors along each ray. 
 //// Your task is to accumulate color and transmittance along the ray based on the absorption-emission volumetric model.
-//// You may want to read the course slides, Equation (3) in the original NeRF paper, and the A2a document for the rendering model.
+//// You may want to read the course slides, Equation (3) in the original NeRF paper, and the A3a document for the rendering model.
 /////////////////////////////////////////////////////
 
 //// ro - ray origin, rd - ray direction, 
