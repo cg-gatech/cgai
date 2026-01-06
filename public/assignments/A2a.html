@@ -1,7 +1,3 @@
-<script id="MathJax-script" defer 
-src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.min.js">
-</script>
-
 <style>
     /* Custom styles for headings */
     .h1-custom {
@@ -19,13 +15,6 @@ src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.min.
 
     .h3-custom {
         font-size: 1.25rem; /* equivalent to text-xl */
-        font-weight: 500; /* equivalent to font-medium */
-        margin-top: 1rem; /* equivalent to mt-4 */
-        margin-bottom: 0.5rem; /* equivalent to mb-2 */
-    }
-
-    .h4-custom {
-        font-size: 1.05rem; /* equivalent to text-xl */
         font-weight: 500; /* equivalent to font-medium */
         margin-top: 1rem; /* equivalent to mt-4 */
         margin-bottom: 0.5rem; /* equivalent to mb-2 */
@@ -57,154 +46,88 @@ src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.min.
         margin-bottom: 0.5rem; /* Adds space between list items */
     }
 
-    .image-container {
-        display: flex; 
-        justify-content: center; /* Center images */
-        gap: 20px; /* Space between images */
-    }
-    .image-container img {
-        width: 20%; /* Adjust width */
-        height: auto; /* Maintain aspect ratio */
-    }
-
-    .image-container2 {
-        display: flex; 
-        justify-content: center; /* Center images */
-        gap: 20px; /* Space between images */
-    }
-    .image-container2 img {
-        width: 30%; /* Adjust width */
-        height: auto; /* Maintain aspect ratio */
-    }
-
 </style>
 
 <h1 class="h1-custom">
-    Assignment 2A: Volumetric Rendering
+    Assignment 1A: Signed Distance Field and Ray Marching
 </h1>
 
 <p class="mb-4">
-    Welcome to the first part of our exploration of NeRF! In this assignment, you explore the first and crucial backbone under the NeRF framework -- volumetric ray tracing! 
-    The main task for this assignment is to first create two volumetric data, a volumetric sphere colored by its SDF and a CT scan loaded using 3D texture. 
-    Then, you will render the data using the volumetric rendering method we taught in class. All implementions will be in our WebGL shader. Let's get started!
+    Welcome to our journey through Computer Graphics in the AI Era! In the first assignment, we will explore the beauty of light and shape with our new friend, the signed distance function (SDF), by implementing SDF representations together with a ray marching pipeline within GLSL shaders. This will include realistic lighting, shading, and complex implicit shapes. Your task is to implement a comprehensive set of SDF primitives, Boolean operations, normal calculations, and the ray marching algorithm, as well as to create a compelling scene. Let's get started!
 </p>
 
 <h2 class="h2-custom">Reading</h2>
 <p class="mb-4">
-    Before diving into our code, you may refer to our course slides as well as the supplementary reading materials to get a comprehensive understanding of volumetric rendering. Here is the reading list:
+    Before diving into our code, you may refer to our course slides as well as the supplementary reading materials to get a comprehensive understanding of SDF and ray marching. Here is the reading list:
 </p>
-
 <ul class="list-disc pl-8 mb-4">
-    <li>Course Slides on Radiometry Foundation and Participated Media</li>
-    <li><a href="https://raytracing.github.io/books/RayTracingTheNextWeek.html#volumes" class="link-inline">Ray Tracing: The Next Week</a></li>
-    <li><a href="https://courses.cs.duke.edu/spring03/cps296.8/papers/max95opticalModelsForDirectVolumeRendering.pdf" class="link-inline">Optical models for direct volume rendering</a></li>
-    <li><a href="https://arxiv.org/abs/2209.02417" class="link-inline">Volume Rendering Digest (for NeRF)</a></li>
-    <li><a href="https://www.scratchapixel.com/lessons/3d-basic-rendering/volume-rendering-for-developers/volume-rendering-summary-equations.html" class="link-inline">Volume Rendering Notes from Scratchapixel</a></li>
-    <li><a href="https://developer.nvidia.com/gpugems/gpugems/part-vi-beyond-triangles/chapter-39-volume-rendering-techniques" class="link-inline">GPU Gem Chapter 39 Volume Rendering Techniques </a></li>
-    <li><a href="https://www.shadertoy.com/view/XlBSRz" class="link-inline">Shadertoy Example: Smoke Sphere</a></li>
-    <li><a href="https://www.shadertoy.com/view/ds3cWj" class="link-inline">Shadertoy Example: Cloud</a></li>
+    <li>Course Slides on SDF Foundation, Generation, and Rendering</li>
+    <li><a href="https://github.com/CedricGuillemet/SDF?tab=readme-ov-file" class="link-inline">Resources, links, papers, discussions, ShaderToys on SDF and related algorithm</a></li>
+    <li><a href="https://iquilezles.org/articles/raymarchingdf/" class="link-inline">IQ's article on ray marching on SDFs</a></li>
+    <li><a href="https://jamie-wong.com/2016/07/15/ray-marching-signed-distance-functions/" class="link-inline">Jamie Wong's article on ray marching and SDFs</a></li>
+    <li><a href="https://iquilezles.org/articles/distfunctions2d/" class="link-inline">IQ's 2D SDF list</a></li>
+    <li><a href="https://iquilezles.org/articles/distfunctions/" class="link-inline">IQ's 3D SDF list</a></li>
+    <li><a href="https://raytracing.github.io/books/RayTracingInOneWeekend.html" class="link-inline">Ray Tracing in One Weekend</a></li>
 </ul>
 
 <h2 class="h2-custom">Starter Code</h2>
-<p class="mb-4">
-    Please visit the following GitHub repository to get our latest starter code: <a href="https://github.com/cg-gatech/cgai" class="link-inline">https://github.com/cg-gatech/cgai</a>. Make sure to run 'git pull' to synchronize the latest version. Make sure you can access the default CGAI web page after starting the npm server. 
-    The starter code for this assignment is located in the folder <code class="code-inline">src/app/(assignment)/assignment/A2a</code>. This folder contains two files, including the main page <code class="code-inline">page.tsx</code> and the GLSL shader <code class="code-inline">fragment.glsl</code>. 
-    Your implementation will focus on <code class="code-inline">fragment.glsl</code>.
+<p>
+    Please visit the following GitHub repository to get our latest starter code: <a href="https://github.com/cg-gatech/cgai" class="link-inline">https://github.com/cg-gatech/cgai</a>. 
+    Follow the manual on the project page to install the necessary packages, and ensure you can access the default CGAI web page after starting the npm server. The starter code for this assignment is located in the folder <code class="code-inline">src/app/(assignment)/assignment/A1a</code>. This folder contains two files: <code class="code-inline">page.tsx</code> and <code class="code-inline">fragment.glsl</code>. Your implementation will focus on <code class="code-inline">fragment.glsl</code>.
 </p>
 
-<p class="mb-4">
-
-To view the default initial effect for this assignment, you can either use the navigation bar by clicking Assignments and then Assignment 2a, or directly access the URL: <a href="http://localhost:3000/assignment/A2a" class="link-inline">http://localhost:3000/assignment/A2a</a> (Note that the port number may vary depending on the available ports on your local computer). After successfully completing the setup, you should see a blank window.
-</p>
+To view the default initial effect for this assignment, you can either use the navigation bar by clicking Assignments and then Assignment 1a, or directly access the URL: <a href="http://localhost:3000/assignment/A1a" class="link-inline">http://localhost:3000/assignment/A1a</a> (Note that the port number may vary depending on the available ports on your local computer). After successfully completing the setup, you should see a blank window, as shown below.
 
 <h2 class="h2-custom">Requirements</h2>
 <p class="mb-4">
-    For this assignment, you are expected to implement three components to render volumetric data with an ray marching framework: <em>calculate color and density from sdf</em>, <em>calculate color and density from CT data,</em> and <em>ray tracing with volumetric data</em>. We will briefly discuss each step as follows.
+For this assignment, you are expected to implement six components to render SDF with a ray marching framework: <em>SDF primitives</em>, <em>boolean operations</em>, <em>scene composition</em>, <em>ray marching</em>, <em>normal calculation</em>, and <em>shading and coloring</em>. We will briefly discuss each step as follows.
 </p>
 
-<h3 class="h3-custom">Step 1: calculate color and density from sdf</h3>
+<h3 class="h3-custom">Step 1: SDF Primitives</h3>
 <p class="mb-4">
-    You are tasked to convert the SDF value into a <code class="code-inline">vec4</code>, where the first three components store RGB color and the fourth represents density. 
-    We provided you the SDF value in the <code class="code-inline">distance</code> variable. You should use the given <code class="code-inline">palette</code> function to map the value to an RGB color. 
-    Notice, we use the <code class="code-inline">-distance</code> value for calculating <code class="code-inline">palette</code> to ensure uniform color tone with Step 2.
-    Finally, you will set the density to 1.0 for points inside the object (SDF < 0) and 0.0 for points outside (SDF ≥ 0).
+You are required to implement SDF primitives for basic shapes: spheres, planes, and boxes. Each function calculates the signed distance from a query point to the shape’s surface. The sphere is defined by its center and radius, the plane by its height along the y-axis, and the box by its center and half-size. 
 </p>
-<h3 class="h3-custom">Step 2: calculate color and density from CT data</h3>
+
+<h3 class="h3-custom">Step 2: Boolean Operations</h3>
 <p class="mb-4">
-    You are asked to convert the CT data into a <code class="code-inline">vec4</code>, where the first three components represent RGB color and the fourth component represents density. 
-    You first need to retrieve the density value from the first channel of the volumetric texture <code class="code-inline">iVolume</code>. 
-    You can use the built-in <code class="code-inline">texture</code> function in GLSL to query <code class="code-inline">iVolume</code> based on the texture coordinate <code class="code-inline">tex_coord</code>.
-    Then, you will use the provided <code class="code-inline">palette</code> function to map the density value to an RGB color. Optionally, you can multiply the resulting <code class="code-inline">vec4</code> by a constant (e.g. 2.0) to enhance visualization.
+You are tasked with implementing boolean operations for SDFs: union, intersection, and subtraction. Union takes the minimum of two distances, intersection takes the maximum, and subtraction inverts one shape before intersecting. These operations allow combining shapes into complex objects for the next steps.
 </p>
 
-<h3 class="h3-custom">Step 3: ray tracing with volumetric data</h3>
+<h3 class="h3-custom">Step 3: Scene SDF</h3>
 <p class="mb-4">
-    You are asked to implement the front-to-back volumetric ray tracing algorithm to accummulate colors along each ray. You will accumulate color and transmittance along the ray based on the absorption-emission volumetric model. We briefly describe the mathematical model as below:
-    <!-- Recall from course slides, transmittance depicts its probability of passing through a volumetric data.  -->
-    <!-- Considering only absorption in the volumetric rendering equation, for uniform density (i.e. uniform extinction coefficient), the transmittance (probability) of a ligh can be descibed using: -->
-
-    Recall the volumetric rendering equation for only considering absorption can be written as:</br>
-    \[ C(\mathbf{r})=\int_{t_n}^{t_f}T(t)\sigma(\mathbf{r}(t))\mathbf{c}(\mathbf{r}(t))dt. \]
-    </br>
-    The discritized version is:</br>
-    \[ C=\sum_{i=1}^n\int_{t_i}^{t_{i+1}}T(t)\sigma_ic_idt. \]
-    </br>
-    Assuming a small truncation of volumetric data with uniform density, the inner integral can be written as:</br>
-    \[ \int_0^{\Delta}T\sigma dt=\int_0^{\Delta}\sigma e^{-\sigma t}dt=(1-e^{-\sigma\Delta}). \]
-    </br>
-    Hence, the final version becomes:</br>
-    \[
-    \sum_{i=1}^{n}
-    \underbrace{T_i}_{\text{Term 1}}
-    \underbrace{\left(1 - e^{-\sigma_i \Delta_i}\right)c_i}_{\text{Term 2}},
-    \]
-    </br>
-    with the accumulated transmittance defined as:</br>
-    \[
-    T_i
-    = \prod_{j=1}^{i-1} e^{-\sigma_j \Delta_j}
-    = e^{\sum_{j=1}^{i-1} -\sigma_j \Delta_j}.
-    \]
-    </br>
-
-    Here, within the summation, the first term gives the probability that the light pass through the previous media and reaches the current point, hence gives the attenuation that need to be applied to the color.
-    The second term denotes the probability the light terminates here and hence the camera sees the color of the media.  <br/>
-
-    </br>
-
-    We provide you the for-loop for calculating this summation. In each iteration, you should <br/>
-    <strong>(1)</strong> Read in the color and density value from both the sphere SDF (using <code class="code-inline">readSDFVolume</code>) and the CT texture (using <code class="code-inline">readCTVolume</code>). 
-    You will place the CT volume by subtracting the query point with an offset of its center and place the sphere SDF volume centering using the same method. The center of the CT volume is located at [2, 0, 0] and the center of the SDF volume is located at [-2, 0, 0].<br/>
-    <strong>(2)</strong> Following the equations given above, you will first use the accumualted transmittance and the extinction coefficient to accumulate color at the current point:</br>
-    \[
-    C+=T_i(1-e^{-\sigma_i\Delta_i})c_i.
-    \]
-    </br>
-    <strong>(3)</strong> You will accumulate the transmittance in preparetion for the next iteration:</br>
-    \[
-    T_{i+1}=T_ie^{-\sigma_i\Delta_i}.
-    \]
-    </br>
+In this step, you are tasked with constructing the scene's SDF using the implemented primitive functions and boolean operations. The goal is to combine different objects, such as spheres, boxes, and planes, using the CSG operations. You will also need to position these objects appropriately in the scene according to the shape parameters pre-specified for each object. The final SDF function should return the minimum distance to any surface in the scene.
 </p>
 
-<p>Once you finish implementation of the steps above, you should see a video shown below:</p>
+<h3 class="h3-custom">Step 4: Ray Marching</h3>
+<p class="mb-4">
+In this step, you are asked to implement the ray marching algorithm to render the SDF scene. Ray marching involves stepping along a ray starting from the camera position until it either intersects an object (determined by a small distance threshold) or exits the scene bounds. For each step, you will calculate the distance to the nearest surface using the SDF function and accumulate this distance until a hit or termination condition is met.
+</p>
 
-<video controls autoplay loop muted style="max-width: 75%; height: auto;">
-    <source src="/assignments/A2a-ref.mp4" type="video/mp4">
+<h3 class="h3-custom">Step 5: Normal Calculation</h3>
+<p class="mb-4">
+In this step, you will calculate the surface normal at a given point using the finite difference method. By sampling the SDF function at nearby points, you can estimate the gradient of the SDF, which corresponds to the surface normal. The computed normal will be used in the Phong shading model to calculate color on each implicit surface.
+</p>
+
+<h3 class="h3-custom">Step 6: Lighting and Coloring</h3>
+<p class="mb-4">
+In this step, you are asked to color the objects to achieve realistic lighting effects. You are also tasked to assign a unique color to each object in the scene based on its position or type. <em>We do not ask for a perfect match of our given video. You may pick any color you like for the rendering of these four objects. Here the only requirement is the four objects must have different colors, and each object must have a single color.</em>
+
+Note that we have already implemented a standard Phong shading model as well as the shadows using the same ray marching algorithm for you to determine if a surface point is occluded from the light source or not. So once you have implemented your ray-marching algorithm, you should be able to observe lighting effects as shown in the video below. 
+</p>
+
+<video controls autoplay loop muted  style="max-width: 75%; height: auto;">
+    <source src="/assignments/a1a-ref.mp4" type="video/mp4">
     Your browser does not support the video tag.
 </video>
 
 <h2 class="h2-custom">Creative Expression</h2>
-In the Creative Expression section of this assignment, you are encouraged to create your own volumetric rendering scene by leveraging the volumetric ray tracing framework you've implemented. You may choose to render new volumetric data (we've provided a few in the starter code, you may also download new ones from this
-<a href="https://klacansky.com/open-scivis-datasets/" class="link-inline">link</a>), or you may choose to render new SDF functions as a volumetric media. You are encouraged to play with the default <code class="code-inline">palette</code> function to achieve different volumetric appearance. 
-
-We expect your Creative Expression volumetric rendering scene to demonstrate the visual appealing aspect of participating media. The creative expression theme for this assignment is <strong>Nebulous Realms</strong>.
+In the Creative Expression section of this assignment, you are encouraged to create your own SDF scene by leveraging our ray marching framework. You are permitted to reuse the 3D SDF functions implemented in IQ's 3D SDF list (refer to the links above) and integrate them into your shader to serve your creative expression goals, provided that you specify the link and function name before each reused function. We expect your Creative Expression SDF scene to depict objects or animations that are challenging to model using a standard mesh-based renderer. The creative expression theme for this assignment is <strong>A Blobby World</strong>.
 
 <h2 class="h2-custom">Submission</h2>
 <ul class="list-disc pl-8 mb-4">
     <li>Your source code <code class="code-inline">fragment.glsl</code></li>
-    <li>Your default volumetric ray tracing video after completing the three steps</li>
-    <li>Your customized video with your own volumetric rendering for creative expression</li>
+    <li>Your default ray-marching video after completing the six steps</li>
+    <li>Your customized ray-marching video with your own SDF objects for creative expression</li>
     <li>A concise technical explanation of your implementation</li>
 </ul>
 
@@ -212,17 +135,15 @@ We expect your Creative Expression volumetric rendering scene to demonstrate the
 <p>This assignment is worth a total of 8 points, with the grading criteria outlined as follows:</p>
 <ul class="list-disc pl-8 mb-4">
     <li>
-        <strong>Technical Contribution (7 points):</strong> The core of the grading is based on the correct implementation of loading volumetric data and volumetric rendering. The distribution of points is as follows:
+        <strong>Technical Contribution (6 points):</strong> The core of the grading is based on the correct implementation of noise functions. The distribution of points is as follows:
         <ul class="list-disc pl-8 mb-4">
-            <li>Step 1: 2 points </li>
-            <li>Step 2: 2 points </li>
-            <li>Step 3: 3 points </li>
+            <li>Step 1-6: 1 point each</li>
         </ul>
     </li>
     <li>
-        <strong>Creative Expression (1 point):</strong> This aspect focuses on your ability to load new volumetric data and render it out for new expressive scenes.
+        <strong>Creative Expression (2 points):</strong> This aspect focuses on your ability to create new SDF scenes with ray marching.
     </li>
 </ul>
 
 <h2 class="h2-custom">Sharing Your Work</h2>
-<p>You are encouraged to share your graphical work with the class. If you want to do so, please upload your image to the Ed Discussion post <strong>A2a Gallery: Nebulous Realms</strong>. This is an excellent opportunity to engage with your peers and gain recognition for your work. Share with us the nebulous world you create!</p>
+<p>You are encouraged to share your graphical work with the class. If you want to do so, please upload your image to the Ed Discussion post <strong>A1 Gallery: A Blobby World</strong>. This is an excellent opportunity to engage with your peers and gain recognition for your work. Share with us the blobby world you create!</p>

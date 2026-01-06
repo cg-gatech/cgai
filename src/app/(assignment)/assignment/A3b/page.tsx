@@ -4,24 +4,22 @@ import { Suspense, useRef } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 
-import useDevicePixelRatio from '@/hooks/useDevicePixelRatio';
 
 import vertexShader from '@/shaders/common/vertex.glsl';
 import fragmentShader from './fragment.glsl';
 
-const Test = () => {
+const Test = ({scale, dpr} : {scale: number, dpr: number}) => {
   const { viewport } = useThree();
-  const dpr = useDevicePixelRatio();
   const uniforms = useRef({
     iTime: { value: 0 },
     iResolution: {
-      value: new THREE.Vector2(window.innerWidth * dpr, window.innerHeight * dpr),
+      value: new THREE.Vector2(window.innerWidth * dpr * scale, window.innerHeight * dpr * scale),
     },
   }).current;
 
   useFrame((_, delta) => {
     uniforms.iTime.value += delta;
-    uniforms.iResolution.value.set(window.innerWidth * dpr, window.innerHeight * dpr);
+    uniforms.iResolution.value.set(window.innerWidth * dpr * scale, window.innerHeight * dpr * scale);
   });
 
   return (
@@ -37,21 +35,26 @@ const Test = () => {
 };
 
 export default function TestPage() {
+  const dpr = 0.25;
+  const scale = 1;
+  const width = `${100 * scale}vw`;
+  const height = `${100 * scale}vh`;
   return (
     <Canvas
       orthographic
-      // dpr={1}
+      dpr={dpr}
       camera={{ position: [0, 0, 6] }}
       style={{
         position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100vw',
-        height: '100vh',
+        top: '50%',
+        left: '50%',
+        width: width,
+        height: height,
+        transform: 'translate(-50%, -50%)',
       }}
     >
       <Suspense fallback={null}>
-        <Test />
+        <Test dpr={dpr} scale={scale}/>
       </Suspense>
     </Canvas>
   );

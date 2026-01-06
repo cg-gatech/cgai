@@ -1,0 +1,310 @@
+<script id="MathJax-script" defer 
+src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.min.js">
+</script>
+
+<style>
+    /* Custom styles for headings */
+    .h1-custom {
+        font-size: 2.25rem; /* equivalent to text-4xl */
+        font-weight: 700; /* equivalent to font-bold */
+        margin-bottom: 1.5rem; /* equivalent to mb-6 */
+    }
+
+    .h2-custom {
+        font-size: 1.5rem; /* equivalent to text-2xl */
+        font-weight: 600; /* equivalent to font-semibold */
+        margin-top: 1.5rem; /* equivalent to mt-6 */
+        margin-bottom: 1rem; /* equivalent to mb-4 */
+    }
+
+    .h3-custom {
+        font-size: 1.25rem; /* equivalent to text-xl */
+        font-weight: 500; /* equivalent to font-medium */
+        margin-top: 1rem; /* equivalent to mt-4 */
+        margin-bottom: 0.5rem; /* equivalent to mb-2 */
+    }
+
+    .h4-custom {
+        font-size: 1.05rem; /* equivalent to text-xl */
+        font-weight: 500; /* equivalent to font-medium */
+        margin-top: 1rem; /* equivalent to mt-4 */
+        margin-bottom: 0.5rem; /* equivalent to mb-2 */
+        font-weight: bold;
+    }
+
+    /* Styling for code elements */
+    .code-inline {
+        font-family: 'Fira Code', Consolas, 'Courier New', monospace;
+        font-size: 1.1rem;
+        font-weight: bold;
+    }
+
+    .link-inline {
+        text-decoration: underline;  /* Ensures the links are underlined */
+        color: #1d4ed8;              /* Sets the blue color for the links */
+        font-family: 'Fira Code', Consolas, 'Courier New', monospace;
+        font-size: 1.1rem;
+        font-weight: bold;
+    }
+
+    /* Fixing the problem with ul and li elements */
+    ul {
+        list-style-type: disc;  /* Ensures the default bullet style */
+        margin-left: 2rem;      /* Adds left indentation for the list */
+        padding-left: 1.5rem;   /* Adds extra padding inside the list */
+    }
+
+    li {
+        margin-bottom: 0.5rem; /* Adds space between list items */
+    }
+
+    .image-container {
+        display: flex; 
+        justify-content: left; /* Center images */
+        gap: 20px; /* Space between images */
+    }
+    .image-container img {
+        width: 25%; /* Adjust width */
+        height: auto; /* Maintain aspect ratio */
+    }
+
+    .image-container2 {
+        display: flex; 
+        justify-content: left; /* Center images */
+        gap: 20px; /* Space between images */
+    }
+    .image-container2 img {
+        width: 50%; /* Adjust width */
+        height: auto; /* Maintain aspect ratio */
+    }
+
+</style>
+
+<h1 class="h1-custom">
+    Assignment 4: Position-based Dynamics
+</h1>
+
+<p class="mb-4">
+    Welcome to our exploration of physics-based simulation! In this assignment, you will learn the XPBD (Extended Position-Based Dynamics) simulation algorithm and implement a physics simulator in a GLSL shader. This assignment focuses on simulating particles using distance, collision, and ground constraints. By the end of this assignment, you will have a working simulation that visualizes particle interactions in real time. Let’s dive in!
+</p>
+
+
+<h2 class="h2-custom">Reading</h2>
+<p class="mb-4">
+    Before writing simulation code, you may refer to our course slides as well as the shadertoy links below for inspiration. Here is the reading list for this project:
+</p>
+
+<ul class="list-disc pl-8 mb-4">
+    <li>Course Slides on Particle-based Simulation and Position-based Dynamics</li>
+    <li><a href="https://matthias-research.github.io/pages/publications/posBasedDyn.pdf/" class="link-inline">Original Position Based Dynamics (PBD) Paper</a>
+    <li><a href="https://mmacklin.com/2017-EG-CourseNotes.pdf" class="link-inline">A Survey on Position Based Dynamics</a>
+    <li><a href="https://matthias-research.github.io/pages/publications/XPBD.pdf" class="link-inline">Extended Position Based Dynamics (XPBD) Paper</a>
+    <li><a href="https://www.shadertoy.com/view/ds3fDM" class="link-inline">Shadertoy Example: XPBD Simulation of a Rope</a></li>
+    <li><a href="https://www.shadertoy.com/view/cdlXDH" class="link-inline">Shadertoy Example: Another XPBD Simulation of Gummy Worms</a></li>
+</ul>
+
+<h2 class="h2-custom">Starter Code</h2>
+<p class="mb-4">
+    Please visit the following GitHub repository to get our latest starter code: <a href="https://github.com/cg-gatech/cgai" class="link-inline">https://github.com/cg-gatech/cgai</a>. Make sure to run 'git pull' to synchronize the latest version. Make sure you can access the default CGAI web page after starting the npm server. 
+    The starter code for this assignment is located in the folder <code class="code-inline">src/app/(assignment)/assignment/A4</code>. This folder contains several files, including the main page <code class="code-inline">page.tsx</code> and the GLSL shader 
+    <code class="code-inline">fragment.glsl</code>. The shader will use the pixels in first two columns to store data. Your implementation will focus on <code class="code-inline">fragment.glsl</code>.
+</p>
+
+<p class="mb-4">
+To view the default initial effect for this assignment, you can either use the navigation bar by clicking Assignments and then Assignment 4, or directly access the URL: <a href="http://localhost:3000/assignment/A4" class="link-inline">http://localhost:3000/assignment/A4</a> 
+(Note that the port number may vary depending on the available ports on your local computer). After successfully completing the setup, you should see a blank window.
+</p>
+
+<h2 class="h2-custom">Requirements</h2>
+<p class="mb-4">
+    In this assignment, you will implement three types of constraints: spring between particles, particle-particle collisions and particle-ground collisions. You will implement the constraint function, gradient of constraint, and core calculations for XPBD simulation for each constraint. You will also use the XPBD solver to simulate all elements on the screen. We will briefly discuss each step as follows. The comments in <code class="code-inline">fragment.glsl</code> will also guide you through the implementation of each step.
+</p>
+
+<h3 class="h3-custom">Step 1: Springs</h3>
+<p class="mb-4">
+    The physical system is consisted of particles connected by springs. In step 1, you will implement the springs connecting particles. There are some springs that will be created by the starter code at the beginning. Besides, if you push down left mouse button on the canvas, it will enable a dedicated particle 0 at that location and connect it to the closest existing particle with a dedicated spring 0. This allows you to interactively drag the particles on the screen.
+</p>
+
+<h3 class="h4-custom">Step 1.1: Spring Constraint</h3>
+<p class="mb-4">
+    Implement the positional constraint for elastic springs in <code class="code-inline">spring_constraint()</code>:
+    \[ \epsilon_{\text{spring}} = \underbrace{\| \mathbf{x}_a - \mathbf{x}_b \|}_{\text{current length}} - \underbrace{L_0}_{{\text{rest length}}} \]
+</p>
+
+<h3 class="h4-custom">Step 1.2: Spring Constraint Gradient</h3>
+<p class="mb-4">
+    Implement the constraint Jacobian in <code class="code-inline">spring_constraint_gradient()</code>:
+    \[ \nabla\epsilon_{\text{spring}} = \frac{\mathbf{x}_a - \mathbf{x}_b}{\|\mathbf{x}_a - \mathbf{x}_b\|} \]
+    <ul>
+        <li><strong>Note:</strong> Handle singularity for \( \|\mathbf{x}_a - \mathbf{x}_b\| = 0 \) by returning \((0,0).\)</li>
+    </ul>
+</p>
+
+<h3 class="h4-custom">Step 1.3: Solve for Springs with XPBD</h3>
+<p class="mb-4">
+    Solve the constrained optimization problem in <code class="code-inline">solve_spring()</code>:
+    \[ \lambda = \frac{-\epsilon_{\text{spring}}}{\underbrace{\sum m^{-1}\|∇\epsilon_\text{spring}\|^2}_{\text{inertial term}} + \underbrace{\alpha/\Delta t^2}_{{\text{compliance term}}}} \]
+    <ul>
+        <li>\( m \) = particle mass (\( m^{-1} \) stored in <code>inv_mass</code>)</li>
+        <li>You do not need to calculate the compliance term since it's provided in the code.</li>
+    </ul>
+</p>
+
+
+<h3 class="h3-custom">Step 2: Particle-Particle Collision</h3>
+<p class="mb-4">
+    In this step, we will create collision constraints between all pairs of particles. Note that particle 0 is dedicated for mouse, therefore it will not be involved in collision constraints with other particles. The collision constraints will ensure that particles do not overlap with each other. This is achieved by implementing a positional constraint that pushes particles apart when they are too close.
+</p>
+
+<h3 class="h4-custom">Step 2.1: Collision Constraint</h3>
+<p class="mb-4">
+    Implement <code class="code-inline">collision_constraint()</code>:
+    \[ \epsilon_{\text{coll}} = \begin{cases} 
+    \| \mathbf{x}_a - \mathbf{x}_b \| - d_{\text{min}} & \text{if } \|\mathbf{x}_a - \mathbf{x}_b\| < d_{\text{min}} \\
+    0 & \text{otherwise}
+    \end{cases} \]
+    <ul>
+        <li>It's equivalent to adding a spring when two particles are close enough.</li>
+        <li>\( d_{\text{min}} = 0.2 \) is given by the parameter collision_dist </li>
+    </ul>
+</p>
+
+<h3 class="h4-custom">Step 2.2: Collision Constraint Gradient</h3>
+<p class="mb-4">
+    Compute contact normal vector in <code class="code-inline">collision_constraint_gradient()</code>:
+    \[ \nabla\epsilon_{\text{coll}} = \begin{cases}
+    \frac{\mathbf{x}_a - \mathbf{x}_b}{\|\mathbf{x}_a - \mathbf{x}_b\|} & \|\mathbf{x}_a - \mathbf{x}_b\| < d_{\text{min}} \\
+    \mathbf{0} & \text{otherwise}
+    \end{cases} \]
+</p>
+
+<h3 class="h4-custom">Step 2.3: Solve for Collisions with XPBD</h3>
+<p class="mb-4">
+    Implement the collision solver in <code class="code-inline">solve_collision_constraint()</code> using XPBD:
+    \[ \lambda = \frac{-\epsilon_{\text{coll}}}{\underbrace{\sum m^{-1}\|∇\epsilon_\text{coll}\|^2}_{\text{inertial term}} + \underbrace{\alpha/\Delta t^2}_{{\text{compliance term}}}} \]
+    <ul>
+        <li>Similar to the spring solver, but now using the collision constraint.</li>
+        <li>You again don't need to calculate the compliance term since it's already provided.</li>
+    </ul>
+</p>
+
+<h3 class="h3-custom">Step 3: Particle-Ground Collision</h3>
+<p class="mb-4">
+    In this step, we will create a ground constraint to prevent particles from penetrating the ground surface. This is achieved by implementing a positional constraint that pushes particles up when they are below a certain threshold distance from the ground. The ground is defined by a sdf function phi(p)=0 where p=(x,y).
+</p>
+
+<h3 class="h4-custom">Step 3.1: Ground Constraint</h3>
+<p class="mb-4">
+    Implement ground constraint in <code class="code-inline">ground_constraint()</code> to prevent particles from penetrating the ground surface.
+
+    The ground constraint is defined as:
+    \[
+    \epsilon_{\text{ground}}(p) =
+    \begin{cases}
+    \phi(p) - d_{\text{ground}}, & \text{if } \phi(p) < d_{\text{ground}} \\
+    0, & \text{otherwise}
+    \end{cases}
+    \]
+    where \( \phi(p) \) represents the signed distance function (SDF) of the ground, and \( d_{\text{ground}} \) is the threshold distance for collision detection. It is given by the parameter ground_collision_dist.
+</p>
+
+<h3 class="h4-custom">Step 3.2: Compute Ground Constraint Gradient</h3>
+<p class="mb-4">
+    Implement <code class="code-inline">ground_constraint_gradient()</code> to compute the gradient of the ground constraint, which is necessary for applying position corrections.
+    
+    <p>The constraint gradient is given by:</p>
+    \[
+    \nabla \epsilon_{\text{ground}} =
+    \begin{cases}
+    \nabla \phi(p), & \text{if } \phi(p) < d_{\text{ground}} \\
+    (0,0), & \text{otherwise}
+    \end{cases}
+    \]
+    
+    <p>Since the signed distance function (SDF) of the ground is defined as:</p>
+    \[
+    \phi(p) = p_y - (0.1 \sin(2\pi p_x) - 0.5),
+    \]
+    its gradient is computed as:
+    \[
+    \frac{\partial \phi}{\partial p_x} = -0.1 \cdot 2\pi \cos(2\pi p_x), \quad
+    \frac{\partial \phi}{\partial p_y} = 1.0.
+    \]
+</p>
+
+<h3 class="h4-custom">Step 3.3: Solve for Ground Constraints with XPBD</h3>
+<p class="mb-4">
+    Implement the ground constraint solver in <code class="code-inline">solve_ground_constraint()</code> using XPBD:
+    
+    \[
+    \lambda = \frac{-\epsilon_{\text{ground}}}{\underbrace{m^{-1} \|\nabla\epsilon_{\text{ground}}\|^2}_{\text{inertial term}} + \underbrace{\alpha/\Delta t^2}_{{\text{compliance term}}}}
+    \]
+    
+    You still don't need to calculate the compliance term since it's provided in the code.
+</p>
+
+<h3 class="h3-custom">Step 4: Solve All Constraints</h3>
+<p class="mb-4">
+    In this step, you will implement the full constraint solver in <code class="code-inline">solve_constraints()</code>using previously defined functions:</p>
+    
+    <ul>
+        <li><strong>Spring constraints:</strong> Solve all spring constraints defined in <code class="code-inline">springs[1]</code> to <code class="code-inline">springs[n_springs - 1]</code> using <code class="code-inline">solve_spring()</code>. Spring 0 is a specific spring that is only active when left mouse button is pressed down. The starter code has already taken care of it.</li>
+        <li><strong>Ground constraints:</strong> Solve for all particles (except the mouse-controlled particle \( 0 \)) using <code class="code-inline">solve_ground_constraint()</code>.</li>
+        <li><strong>Collision constraints:</strong> Solve pairwise collisions for all particles (except the mouse-controlled particle \( 0 \)) using <code class="code-inline">solve_collision_constraint()</code>.</li>
+    </ul>
+</p>
+
+<p>Once you implemented all steps, you should simulate the particle system similar to the video shown below:</p>
+
+<video controls autoplay loop muted style="max-width: 75%; height: auto;">
+    <source src="/assignments/A4-ref.mp4" type="video/mp4">
+    A4 Reference Video
+</video>
+
+<p>Note that you can click right mouse button to create particles. Old particles will be deleted if the maximum number of particles has been reached.</p>
+
+<h2 class="h2-custom">Creative Expression</h2>
+<p class="mb-4">
+    In the Creative Expression section of this assignment, you are encouraged to customize the initialization process in the code. Locate the part of the code responsible for initializing the scene or simulation and modify it to create your own version. The creative expression theme for this assignment is <strong>Dynamic Harmony</strong>.
+</p>
+
+<h2 class="h2-custom">Submission</h2>
+<ul class="list-disc pl-8 mb-4">
+    <li>Source code for <code>fragment.glsl.</code></li>
+    <li>Your default rendered video showcasing the results of your simulated rope.</li>
+    <li>Your customized video with the modified initialization for creative expression.</li>
+    <li>A concise technical explanation of your implementation.</li>
+</ul>
+
+
+<h2 class="h2-custom">Grading</h2>
+<p>This assignment is worth a total of 16 points, with the grading criteria outlined as follows:</p>
+<ul class="list-disc pl-8 mb-4">
+    <li>
+        <strong>Technical Contribution (14 points):</strong> The core of the grading is based on the correct implementation of three XBD constraints and optimizations. The distribution of points is as follows:
+        <ul class="list-disc pl-8 mb-4">
+            <li>Step 1: 1+1+2=4 points </li>
+            <li>Step 2: 1+1+2=4 points </li>            
+            <li>Step 3: 1+1+2=4 points </li>
+            <li>Step 4: 2 points </li>
+        </ul>
+    </li>
+    <li>
+        <strong>Creative Expression (2 points):</strong> This aspect focuses on your ability to create different XPBD simulations. You are encouraged to explore different types of constraints, shapes, and the ways to initialize points in the scene. The theme for the creative expression is <strong>Physics on Points</strong>.
+    </li>
+</ul>
+
+<h2 class="h2-custom">Sharing Your Work</h2>
+<p>You are encouraged to share your graphical work with the class. If you want to do so, please upload your image to the Ed Discussion post <strong>A4 Gallery: Physics on Points</strong>. This is an excellent opportunity to engage with your peers and gain recognition for your work. Share with us your unique demo of real-time physics!</p>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+      if (window.MathJax) {
+        MathJax.typesetPromise().then(() => {
+          console.log("MathJax successfully rendered formulas!");
+        }).catch((err) => console.error("MathJax rendering failed:", err));
+      } else {
+        console.error("MathJax failed to load.");
+      }
+    });
+  </script>    

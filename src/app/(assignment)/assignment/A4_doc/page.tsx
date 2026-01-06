@@ -1,4 +1,4 @@
-'use client';
+'use client'; 
 
 import { useEffect, useRef } from 'react';
 import { NavBar } from '@/components/NavBar';
@@ -38,14 +38,20 @@ export default function AssignmentPage() {
         {/* Logo and Title Section */}
         <div className="flex flex-col sm:flex-row items-center gap-4 w-full">
           {/* Logo */}
-          <Image src="/cgai_logo.png" alt="CGAI logo" width={256} height={256} priority />
+          <Image
+            src="/cgai_logo.png"
+            alt="CGAI logo"
+            width={256}
+            height={256}
+            priority
+          />
           {/* Title and Description */}
           <div className="text-center sm:text-left w-full">
             <p className="text-3xl font-bold font-[family-name:var(--font-geist-mono)] leading-loose">
               CS8803/4803 CGA: Computer Graphics in AI Era
             </p>
             <p className="text-2xl font-[family-name:var(--font-geist-mono)] mt-2 leading-relaxed">
-              Assignment 4: Position-based Dynamics
+              Assignment 3: Gaussian Splatting
             </p>
           </div>
         </div>
@@ -53,8 +59,8 @@ export default function AssignmentPage() {
         {/* Assignment Content Section */}
         <iframe 
           ref={iframeRef}
-          src="/assignments/A4.html"
-          className="w-full h-[5400px] bg-yellow-50 text-black p-8 rounded-lg shadow-lg"
+          src="/assignments/A3.html"
+          className="w-full h-[7200px] bg-yellow-50 text-black p-8 rounded-lg shadow-lg"
         />
       </main>
     </div>

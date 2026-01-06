@@ -52,7 +52,7 @@ export default function AssignmentPage() {
               CS8803/4803 CGA: Computer Graphics in AI Era
             </p>
             <p className="text-2xl font-[family-name:var(--font-geist-mono)] mt-2 leading-relaxed">
-              Assignment 2B: Neural Radiance Field
+              Assignment 1B: Neural Implicit Surface
             </p>
           </div>
         </div>
@@ -60,8 +60,8 @@ export default function AssignmentPage() {
         {/* Assignment Content Section */}
         <iframe 
           ref={iframeRef}
-          src="/assignments/A2b.html"
-          className="w-full h-[4700px] bg-yellow-50 text-black p-8 rounded-lg shadow-lg"
+          src="/assignments/A1b.html"
+          className="w-full h-[5400px] bg-yellow-50 text-black p-8 rounded-lg shadow-lg"
         />
       </main>
     </div>
