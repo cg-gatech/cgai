@@ -85,8 +85,8 @@ src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.min.
 
 <p class="mb-4">
     Welcome to the first part of our exploration of NeRF! In this assignment, you explore the first and crucial backbone under the NeRF framework -- volumetric ray tracing! 
-    The main task for this assignment is to first create two volumetric data, a volumetric sphere colored by its SDF and a CT scan loaded using 3D texture. 
-    Then, you will render the data using the volumetric rendering method we taught in class. All implementions will be in our WebGL shader. Let's get started!
+    The main task for this assignment is to first implement the ray intersection interval with an axis-aligned bounding box (AABB).
+    Then, you will render the density fields using the volumetric rendering method we taught in class. All implementions will be in our WebGL shader. Let's get started!
 </p>
 
 <h2 class="h2-custom">Reading</h2>
@@ -119,53 +119,46 @@ To view the default initial effect for this assignment, you can either use the n
 
 <h2 class="h2-custom">Requirements</h2>
 <p class="mb-4">
-    For this assignment, you are expected to implement three components to render volumetric data with an ray marching framework: <em>calculate color and density from sdf</em>, <em>calculate color and density from CT data,</em> and <em>ray tracing with volumetric data</em>. We will briefly discuss each step as follows.
+    For this assignment, you are expected to implement three key components of a volumetric rendering pipeline: <em>Ray-AABB intersection</em>, <em>front-to-back volume rendering</em>, and <em>back-to-front volume rendering</em>. We will briefly discuss each step as follows.
 </p>
 
-<h3 class="h3-custom">Step 1: calculate color and density from sdf</h3>
+<h3 class="h3-custom">Step 1: Ray-AABB Intersection</h3>
 <p class="mb-4">
-    You are tasked to convert the SDF value into a <code class="code-inline">vec4</code>, where the first three components store RGB color and the fourth represents density. 
-    We provided you the SDF value in the <code class="code-inline">distance</code> variable. You should use the given <code class="code-inline">palette</code> function to map the value to an RGB color. 
-    Notice, we use the <code class="code-inline">-distance</code> value for calculating <code class="code-inline">palette</code> to ensure uniform color tone with Step 2.
-    Finally, you will set the density to 1.0 for points inside the object (SDF < 0) and 0.0 for points outside (SDF ≥ 0).
-</p>
-<h3 class="h3-custom">Step 2: calculate color and density from CT data</h3>
-<p class="mb-4">
-    You are asked to convert the CT data into a <code class="code-inline">vec4</code>, where the first three components represent RGB color and the fourth component represents density. 
-    You first need to retrieve the density value from the first channel of the volumetric texture <code class="code-inline">iVolume</code>. 
-    You can use the built-in <code class="code-inline">texture</code> function in GLSL to query <code class="code-inline">iVolume</code> based on the texture coordinate <code class="code-inline">tex_coord</code>.
-    Then, you will use the provided <code class="code-inline">palette</code> function to map the density value to an RGB color. Optionally, you can multiply the resulting <code class="code-inline">vec4</code> by a constant (e.g. 2.0) to enhance visualization.
+    Instead of marching the ray through an unbounded region, we first compute where the ray enters/exits the volume bounds,
+    and only march within this interval. This significantly accelerates volume rendering by avoiding unnecessary sampling outside the volume.
+    Implement <code class="code-inline">intersectAABB</code>, which computes the intersection interval
+    <code class="code-inline">[tNear, tFar]</code> between a ray and an axis-aligned bounding box.
+    The ray is defined as:
+    \[
+      \mathbf{r}(t) = \mathbf{r_o} + t\mathbf{r_d}.
+    \]
+    The AABB is defined by its minimum corner <code class="code-inline">boxMin</code> and maximum corner <code class="code-inline">boxMax</code>.
 </p>
 
-<h3 class="h3-custom">Step 3: ray tracing with volumetric data</h3>
+<h3 class="h3-custom">Step 2: Front-to-Back Volumetric Rendering</h3>
 <p class="mb-4">
-    You are asked to implement the front-to-back volumetric ray tracing algorithm to accummulate colors along each ray. You will accumulate color and transmittance along the ray based on the absorption-emission volumetric model. We briefly describe the mathematical model as below:
-    <!-- Recall from course slides, transmittance depicts its probability of passing through a volumetric data.  -->
-    <!-- Considering only absorption in the volumetric rendering equation, for uniform density (i.e. uniform extinction coefficient), the transmittance (probability) of a ligh can be descibed using: -->
-
+    Implement <code class="code-inline">volumeRenderFrontToBack</code>.
+    This is the standard front-to-back compositing formulation used in absorption-emission volume rendering.
+    We briefly describe the mathematical model as below.
     Recall the volumetric rendering equation for only considering absorption can be written as:</br>
     \[ C(\mathbf{r})=\int_{t_n}^{t_f}T(t)\sigma(\mathbf{r}(t))\mathbf{c}(\mathbf{r}(t))dt. \]
-    </br>
     The discritized version is:</br>
     \[ C=\sum_{i=1}^n\int_{t_i}^{t_{i+1}}T(t)\sigma_ic_idt. \]
-    </br>
     Assuming a small truncation of volumetric data with uniform density, the inner integral can be written as:</br>
     \[ \int_0^{\Delta}T\sigma dt=\int_0^{\Delta}\sigma e^{-\sigma t}dt=(1-e^{-\sigma\Delta}). \]
     </br>
     Hence, the final version becomes:</br>
     \[
-    \sum_{i=1}^{n}
+    C=\sum_{i=1}^{n}
     \underbrace{T_i}_{\text{Term 1}}
     \underbrace{\left(1 - e^{-\sigma_i \Delta_i}\right)c_i}_{\text{Term 2}},
     \]
-    </br>
     with the accumulated transmittance defined as:</br>
     \[
     T_i
     = \prod_{j=1}^{i-1} e^{-\sigma_j \Delta_j}
     = e^{\sum_{j=1}^{i-1} -\sigma_j \Delta_j}.
     \]
-    </br>
 
     Here, within the summation, the first term gives the probability that the light pass through the previous media and reaches the current point, hence gives the attenuation that need to be applied to the color.
     The second term denotes the probability the light terminates here and hence the camera sees the color of the media.  <br/>
@@ -173,30 +166,56 @@ To view the default initial effect for this assignment, you can either use the n
     </br>
 
     We provide you the for-loop for calculating this summation. In each iteration, you should <br/>
-    <strong>(1)</strong> Read in the color and density value from both the sphere SDF (using <code class="code-inline">readSDFVolume</code>) and the CT texture (using <code class="code-inline">readCTVolume</code>). 
-    You will place the CT volume by subtracting the query point with an offset of its center and place the sphere SDF volume centering using the same method. The center of the CT volume is located at [2, 0, 0] and the center of the SDF volume is located at [-2, 0, 0].<br/>
+    <strong>(1)</strong> Sample the volumetric color and extinction at the current point using
+    <code class="code-inline">s=sampleVolume(p, fragCoord, model)</code>.
+    This function returns a <code class="code-inline">vec4</code> where <code class="code-inline">s.rgb</code> is the emitted/scattered color and
+    <code class="code-inline">s.a</code> is the extinction coefficient \(\sigma\) used for Beer-Lambert attenuation.
+    The starter code already provides a density-to-RGB mapping inside
+    <code class="code-inline">sampleVolume</code>. And you may design your own mapping in Creative Expression.<br/>
     <strong>(2)</strong> Following the equations given above, you will first use the accumualted transmittance and the extinction coefficient to accumulate color at the current point:</br>
     \[
     C+=T_i(1-e^{-\sigma_i\Delta_i})c_i.
     \]
-    </br>
     <strong>(3)</strong> You will accumulate the transmittance in preparetion for the next iteration:</br>
     \[
     T_{i+1}=T_ie^{-\sigma_i\Delta_i}.
     \]
-    </br>
 </p>
 
-<p>Once you finish implementation of the steps above, you should see a video shown below:</p>
 
-<video controls autoplay loop muted style="max-width: 75%; height: auto;">
-    <source src="/assignments/A3a-ref.mp4" type="video/mp4">
+<h3 class="h3-custom">Step 3: Back-to-Front Volumetric Rendering</h3>
+<p class="mb-4">
+    Switch the rendering function in <code class="code-inline">mainImage</code>. Implement <code class="code-inline">volumeRenderBackToFront</code>.
+    Here we will compute the same final color by compositing samples from far to near, which leads to a different accumulation update:</br>
+    \[
+    C = (1-e^{-\sigma_i \Delta_i}) c_i + e^{-\sigma_i \Delta_i} C.
+    \]
+    This is equivalent to the original summation above. And the result should be the same as Step 2.
+</p>
+
+<h2 class="h2-custom">Reference Results</h2>
+<p class="mb-4">
+    We provide two reference videos. You can change <code class="code-inline">model</code> to switch between different density fields.
+</p>
+<video controls autoplay loop muted style="max-width: 40%; height: auto;">
+    <source src="/assignments/A3a-ref1.mp4" type="video/mp4">
+    
     Your browser does not support the video tag.
 </video>
 
+<video controls autoplay loop muted style="max-width: 40%; height: auto;">
+    <source src="/assignments/A3a-ref2.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
+
+<p class="mb-4">
+    Do not worry if you observe a small amount of grain/noise in the reference videos or in your own rendering.
+    This is an effect introduced by the blue-noise jitter used during ray marching to reduce structured banding artifacts caused by uniform step sizes. You can check this by removing the blue-noise jitter.
+</p>
+
 <h2 class="h2-custom">Creative Expression</h2>
-In the Creative Expression section of this assignment, you are encouraged to create your own volumetric rendering scene by leveraging the volumetric ray tracing framework you've implemented. You may choose to render new volumetric data (we've provided a few in the starter code, you may also download new ones from this
-<a href="https://klacansky.com/open-scivis-datasets/" class="link-inline">link</a>), or you may choose to render new SDF functions as a volumetric media. You are encouraged to play with the default <code class="code-inline">palette</code> function to achieve different volumetric appearance. 
+In the Creative Expression section of this assignment, you are encouraged to create your own volumetric rendering scene by leveraging the volumetric ray tracing framework you've implemented.
+You are encouraged to edit the shape of density fields and explore the density-to-color mapping.
 
 We expect your Creative Expression volumetric rendering scene to demonstrate the visual appealing aspect of participating media. The creative expression theme for this assignment is <strong>Nebulous Realms</strong>.
 
@@ -212,7 +231,7 @@ We expect your Creative Expression volumetric rendering scene to demonstrate the
 <p>This assignment is worth a total of 8 points, with the grading criteria outlined as follows:</p>
 <ul class="list-disc pl-8 mb-4">
     <li>
-        <strong>Technical Contribution (7 points):</strong> The core of the grading is based on the correct implementation of loading volumetric data and volumetric rendering. The distribution of points is as follows:
+        <strong>Technical Contribution (7 points):</strong> The core of the grading is based on the correct implementation of ray-AABB intersection and volumetric rendering. The distribution of points is as follows:
         <ul class="list-disc pl-8 mb-4">
             <li>Step 1: 2 points </li>
             <li>Step 2: 2 points </li>
@@ -220,7 +239,7 @@ We expect your Creative Expression volumetric rendering scene to demonstrate the
         </ul>
     </li>
     <li>
-        <strong>Creative Expression (1 point):</strong> This aspect focuses on your ability to load new volumetric data and render it out for new expressive scenes.
+        <strong>Creative Expression (1 point):</strong> This aspect focuses on your ability to load new volumetric shape and render it out for new expressive scenes.
     </li>
 </ul>
 
