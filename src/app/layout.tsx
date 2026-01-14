@@ -3,7 +3,7 @@ import './globals.css';
 import { geistMono, geistSans } from '@/fonts';
 
 export const metadata: Metadata = {
-  title: 'CS8803/4803 CGA: Computer Graphics in AI Era',
+  title: 'CS8803 CGAI: Computer Graphics in AI Era',
   description: 'This webpage serves as the entry point for all interactive demos based on the CGAI course starter code.',
 };
 

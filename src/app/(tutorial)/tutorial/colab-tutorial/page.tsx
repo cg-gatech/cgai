@@ -35,7 +35,7 @@ export default function AssignmentPage() {
           {/* Title and Description */}
           <div className="text-center sm:text-left w-full">
             <p className="text-3xl font-bold font-[family-name:var(--font-geist-mono)] leading-loose">
-              CS8803/4803 CGA: Computer Graphics in AI Era
+              CS8803 CGAI: Computer Graphics in AI Era
             </p>
             <p className="text-2xl font-[family-name:var(--font-geist-mono)] mt-2 leading-relaxed">
               Google Colab Tutorial

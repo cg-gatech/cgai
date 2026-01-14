@@ -21,10 +21,10 @@ export default function Home() {
             {/* Title and Paragraph */}
             <div className="text-center sm:text-left">
               <p className="text-sm font-bold font-[family-name:var(--font-geist-mono)] leading-relaxed">
-                School of Interactive Computing, Georgia Institute of Technology, 2025 Spring
+                School of Interactive Computing, Georgia Institute of Technology, 2026 Spring
               </p>
               <p className="text-3xl font-bold font-[family-name:var(--font-geist-mono)] leading-loose">
-                CS8803/4803 CGA: Computer Graphics in AI Era
+                CS8803 CGAI: Computer Graphics in AI Era
               </p>
               <p className="text-sm font-[family-name:var(--font-geist-mono)] mt-2 leading-relaxed">
                 This webpage serves as the entry point for all interactive demos based on the CGAI course starter code. Here, you can run tutorial code and assignment starter code,  access assignment documents, reading materials, and course information by selecting them from the menus below. 
