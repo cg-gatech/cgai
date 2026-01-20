@@ -2,7 +2,7 @@
 
 Welcome to the CGAI starter code repository! This README provides step-by-step instructions for running your first WebGL graphics demo by installing Node.js, npm, as well as setting up a Next.js project. Follow the instructions for your operating system to get started.
 
-You can find additional tutorial videos for how to set up the starter code in the [assignments/project_setup](https://gatech.instructure.com/courses/448080/files/folder/assignments/project_setup) folder in the Canvas Files.
+You can find additional tutorial videos for how to set up the starter code the Assignment 1 page in Canvas.
 
 ---
 
