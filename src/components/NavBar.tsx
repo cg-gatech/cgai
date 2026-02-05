@@ -121,9 +121,9 @@ const assignments: { title: string; href: string; description: string }[] = [
     description: 'A4 Document: Gaussian Splatting',
   },
   {
-    title: 'Assignment 4 Demo',
-    href: '/assignment/A4',
-    description: 'A4 Demo: Position-based Dynamics',
+    title: 'Assignment 5 Demo',
+    href: '/assignment/A5',
+    description: 'A5 Demo: Position-based Dynamics',
   },
   {
     title: 'Assignment 5 Doc',
