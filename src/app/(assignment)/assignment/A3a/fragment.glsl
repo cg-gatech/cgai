@@ -21,7 +21,7 @@ uniform vec4 iMouse;                 //// mouse input (x, y, clickX, clickY)
 /////////////////////////////////////////////////////
 //// tone mapping
 //// This function maps original HDR color to displayable LDR color.
-//// Adapted from https://www.shadertoy.com/view/7sSGR
+//// Adapted from https://www.shadertoy.com/view/7sSGRV
 /////////////////////////////////////////////////////
 
 vec3 aces_tonemap(vec3 color) {
@@ -96,7 +96,7 @@ float noise3(in vec3 x) {
 }
 
 // Blue-noise with per-frame rotation.
-//// Adapted from https://www.shadertoy.com/view/7sSGR
+//// Adapted from https://www.shadertoy.com/view/7sSGRV
 float blueNoise(vec2 pixelPos) {
     const float c_goldenRatioConjugate = 0.61803398875;
     float val = texture2D(uBlueNoise, (pixelPos) / 1024.0).r;
@@ -107,7 +107,7 @@ float blueNoise(vec2 pixelPos) {
 
 /////////////////////////////////////////////////////
 //// background sky
-//// Adapted from https://www.shadertoy.com/view/7sSGR
+//// Adapted from https://www.shadertoy.com/view/7sSGRV
 /////////////////////////////////////////////////////
 
 vec3 skyColor(vec3 viewDir, vec3 camPos) {
@@ -129,7 +129,7 @@ vec3 skyColor(vec3 viewDir, vec3 camPos) {
 
 /////////////////////////////////////////////////////
 //// density field
-//// Adapted from https://www.shadertoy.com/view/7sSGR
+//// Adapted from https://www.shadertoy.com/view/7sSGRV
 //// For density, we assume it is alway 1.0 inside the object (sdf < 0) and 0.0 outside the object (sdf >= 0).
 /////////////////////////////////////////////////////
 
@@ -193,7 +193,7 @@ float density(vec3 p, int model) {
 
 /////////////////////////////////////////////////////
 //// light march: approximate transmittance toward the sun
-//// Adapted from https://www.shadertoy.com/view/7sSGR
+//// Adapted from https://www.shadertoy.com/view/7sSGRV
 /////////////////////////////////////////////////////
 
 float lightmarch(vec3 p, vec2 fragCoord, int model) {
@@ -223,7 +223,7 @@ float lightmarch(vec3 p, vec2 fragCoord, int model) {
 //// - rgb: emitted/scattered color at this point
 //// - sigma: extinction coefficient for Beer-Lambert alpha computation
 //// This rgb resutls can be considered as a mapping from density to color, which you can design as you like.
-//// Adapted from https://www.shadertoy.com/view/7sSGR
+//// Adapted from https://www.shadertoy.com/view/7sSGRV
 /////////////////////////////////////////////////////
 
 vec4 sampleVolume(vec3 p, vec2 fragCoord, int model) {
