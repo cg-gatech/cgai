@@ -138,7 +138,7 @@
 
 <ul class="list-disc pl-8 mb-4">
     <li>Apply a Sigmoid activation to color to constrain it within [0,1], and use ReLU on density to ensure non-negative values.</li>
-    <li>Compute distances between adjacent depth samples using <code class="code-inline">z_vals</code>. Note that you can append a large value such as 1e10 to <code class="code-inline">deltas</code> to ensure that the opacity is almost 1 for the last sample point. Additionally, you need to add 1 to the beginning of the transmittance T_i as T_1 (as seen in the given A1A code) and discard the last element when you do the multiplications. From the formula below, you can see that T_1 is not well defined as the superscript of the sum <code class="code-inline">i-1</code> becomes 0 if <code class="code-inline">i=1</code>. Finally, apply the volume rendering equation:
+    <li>Compute distances between adjacent depth samples using <code class="code-inline">z_vals</code>. Note that you can append a large value such as 1e10 to <code class="code-inline">deltas</code> to ensure that the opacity is almost 1 for the last sample point. Additionally, you need to add 1 to the beginning of the transmittance T_i as T_1 (as seen in the given A3A code) and discard the last element when you do the multiplications. From the formula below, you can see that T_1 is not well defined as the superscript of the sum <code class="code-inline">i-1</code> becomes 0 if <code class="code-inline">i=1</code>. Finally, apply the volume rendering equation:
         \[ C_{\mathbf{r}}=\sum_{i=1}^nT_i(1-\exp(-\sigma_i\Delta_i))\mathbf{c}_i,\quad T_i=\exp\left(-\sum_{j=1}^{i-1}\sigma_j\Delta_j\right). \]
     </li>
     <li>Compute final pixel color by summing contributions from each sample along the ray.</li>
