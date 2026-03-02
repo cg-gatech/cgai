@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////
 //// CS 8803/4803 CGAI: Computer Graphics in AI Era
-//// Assignment a: Ray Tracing
+//// Assignment 1: Ray Tracing
 /////////////////////////////////////////////////////
 
 varying vec2 vUv; // UV (screen) coordinates in [0,1]^2
