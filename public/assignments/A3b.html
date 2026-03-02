@@ -176,7 +176,7 @@
 
 <h3 class="h3-custom">Step 2: Rendering with GLSL</h3>
 <p class="mb-4">
-    After training your NeRF model, serialize your model by running the final cell of the notebook, as you did in A1b, and copy the learned weights to the function <code class="code-inline">queryNetwork()</code> in the shader file <code class="code-inline">fragment.glsl</code> and implement the volume rendering algorithm in WebGL. Note that you should <strong>call <code class="code-inline">rotate(p)</code> before you pass it into <code class="code-inline">queryNetwork()</code></strong> to ensure the correct view. You may reuse most of your A1a implementation code. However, you should now use NeRF to predict the rgb value and the density value for a specific point. You need to use the Sigmoid and ReLU functions as what you did in your pytorch code.
+    After training your NeRF model, serialize your model by running the final cell of the notebook, as you did in A2b, and copy the learned weights to the function <code class="code-inline">queryNetwork()</code> in the shader file <code class="code-inline">fragment.glsl</code> and implement the volume rendering algorithm in WebGL. Note that you should <strong>call <code class="code-inline">rotate(p)</code> before you pass it into <code class="code-inline">queryNetwork()</code></strong> to ensure the correct view. You may reuse most of your A3a implementation code. However, you should now use NeRF to predict the rgb value and the density value for a specific point. You need to use the Sigmoid and ReLU functions as what you did in your pytorch code.
 </p>
 
 <p class="mb-4">
