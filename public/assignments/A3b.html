@@ -125,7 +125,7 @@
 <h3 class="h4-custom">Step 1.1: Positional Encoding</h3>
 <p class="mb-4">
     To enable the network to learn high-frequency details, NeRF applies positional encoding to 3D input coordinates. This transformation extends each coordinate into a higher-dimensional space by applying a series of sine and cosine functions (refer to Page 42 of the lecture slides). Note that there are two differences between the formula used here and the one presented in the lecture slides. First, we explicitly include the input <code class="code-inline">p</code> itself at the beginning. Second, we do not multiply by <code class="code-inline">&pi;</code>. Both implementations follow the original NeRF code and conceptually have the same effect as the one in the lecture. However, you must adhere to this instruction as the final serialization function assumes this design; deviating from it may lead to rendering issues.
-    \[ \gamma(p)=(p,\sin(2^0p),\cos(2^0p),\dots,\sin(2^{L-1}p),\cos(2^{L-1})) \]
+    \[ \gamma(p)=(p,\sin(2^0p),\cos(2^0p),\dots,\sin(2^{L-1}p),\cos(2^{L-1}p)) \]
 </p>
 <h3 class="h4-custom">Step 1.2: Volume Rendering</h3>
 <p class="mb-4">
