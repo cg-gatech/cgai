@@ -1,0 +1,351 @@
+<script id="MathJax-script" defer
+src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.min.js">
+</script>
+
+<style>
+    .h1-custom {
+        font-size: 2.25rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+    }
+
+    .h2-custom {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-top: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .h3-custom {
+        font-size: 1.25rem;
+        font-weight: 500;
+        margin-top: 1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .h4-custom {
+        font-size: 1.05rem;
+        font-weight: bold;
+        margin-top: 1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .code-inline {
+        font-family: 'Fira Code', Consolas, 'Courier New', monospace;
+        font-size: 1.1rem;
+        font-weight: bold;
+    }
+
+    .link-inline {
+        text-decoration: underline;
+        color: #1d4ed8;
+        font-family: 'Fira Code', Consolas, 'Courier New', monospace;
+        font-size: 1.1rem;
+        font-weight: bold;
+    }
+
+    ul {
+        list-style-type: disc;
+        margin-left: 2rem;
+        padding-left: 1.5rem;
+    }
+
+    li {
+        margin-bottom: 0.5rem;
+    }
+
+    .image-container {
+        display: flex;
+        justify-content: left;
+        gap: 20px;
+    }
+    .image-container img {
+        width: 25%;
+        height: auto;
+    }
+
+    .image-container2 {
+        display: flex;
+        justify-content: left;
+        gap: 20px;
+    }
+    .image-container2 img {
+        width: 50%;
+        height: auto;
+    }
+
+</style>
+
+<h1 class="h1-custom">
+    Assignment 6: Diffusion Models
+</h1>
+
+<p class="mb-4">
+    Welcome to the world of generative AI! In this assignment, you will implement a Denoising Diffusion Probabilistic Model (DDPM) from scratch. Diffusion models learn to generate data by reversing a gradual noising process: the <strong>forward process</strong> incrementally corrupts clean data with Gaussian noise until the signal is destroyed, while the <strong>reverse process</strong> learns to undo this corruption step by step. By the end of this assignment, you will train a neural network on 2D point distributions in Python, serialize the learned weights, and bring the model to life in real time through a WebGL shader that visualizes thousands of particles flowing between noise and structure.
+</p>
+
+<p class="mb-4">
+    This assignment has two parts. <strong>Part A</strong> covers training in a Jupyter notebook (Python/PyTorch). <strong>Part B</strong> covers the real-time GLSL shader implementation. You should complete Part A first, then use the trained weights in Part B.
+</p>
+
+<h2 class="h2-custom">Reading</h2>
+<p class="mb-4">
+    You may find the following materials helpful:
+</p>
+
+<ul class="list-disc pl-8 mb-4">
+    <li>Course Slides on Diffusion Models and Score-Based Generative Models</li>
+    <li><a href="https://arxiv.org/abs/2006.11239" class="link-inline">Ho et al., "Denoising Diffusion Probabilistic Models" (NeurIPS 2020)</a></li>
+    <li><a href="https://arxiv.org/abs/2010.02502" class="link-inline">Song et al., "Denoising Diffusion Implicit Models" (ICLR 2021)</a></li>
+    <li><a href="https://lilianweng.github.io/posts/2021-07-11-diffusion-models/" class="link-inline">Lilian Weng, "What are Diffusion Models?" (Blog Post)</a></li>
+    <li><a href="https://yang-song.net/blog/2021/score/" class="link-inline">Yang Song, "Generative Modeling by Estimating Gradients of the Data Distribution" (Blog Post)</a></li>
+    <li><a href="https://github.com/tanelp/tiny-diffusion" class="link-inline">tanelp/tiny-diffusion (GitHub)</a></li>
+    <li><a href="https://cgai-gatech.vercel.app/tutorial/colab-tutorial" class="link-inline">CGAI Tutorial: Google Colab</a></li>
+    <li><a href="https://cgai-gatech.vercel.app/tutorial/pytorch-tutorial" class="link-inline">CGAI Tutorial: Training a Network in PyTorch</a></li>
+</ul>
+
+<h2 class="h2-custom">Starter Code</h2>
+<p class="mb-4">
+    Please visit the following GitHub repository to get our latest starter code: <a href="https://github.com/cg-gatech/cgai" class="link-inline">https://github.com/cg-gatech/cgai</a>. Make sure to run <code class="code-inline">git pull</code> to synchronize the latest version. Make sure you can access the default CGAI web page after starting the npm server.
+</p>
+<p class="mb-4">
+    The starter code for this assignment is located in the folder <code class="code-inline">src/app/(assignment)/assignment/A6</code>. This folder contains the main page <code class="code-inline">page.tsx</code>, the GLSL shader <code class="code-inline">fragment.glsl</code>, and the Jupyter notebook <code class="code-inline">diffusion.ipynb</code>.
+</p>
+
+<p class="mb-4">
+    To view the assignment page, navigate to <a href="http://localhost:3000/assignment/A6" class="link-inline">http://localhost:3000/assignment/A6</a>
+    (note that the port number may vary depending on the available ports on your local computer).
+    After completing Part A and pasting your trained weights into the shader, the page will display a real-time animation of particles diffusing between structured data and Gaussian noise.
+</p>
+
+<h2 class="h2-custom">Mathematical Background</h2>
+<p class="mb-4">
+    A Denoising Diffusion Probabilistic Model (DDPM) consists of two paired processes: a fixed <strong>forward process</strong> that gradually destroys data by adding Gaussian noise, and a learned <strong>reverse process</strong> that reconstructs data by iteratively denoising. Our implementation follows
+    <a href="https://arxiv.org/abs/2006.11239" class="link-inline">Ho et al., "Denoising Diffusion Probabilistic Models" (NeurIPS 2020)</a>.
+</p>
+
+<h3 class="h3-custom">Forward Process</h3>
+<p class="mb-4">
+    The forward process is a <strong>Markov chain</strong> that gradually corrupts clean data \(\mathbf{x}_0\) with Gaussian noise over \(T\) steps:
+    \[
+        q(\mathbf{x}_{1:T} \mid \mathbf{x}_0) = \prod_{t=1}^{T} q(\mathbf{x}_t \mid \mathbf{x}_{t-1})
+    \]
+    Each transition adds a small amount of noise controlled by a variance schedule \(\beta_1, \dots, \beta_T\):
+    \[
+        q(\mathbf{x}_t \mid \mathbf{x}_{t-1}) = \mathcal{N}\!\left(\mathbf{x}_t;\; \sqrt{1 - \beta_t}\,\mathbf{x}_{t-1},\; \beta_t \mathbf{I}\right)
+    \]
+    Define \(\alpha_t = 1 - \beta_t\) and \(\bar{\alpha}_t = \prod_{s=1}^{t} \alpha_s\). By the properties of Gaussians, we can directly sample \(\mathbf{x}_t\) from \(\mathbf{x}_0\) in closed form, skipping all intermediate steps:
+    \[
+        q(\mathbf{x}_t \mid \mathbf{x}_0) = \mathcal{N}\!\left(\mathbf{x}_t;\; \sqrt{\bar{\alpha}_t}\,\mathbf{x}_0,\; (1 - \bar{\alpha}_t)\mathbf{I}\right)
+    \]
+    Via reparameterization, sampling becomes:
+    \[
+        \mathbf{x}_t = \sqrt{\bar{\alpha}_t}\,\mathbf{x}_0 + \sqrt{1 - \bar{\alpha}_t}\,\boldsymbol{\epsilon}, \qquad \boldsymbol{\epsilon} \sim \mathcal{N}(\mathbf{0}, \mathbf{I})
+    \]
+    As \(t \to T\), \(\bar{\alpha}_t \to 0\) and \(\mathbf{x}_t\) converges to pure Gaussian noise. We use a linear schedule for \(\beta_t\) and index it with a continuous \(t \in [0, 1]\), mapped to integer indices internally.
+</p>
+
+<h3 class="h3-custom">Reverse Process</h3>
+<p class="mb-4">
+    The reverse process is also a Markov chain, but runs backwards in time. The learned reverse transition is:
+    \[
+        p_\theta(\mathbf{x}_{t-1} \mid \mathbf{x}_t) = \mathcal{N}\!\left(\mathbf{x}_{t-1};\; \boldsymbol{\mu}_\theta(\mathbf{x}_t, t),\; \boldsymbol{\Sigma}_\theta(\mathbf{x}_t, t)\right)
+    \]
+    where the mean \(\boldsymbol{\mu}_\theta\) is parameterized via the noise predictor \(\boldsymbol{\epsilon}_\theta\):
+    \[
+        \boldsymbol{\mu}_\theta(\mathbf{x}_t, t) = \frac{1}{\sqrt{\alpha_t}} \!\left(\mathbf{x}_t - \frac{1 - \alpha_t}{\sqrt{1 - \bar{\alpha}_t}}\,\boldsymbol{\epsilon}_\theta(\mathbf{x}_t, t)\right)
+    \]
+    For the variance, Ho et al. found that fixing \(\boldsymbol{\Sigma}_\theta = \tilde{\beta}_t \mathbf{I}\) works as well as learning it, where the posterior variance is:
+    \[
+        \tilde{\beta}_t = \frac{1 - \bar{\alpha}_{t-1}}{1 - \bar{\alpha}_t}\,\beta_t
+    \]
+    Combining the mean and fixed variance, each reverse step becomes:
+    \[
+        \mathbf{x}_{t-1} = \frac{1}{\sqrt{\alpha_t}}\!\left(\mathbf{x}_t - \frac{1 - \alpha_t}{\sqrt{1 - \bar{\alpha}_t}}\,\boldsymbol{\epsilon}_\theta(\mathbf{x}_t, t)\right) + \sqrt{\tilde{\beta}_t}\,\mathbf{z}, \qquad \mathbf{z} \sim \mathcal{N}(\mathbf{0}, \mathbf{I})
+    \]
+    At the final step \(t = 0\), no noise is added (\(\mathbf{z} = \mathbf{0}\)). Starting from \(\mathbf{x}_T \sim \mathcal{N}(\mathbf{0}, \mathbf{I})\) and iterating for \(t = T{-}1, \dots, 0\) produces a sample from the learned distribution.
+</p>
+
+<h2 class="h2-custom">Part A: Training (Jupyter Notebook)</h2>
+<p class="mb-4">
+    Open <code class="code-inline">diffusion.ipynb</code> and work through it from top to bottom. The notebook walks you through dataset sampling, the diffusion schedule, network architecture, training, and reverse sampling. You will fill in the sections marked with the comments <code class="code-inline">Your implementation starts</code> and <code class="code-inline">Your implementation ends</code>.
+</p>
+
+<h3 class="h3-custom">Step 0: Imports and Setup</h3>
+<p class="mb-4">
+    Run this section to install the required packages and import all necessary libraries. No implementation is required for this step.
+</p>
+
+<h3 class="h3-custom">Step 1: 2D Point Cloud Dataset</h3>
+<p class="mb-4">
+    The dataset code is fully provided. Read through the three available distributions and choose one by setting <code class="code-inline">DATASET_NAME</code>:
+</p>
+<ul class="list-disc pl-8 mb-4">
+    <li><strong>circle</strong>: points sampled uniformly on a 1D circular curve.</li>
+    <li><strong>checkerboard</strong>: points sampled uniformly from the white squares of a 4×4 grid in \([-1,1]^2\).</li>
+    <li><strong>image</strong>: points sampled from the dark regions of a custom image (see <code class="code-inline">sample_from_image</code>).</li>
+</ul>
+<p class="mb-4">
+    Run the visualization cell to confirm that your dataset looks correct before proceeding. No implementation is required for this step.
+</p>
+
+<h3 class="h3-custom">Step 2: Diffusion Schedule and Forward Process</h3>
+<p class="mb-4">
+    Your first task is to complete the <code class="code-inline">DiffusionSchedule</code> class, which manages the noise schedule throughout training and sampling. See the Mathematical Background section above for the full derivation.
+</p>
+
+<h3 class="h4-custom">Step 2.1: Precompute Schedule Quantities</h3>
+<p class="mb-4">
+    Inside <code class="code-inline">__init__()</code>, precompute and store the quantities that the reverse process will need at every step:
+</p>
+<ul class="list-disc pl-8 mb-4">
+    <li>\(\alpha_t = 1 - \beta_t\)</li>
+    <li>\(\bar{\alpha}_t = \prod_{s=1}^{t} \alpha_s\) (cumulative product of \(\alpha\)s)</li>
+    <li>\(\tilde{\beta}_t = \frac{1 - \bar{\alpha}_{t-1}}{1 - \bar{\alpha}_t} \beta_t\) (posterior variance)</li>
+</ul>
+
+<h3 class="h4-custom">Step 2.2: Forward Sampling</h3>
+<p class="mb-4">
+    Implement <code class="code-inline">q_sample()</code>, which corrupts a batch of clean points \(\mathbf{x}_0\) to produce noisy samples \(\mathbf{x}_t\). Using the closed-form reparameterization, you can jump directly to any noise level without iterating through intermediate steps:
+    \[
+        \mathbf{x}_t = \sqrt{\bar{\alpha}_t}\,\mathbf{x}_0 + \sqrt{1 - \bar{\alpha}_t}\,\boldsymbol{\epsilon}, \quad \boldsymbol{\epsilon} \sim \mathcal{N}(\mathbf{0}, \mathbf{I})
+    \]
+    The method receives continuous time values \(t \in [0, 1]\). Use the provided helper <code class="code-inline">_t_to_idx()</code>, which maps a continuous \(t\) to the nearest integer index in the schedule arrays, to look up the corresponding \(\bar{\alpha}_t\).
+</p>
+<video controls autoplay loop muted style="max-width: 30%; height: auto;">
+    <source src="/assignments/A6_img/forward-cb.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
+<video controls autoplay loop muted style="max-width: 30%; height: auto;">
+    <source src="/assignments/A6_img/forward-bee.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
+
+<h3 class="h3-custom">Step 3: Denoising Network</h3>
+<p class="mb-4">
+    The overall network architecture is provided: a time-conditioned MLP \(\boldsymbol{\epsilon}_\theta(\mathbf{x}_t, t)\) that predicts the noise added at step \(t\). The input \(\mathbf{x}_t\) is first lifted with a NeRF-style sinusoidal positional encoding before being fed into the network:
+    \[
+        \gamma(\mathbf{x}_t) = \bigl[\mathbf{x}_t,\; \sin(2^0 \mathbf{x}_t),\; \cos(2^0 \mathbf{x}_t),\; \dots,\; \sin(2^{L-1} \mathbf{x}_t),\; \cos(2^{L-1} \mathbf{x}_t)\bigr]
+    \]
+    where \(L\) is the number of frequency bands. The scalar \(t \in [0,1]\) is concatenated directly (without encoding) to the encoded \(\mathbf{x}_t\), and the combined vector is passed through 3 hidden layers of width 48 with ReLU activations, followed by a linear output layer that produces a 2D noise prediction.
+</p>
+<p class="mb-4">
+    Copy your positional encoding implementation from the A3b NeRF assignment into <code class="code-inline">_positional_encoding</code>. Then read through <code class="code-inline">forward</code> to understand how the encoded input is assembled and passed through the MLP. No other changes are needed in this step.
+</p>
+
+<h3 class="h3-custom">Step 4: Training</h3>
+<p class="mb-4">
+    Implement <code class="code-inline">train_step()</code>, which performs one gradient update. Each call should carry out the following steps:
+</p>
+<ol style="list-style-type: decimal; margin-left: 2rem; padding-left: 1.5rem; margin-bottom: 1rem;">
+    <li>Sample a time step \(t\) uniformly from \([0, 1]\) for each item in the batch.</li>
+    <li>Corrupt the clean data: call <code class="code-inline">q_sample()</code> to obtain the noisy sample \(\mathbf{x}_t\) and the ground-truth noise \(\boldsymbol{\epsilon}\).</li>
+    <li>Predict the noise with the network: \(\hat{\boldsymbol{\epsilon}} = \boldsymbol{\epsilon}_\theta(\mathbf{x}_t, t)\).</li>
+    <li>Compute the MSE loss: \(\mathcal{L} = \mathbb{E}\left[\|\boldsymbol{\epsilon} - \hat{\boldsymbol{\epsilon}}\|^2\right]\).</li>
+    <li>Perform a gradient update using the provided optimizer and learning-rate scheduler.</li>
+</ol>
+
+<h3 class="h3-custom">Step 5: Reverse Diffusion Sampling</h3>
+<p class="mb-4">
+    Implement the core reverse step inside <code class="code-inline">ddpm_sample()</code>. The reverse process starts from pure Gaussian noise \(\mathbf{x}_T\) and iterates from step \(T{-}1\) down to \(0\), progressively denoising until structured samples emerge. At each step:
+</p>
+<ol style="list-style-type: decimal; margin-left: 2rem; padding-left: 1.5rem; margin-bottom: 1rem;">
+    <li>Convert the integer step index to a continuous time value \(t \in [0, 1]\) for the network.</li>
+    <li>Retrieve \(\alpha_t\), \(\bar{\alpha}_t\), and \(\tilde{\beta}_t\) from the schedule.</li>
+    <li>Predict noise: \(\hat{\boldsymbol{\epsilon}} = \boldsymbol{\epsilon}_\theta(\mathbf{x}_t, t)\).</li>
+    <li>Compute the posterior mean:
+        \[
+            \boldsymbol{\mu}_\theta = \frac{1}{\sqrt{\alpha_t}}\left(\mathbf{x}_t - \frac{1 - \alpha_t}{\sqrt{1 - \bar{\alpha}_t}}\,\hat{\boldsymbol{\epsilon}}\right)
+        \]
+    </li>
+    <li>Sample the previous state: \(\mathbf{x}_{t-1} = \boldsymbol{\mu}_\theta + \sqrt{\tilde{\beta}_t}\,\mathbf{z}\), where \(\mathbf{z} \sim \mathcal{N}(\mathbf{0}, \mathbf{I})\). Skip the noise injection at the final step \(t = 0\).</li>
+</ol>
+<video controls autoplay loop muted style="max-width: 30%; height: auto;">
+    <source src="/assignments/A6_img/reverse-cb.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
+<video controls autoplay loop muted style="max-width: 30%; height: auto;">
+    <source src="/assignments/A6_img/reverse-bee.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
+
+<h3 class="h3-custom">Step 6: Serialize Model</h3>
+<p class="mb-4">
+    After training and sampling are complete, run the serialization cell at the end of the notebook. It writes a file called <code class="code-inline">serialized_model.txt</code>, which encodes your trained network weights as a GLSL function using the same packed-matrix approach from the NeRF assignment. Open the file and paste its contents into the <code class="code-inline">queryNetwork</code> placeholder in <code class="code-inline">fragment.glsl</code>, replacing the stub <code class="code-inline">return vec2(0.0)</code>. No implementation is required for this step.
+</p>
+
+<h2 class="h2-custom">Part B: GLSL Visualization (Shader)</h2>
+<p class="mb-4">
+    The shader implementation lives in <code class="code-inline">fragment.glsl</code>. Before implementing the two functions below, paste the contents of <code class="code-inline">serialized_model.txt</code> into the <code class="code-inline">queryNetwork</code> placeholder at the top of the file, replacing the stub <code class="code-inline">return vec2(0.0)</code>. This fills in your trained neural network weights so the shader can predict noise at any position and time.
+</p>
+
+<h3 class="h3-custom">Step 6: Forward Process in the Shader</h3>
+<p class="mb-4">
+    Implement <code class="code-inline">forwardProcess()</code>, which performs one Markov step of the forward diffusion chain. Given the current particle position <code class="code-inline">xt</code> and the next time step <code class="code-inline">t_next</code>, apply:
+    \[
+        \mathbf{x}' = \sqrt{1 - \beta(t)}\,\mathbf{x} + \sqrt{\beta(t)}\,\boldsymbol{\epsilon}
+    \]
+    The Gaussian noise \(\boldsymbol{\epsilon}\) is already drawn for you in the local variable <code class="code-inline">z</code>, and the schedule function <code class="code-inline">beta()</code> is provided in the shader.
+</p>
+
+<h3 class="h3-custom">Step 7: Reverse Process in the Shader</h3>
+<p class="mb-4">
+    Implement <code class="code-inline">reverseProcess()</code>, which performs one DDPM reverse step. This mirrors what you implemented in Python in Step 5. Given the current position <code class="code-inline">xt</code>, the current time <code class="code-inline">t</code>, and the previous time <code class="code-inline">t_prev</code>:
+</p>
+<ol style="list-style-type: decimal; margin-left: 2rem; padding-left: 1.5rem; margin-bottom: 1rem;">
+    <li>Compute the schedule quantities: \(\alpha = 1 - \beta(t)\), \(\bar{\alpha} = \text{alphaBar}(t)\), and the posterior variance \(\tilde{\beta} = \frac{1 - \text{alphaBar}(t_{\text{prev}})}{1 - \bar{\alpha}} \cdot \beta(t)\).</li>
+    <li>Predict noise by calling <code class="code-inline">queryNetwork(xt, t)</code>.</li>
+    <li>Compute the posterior mean:
+        \[
+            \boldsymbol{\mu} = \frac{1}{\sqrt{\alpha}}\left(\mathbf{x} - \frac{1 - \alpha}{\sqrt{1 - \bar{\alpha}}}\,\boldsymbol{\epsilon}\right)
+        \]
+    </li>
+    <li>Sample the previous state: \(\mathbf{x}' = \boldsymbol{\mu} + \sqrt{\max(\tilde{\beta}, 0)}\,\boldsymbol{\epsilon}\). Skip the noise term when <code class="code-inline">t_prev &leq; 0.0</code>.</li>
+</ol>
+<p class="mb-4">
+    The Gaussian noise variable <code class="code-inline">z</code>, and the helper functions <code class="code-inline">beta()</code> and <code class="code-inline">alphaBar()</code>, are already provided in the shader.
+</p>
+
+<video controls autoplay loop muted style="max-width: 42%; height: auto;">
+    <source src="/assignments/A6_img/web-cb.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
+<video controls autoplay loop muted style="max-width: 42%; height: auto;">
+    <source src="/assignments/A6_img/web-bee.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
+
+<h2 class="h2-custom">Creative Expression</h2>
+<p class="mb-4">
+    In the Creative Expression section of this assignment, train the model on a different 2D distribution (for example, using the image-based sampler with a custom image, or designing your own point distribution). Re-serialize the weights, paste them into the shader, and showcase the resulting animation. You are also encouraged to modify the shader to customize the visual presentation (for example, experimenting with particle colors, sizes, or trails). The creative expression theme for this assignment is <strong>From Chaos to Order</strong>.
+</p>
+
+<h2 class="h2-custom">Submission</h2>
+<ul class="list-disc pl-8 mb-4">
+    <li>Your completed <code class="code-inline">diffusion.ipynb</code> with all cell outputs visible</li>
+    <li>Your completed <code class="code-inline">fragment.glsl</code> with trained weights pasted in and both functions implemented</li>
+    <li>A screen recording of the WebGL diffusion animation trained on the <strong>bee</strong> image dataset</li>
+    <li>A screen recording of your <strong>creative expression</strong> WebGL animation</li>
+    <li>A concise technical explanation of your implementation</li>
+</ul>
+
+<h2 class="h2-custom">Grading</h2>
+<p>This assignment is worth a total of 8 points, with the grading criteria outlined as follows:</p>
+<ul class="list-disc pl-8 mb-4">
+    <li>
+        <strong>Technical Contribution (7 points):</strong>
+        <ul class="list-disc pl-8 mb-4">
+            <li>Step 2: 2 points</li>
+            <li>Step 4: 1 point</li>
+            <li>Step 5: 2 points</li>
+            <li>Step 6: 1 point</li>
+            <li>Step 7: 1 point</li>
+        </ul>
+    </li>
+    <li>
+        <strong>Creative Expression (1 point):</strong> Train on a custom distribution and showcase it in the WebGL visualization. The theme is <strong>From Chaos to Order</strong>.
+    </li>
+</ul>
+
+<h2 class="h2-custom">Sharing Your Work</h2>
+<p>You are encouraged to share your graphical work with the class. If you want to do so, please upload your video to the Ed Discussion post <strong>A6 Gallery: From Chaos to Order</strong>. Share with us your unique diffusion animation!</p>
