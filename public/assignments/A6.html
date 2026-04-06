@@ -279,7 +279,7 @@ src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.min.
     The shader implementation lives in <code class="code-inline">fragment.glsl</code>. Before implementing the two functions below, paste the contents of <code class="code-inline">serialized_model.txt</code> into the <code class="code-inline">queryNetwork</code> placeholder at the top of the file, replacing the stub <code class="code-inline">return vec2(0.0)</code>. This fills in your trained neural network weights so the shader can predict noise at any position and time.
 </p>
 
-<h3 class="h3-custom">Step 6: Forward Process in the Shader</h3>
+<h3 class="h3-custom">Step 7: Forward Process in the Shader</h3>
 <p class="mb-4">
     Implement <code class="code-inline">forwardProcess()</code>, which performs one Markov step of the forward diffusion chain. Given the current particle position <code class="code-inline">xt</code> and the next time step <code class="code-inline">t_next</code>, apply:
     \[
@@ -288,7 +288,7 @@ src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.min.
     The Gaussian noise \(\boldsymbol{\epsilon}\) is already drawn for you in the local variable <code class="code-inline">z</code>, and the schedule function <code class="code-inline">beta()</code> is provided in the shader.
 </p>
 
-<h3 class="h3-custom">Step 7: Reverse Process in the Shader</h3>
+<h3 class="h3-custom">Step 8: Reverse Process in the Shader</h3>
 <p class="mb-4">
     Implement <code class="code-inline">reverseProcess()</code>, which performs one DDPM reverse step. This mirrors what you implemented in Python in Step 5. Given the current position <code class="code-inline">xt</code>, the current time <code class="code-inline">t</code>, and the previous time <code class="code-inline">t_prev</code>:
 </p>
@@ -338,8 +338,8 @@ src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.min.
             <li>Step 2: 2 points</li>
             <li>Step 4: 1 point</li>
             <li>Step 5: 2 points</li>
-            <li>Step 6: 1 point</li>
             <li>Step 7: 1 point</li>
+            <li>Step 8: 1 point</li>
         </ul>
     </li>
     <li>
