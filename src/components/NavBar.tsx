@@ -131,6 +131,16 @@ const assignments: { title: string; href: string; description: string }[] = [
     description: 'A5 Document: Position-based Dynamics',
   },
   {
+    title: 'Assignment 6 Doc',
+    href: '/assignment/A6_doc',
+    description: 'A6 Document: Diffusion Models',
+  },
+  {
+    title: 'Assignment 6 Demo',
+    href: '/assignment/A6',
+    description: 'A6 Demo: Diffusion Models',
+  },
+  {
     title: 'Final Project Doc',
     href: '/assignment/Final_doc',
     description: 'Final Project Document',
