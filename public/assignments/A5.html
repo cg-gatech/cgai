@@ -137,6 +137,7 @@ To view the default initial effect for this assignment, you can either use the n
     \[ \nabla\epsilon_{\text{spring}} = \frac{\mathbf{x}_a - \mathbf{x}_b}{\|\mathbf{x}_a - \mathbf{x}_b\|} \]
     <ul>
         <li><strong>Note:</strong> Handle singularity for \( \|\mathbf{x}_a - \mathbf{x}_b\| = 0 \) by returning \((0,0).\)</li>
+        <li><strong>Note:</strong> This gradient is a normalized vector, so its length is exactly 1. Therefore \( \|\nabla\epsilon_{\text{spring}}\|^2 = 1 \).</li>
     </ul>
 </p>
 
@@ -147,6 +148,7 @@ To view the default initial effect for this assignment, you can either use the n
     <ul>
         <li>\( m \) = particle mass (\( m^{-1} \) stored in <code>inv_mass</code>)</li>
         <li>You do not need to calculate the compliance term since it's provided in the code.</li>
+        <li><strong>Note:</strong> <code class="code-inline">solve_spring()</code> updates the positions of both particles involved in the spring in a single call.</li>
     </ul>
 </p>
 
@@ -185,6 +187,7 @@ To view the default initial effect for this assignment, you can either use the n
     <ul>
         <li>Similar to the spring solver, but now using the collision constraint.</li>
         <li>You again don't need to calculate the compliance term since it's already provided.</li>
+        <li><strong>Note:</strong> <code class="code-inline">solve_collision_constraint()</code> updates the positions of both particles involved in the collision in a single call.</li>
     </ul>
 </p>
 
