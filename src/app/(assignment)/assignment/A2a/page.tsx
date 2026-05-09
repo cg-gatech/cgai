@@ -7,6 +7,7 @@ import * as THREE from 'three';
 import vertexShader from '@/shaders/common/vertex.glsl';
 import fragmentShader from './fragment.glsl';
 import useDevicePixelRatio from '@/hooks/useDevicePixelRatio';
+import { withBasePath } from '@/lib/withBasePath';
 
 const Test = () => {
   const { viewport } = useThree();

@@ -1,3 +1,7 @@
+<script id="MathJax-script" defer
+src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.min.js">
+</script>
+
 <style>
     /* Custom styles for headings */
     .h1-custom {
@@ -15,6 +19,13 @@
 
     .h3-custom {
         font-size: 1.25rem; /* equivalent to text-xl */
+        font-weight: 500; /* equivalent to font-medium */
+        margin-top: 1rem; /* equivalent to mt-4 */
+        margin-bottom: 0.5rem; /* equivalent to mb-2 */
+    }
+
+    .h4-custom {
+        font-size: 1.05rem; /* equivalent to text-xl */
         font-weight: 500; /* equivalent to font-medium */
         margin-top: 1rem; /* equivalent to mt-4 */
         margin-bottom: 0.5rem; /* equivalent to mb-2 */
@@ -46,6 +57,26 @@
         margin-bottom: 0.5rem; /* Adds space between list items */
     }
 
+    .image-container {
+        display: flex;
+        justify-content: center; /* Center images */
+        gap: 20px; /* Space between images */
+    }
+    .image-container img {
+        width: 20%; /* Adjust width */
+        height: auto; /* Maintain aspect ratio */
+    }
+
+    .image-container2 {
+        display: flex;
+        justify-content: center; /* Center images */
+        gap: 20px; /* Space between images */
+    }
+    .image-container2 img {
+        width: 30%; /* Adjust width */
+        height: auto; /* Maintain aspect ratio */
+    }
+
 </style>
 
 <h1 class="h1-custom">
@@ -61,18 +92,18 @@
     Before diving into our code, you may refer to our course slides as well as the supplementary reading materials to get a comprehensive understanding of SDF and ray marching. Here is the reading list:
 </p>
 <ul class="list-disc pl-8 mb-4">
-    <li>Course Slides on SDF Foundation, Generation, and Rendering</li>
-    <li><a href="https://github.com/CedricGuillemet/SDF?tab=readme-ov-file" class="link-inline">Resources, links, papers, discussions, ShaderToys on SDF and related algorithm</a></li>
-    <li><a href="https://iquilezles.org/articles/raymarchingdf/" class="link-inline">IQ's article on ray marching on SDFs</a></li>
-    <li><a href="https://jamie-wong.com/2016/07/15/ray-marching-signed-distance-functions/" class="link-inline">Jamie Wong's article on ray marching and SDFs</a></li>
-    <li><a href="https://iquilezles.org/articles/distfunctions2d/" class="link-inline">IQ's 2D SDF list</a></li>
-    <li><a href="https://iquilezles.org/articles/distfunctions/" class="link-inline">IQ's 3D SDF list</a></li>
-    <li><a href="https://raytracing.github.io/books/RayTracingInOneWeekend.html" class="link-inline">Ray Tracing in One Weekend</a></li>
+    <li class="li-custom">Course Slides on SDF Foundation, Generation, and Rendering</li>
+    <li class="li-custom"><a href="https://github.com/CedricGuillemet/SDF?tab=readme-ov-file" class="link-inline">Resources, links, papers, discussions, ShaderToys on SDF and related algorithm</a></li>
+    <li class="li-custom"><a href="https://iquilezles.org/articles/raymarchingdf/" class="link-inline">IQ's article on ray marching on SDFs</a></li>
+    <li class="li-custom"><a href="https://jamie-wong.com/2016/07/15/ray-marching-signed-distance-functions/" class="link-inline">Jamie Wong's article on ray marching and SDFs</a></li>
+    <li class="li-custom"><a href="https://iquilezles.org/articles/distfunctions2d/" class="link-inline">IQ's 2D SDF list</a></li>
+    <li class="li-custom"><a href="https://iquilezles.org/articles/distfunctions/" class="link-inline">IQ's 3D SDF list</a></li>
+    <li class="li-custom"><a href="https://raytracing.github.io/books/RayTracingInOneWeekend.html" class="link-inline">Ray Tracing in One Weekend</a></li>
 </ul>
 
 <h2 class="h2-custom">Starter Code</h2>
 <p>
-    Please visit the following GitHub repository to get our latest starter code: <a href="https://github.com/cg-gatech/cgai" class="link-inline">https://github.com/cg-gatech/cgai</a>. 
+    Please visit the following GitHub repository to get our latest starter code: <a href="https://github.com/cg-gatech/cgai" class="link-inline">https://github.com/cg-gatech/cgai</a>.
     Follow the manual on the project page to install the necessary packages, and ensure you can access the default CGAI web page after starting the npm server. The starter code for this assignment is located in the folder <code class="code-inline">src/app/(assignment)/assignment/A2a</code>. This folder contains two files: <code class="code-inline">page.tsx</code> and <code class="code-inline">fragment.glsl</code>. Your implementation will focus on <code class="code-inline">fragment.glsl</code>.
 </p>
 
@@ -85,7 +116,7 @@ For this assignment, you are expected to implement six components to render SDF 
 
 <h3 class="h3-custom">Step 1: SDF Primitives</h3>
 <p class="mb-4">
-You are required to implement SDF primitives for basic shapes: spheres, planes, and boxes. Each function calculates the signed distance from a query point to the shape’s surface. The sphere is defined by its center and radius, the plane by its height along the y-axis, and the box by its center and half-size. 
+You are required to implement SDF primitives for basic shapes: spheres, planes, and boxes. Each function calculates the signed distance from a query point to the shape’s surface. The sphere is defined by its center and radius, the plane by its height along the y-axis, and the box by its center and half-size.
 </p>
 
 <h3 class="h3-custom">Step 2: Boolean Operations</h3>
@@ -112,7 +143,7 @@ In this step, you will calculate the surface normal at a given point using the f
 <p class="mb-4">
 In this step, you are asked to color the objects to achieve realistic lighting effects. You are also tasked to assign a unique color to each object in the scene based on its position or type. <em>We do not ask for a perfect match of our given video. You may pick any color you like for the rendering of these four objects. Here the only requirement is the four objects must have different colors, and each object must have a single color.</em>
 
-Note that we have already implemented a standard Phong shading model as well as the shadows using the same ray marching algorithm for you to determine if a surface point is occluded from the light source or not. So once you have implemented your ray-marching algorithm, you should be able to observe lighting effects as shown in the video below. 
+Note that we have already implemented a standard Phong shading model as well as the shadows using the same ray marching algorithm for you to determine if a surface point is occluded from the light source or not. So once you have implemented your ray-marching algorithm, you should be able to observe lighting effects as shown in the video below.
 </p>
 
 <video controls autoplay loop muted  style="max-width: 75%; height: auto;">
@@ -125,22 +156,22 @@ In the Creative Expression section of this assignment, you are encouraged to cre
 
 <h2 class="h2-custom">Submission</h2>
 <ul class="list-disc pl-8 mb-4">
-    <li>Your source code <code class="code-inline">fragment.glsl</code></li>
-    <li>Your default ray-marching video after completing the six steps</li>
-    <li>Your customized ray-marching video with your own SDF objects for creative expression</li>
-    <li>A concise technical explanation of your implementation</li>
+    <li class="li-custom">Your source code <code class="code-inline">fragment.glsl</code></li>
+    <li class="li-custom">Your default volumetric ray tracing video after completing the three steps</li>
+    <li class="li-custom">Your customized video with your own volumetric rendering for creative expression</li>
+    <li class="li-custom">A concise technical explanation of your implementation</li>
 </ul>
 
 <h2 class="h2-custom">Grading</h2>
 <p>This assignment is worth a total of 8 points, with the grading criteria outlined as follows:</p>
 <ul class="list-disc pl-8 mb-4">
-    <li>
+    <li class="li-custom">
         <strong>Technical Contribution (6 points):</strong> The core of the grading is based on the correct implementation of noise functions. The distribution of points is as follows:
         <ul class="list-disc pl-8 mb-4">
-            <li>Step 1-6: 1 point each</li>
+            <li class="li-custom">Step 1-6: 1 point each</li>
         </ul>
     </li>
-    <li>
+    <li class="li-custom">
         <strong>Creative Expression (2 points):</strong> This aspect focuses on your ability to create new SDF scenes with ray marching.
     </li>
 </ul>

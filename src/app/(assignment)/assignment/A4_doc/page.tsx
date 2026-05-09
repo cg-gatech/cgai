@@ -1,18 +1,46 @@
-'use client'; 
+'use client';
 
 import { useEffect, useRef } from 'react';
 import { NavBar } from '@/components/NavBar';
 import Image from 'next/image';
+import { withBasePath } from '@/lib/withBasePath';
 
 export default function AssignmentPage() {
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
     const iframe = iframeRef.current;
-    if (iframe) {
-      iframe.onload = () => {
+    if (!iframe) return;
+
+    fetch(withBasePath("/assignments/A4.html"))
+      .then((res) => res.text())
+      .then((rawHTML) => {
+        // Step 2: Fix relative URLs in src/href attributes
+        const fixedHTML = rawHTML.replace(
+          /(src|href)=["']\/(?!\/)/g, // Match src="/..." or href="/..."
+          `$1="${withBasePath("/")}`
+        );
+
+        // Step 3: Write the fixed HTML directly into the iframe document
         const doc = iframe.contentDocument || iframe.contentWindow?.document;
-        if (doc) {
+        if (!doc) return;
+
+        // ✅ Safe in iframe context — suppress TS warning
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        doc.open();
+        doc.write(fixedHTML);
+        doc.close();
+
+        iframe.onload = () => {
+          const doc = iframe.contentDocument || iframe.contentWindow?.document;
+          if (!doc) return;
+
+          // Dynamically inject the <base> tag
+          const base = doc.createElement("base");
+          base.href = window.location.origin + withBasePath("/");
+          doc.head.prepend(base);
+
           const style = doc.createElement("style");
           style.textContent = `
             body {
@@ -21,16 +49,17 @@ export default function AssignmentPage() {
               overflow-wrap: break-word;
               line-height: 1.6;
             }
-            
+
             pre, code {
               white-space: pre-wrap;
               word-wrap: break-word;
             }
           `;
           doc.head.appendChild(style);
-        }
-      };
-    }
+        };
+    })
+      .catch((err) => console.error("Failed to load iframe HTML:", err));
+
   }, []);
   return (
     <div className="bg-robot-bg bg-cover bg-center grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
@@ -39,7 +68,7 @@ export default function AssignmentPage() {
         <div className="flex flex-col sm:flex-row items-center gap-4 w-full">
           {/* Logo */}
           <Image
-            src="/cgai_logo.png"
+            src={withBasePath("/cgai_logo.png")}
             alt="CGAI logo"
             width={256}
             height={256}
@@ -57,10 +86,11 @@ export default function AssignmentPage() {
         </div>
         <NavBar />
         {/* Assignment Content Section */}
-        <iframe 
+        <iframe
           ref={iframeRef}
-          src="/assignments/A4.html"
           className="w-full h-[7800px] bg-yellow-50 text-black p-8 rounded-lg shadow-lg"
+          title="Assignment 4"
+          allow='autoplay; fullscreen'
         />
       </main>
     </div>

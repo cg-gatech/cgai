@@ -1,13 +1,42 @@
-'use client'; 
+'use client';
 
 import { useEffect, useRef } from 'react';
 import { NavBar } from '@/components/NavBar';
 import Image from 'next/image';
+import { withBasePath } from '@/lib/withBasePath';
 
 export default function AssignmentPage() {
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
+    const iframe = iframeRef.current;
+    if (!iframe) return;
+
+    iframe.onload = () => {
+      const doc = iframe.contentDocument || iframe.contentWindow?.document;
+      if (!doc) return;
+
+      /* ---------- Fix base path ---------- */
+      const base = doc.createElement('base');
+      base.href = window.location.origin + withBasePath('/');
+      doc.head.prepend(base);
+
+      const style = doc.createElement("style");
+      style.textContent = `
+        body {
+          word-wrap: break-word;
+          white-space: normal;
+          overflow-wrap: break-word;
+          line-height: 1.6;
+        }
+
+        pre, code {
+          white-space: pre-wrap;
+          word-wrap: break-word;
+        }
+      `;
+      doc.head.appendChild(style);
+    };
   }, []);
 
   return (
@@ -17,7 +46,7 @@ export default function AssignmentPage() {
         <div className="flex flex-col sm:flex-row items-center gap-4 w-full">
           {/* Logo */}
           <Image
-            src="/cgai_logo.png"
+            src={withBasePath("/cgai_logo.png")}
             alt="CGAI logo"
             width={256}
             height={256}
@@ -35,9 +64,9 @@ export default function AssignmentPage() {
         </div>
         <NavBar />
         {/* Assignment Content Section */}
-        <iframe 
+        <iframe
           ref={iframeRef}
-          src="/assignments/A1.html"
+          src={withBasePath("/assignments/A1a.html")}
           className="bg-yellow-50 text-black p-8 rounded-lg shadow-lg w-full h-[5200px]"
         />
       </main>

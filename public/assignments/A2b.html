@@ -1,4 +1,4 @@
-<script id="MathJax-script" defer 
+<script id="MathJax-script" defer
 src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.min.js">
 </script>
 
@@ -58,7 +58,7 @@ src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.min.
     }
 
     .image-container {
-        display: flex; 
+        display: flex;
         justify-content: center; /* Center images */
         gap: 20px; /* Space between images */
     }
@@ -83,24 +83,26 @@ src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.min.
 </p>
 
 <ul class="list-disc pl-8 mb-4">
-    <li>Course Slides on SDF Representation and Neural Implicit Surface</li>
-    <li><a href="https://arxiv.org/abs/1901.05103" class="link-inline">DeepSDF: Learning Continuous Signed Distance Functions for Shape Representation
-    </a></li>
-    <li><a href="https://www.youtube.com/watch?v=8pwXpfi-0bU" class="link-inline">A Haphazard Tutorial for Making Neural SDFs in Shadertoy</a></li>
-    <li><a href="https://www.shadertoy.com/view/wtVyWK" class="link-inline">Neural Stanford Bunny on ShaderToy</a></li>
-    <li><a href="https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html" class="link-inline">PyTorch Official Document (First Four sections)</a></li>
-    <li><a href="https://cgai-gatech.vercel.app/tutorial/colab-tutorial" class="link-inline">CGAI Tutorial: Google Colab</a></li>
-    <li><a href="https://cgai-gatech.vercel.app/tutorial/pytorch-tutorial" class="link-inline">CGAI Tutorial: Training a Network in PyTorch</a></li>
+    <li class="li-custom">Course Slides on SDF Representation and Neural Implicit Surface</li>
+    <li class="li-custom"><a href="https://arxiv.org/abs/1901.05103" class="link-inline">DeepSDF: Learning Continuous Signed Distance Functions for Shape Representation</a></li>
+    <li class="li-custom"><a href="https://youtu.be/8pwXpfi-0bU" class="link-inline">A Haphazard Tutorial for Making Neural SDFs in Shadertoy</a></li>
+    <li class="li-custom"><a href="https://www.shadertoy.com/view/wtVyWK" class="link-inline">Neural Stanford Bunny on ShaderToy</a></li>
+    <li class="li-custom"><a href="https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html" class="link-inline">PyTorch Official Document (First Four sections)</a></li>
+    <li class="li-custom"><a href="https://cgai-gatech.vercel.app/tutorial/colab-tutorial" class="link-inline">CGAI Tutorial: Google Colab</a></li>
+    <li class="li-custom"><a href="https://cgai-gatech.vercel.app/tutorial/pytorch-tutorial" class="link-inline">CGAI Tutorial: Training a Network in PyTorch</a></li>
 </ul>
 
 <h2 class="h2-custom">Starter Code</h2>
 <p class="mb-4">
-    Please visit the following GitHub repository to get our latest starter code: <a href="https://github.com/cg-gatech/cgai" class="link-inline">https://github.com/cg-gatech/cgai</a>. Make sure to run 'git pull' to synchronize the latest version. Make sure you can access the default CGAI web page after starting the npm server. The starter code for this assignment is located in the folder <code class="code-inline">src/app/(assignment)/assignment/A2b</code>. This folder contains several files, including the main page <code class="code-inline">page.tsx</code>, the Jupyter notebook file <code class="code-inline">neural_sdf.ipynb</code>, the GLSL shader <code class="code-inline">fragment.glsl</code>, and several mesh files. Your implementation will focus on <code class="code-inline">neural_sdf.ipynb</code> and <code class="code-inline">fragment.glsl</code>.
+    Please visit the following GitHub repository to get our latest starter code: <a href="https://github.com/cg-gatech/cgai" class="link-inline">https://github.com/cg-gatech/cgai</a>.
+    Make sure to run 'git pull' to synchronize the latest version. Make sure you can access the default CGAI web page after starting the npm server.
+    The starter code for this assignment is located in the folder <code class="code-inline">src/app/(assignment)/assignment/A2b</code>. This folder contains several files, including the main page <code class="code-inline">page.tsx</code>, the Jupyter notebook file <code class="code-inline">neural_sdf.ipynb</code>, the GLSL shader <code class="code-inline">fragment.glsl</code>, and several mesh files.
+    Your implementation will focus on <code class="code-inline">neural_sdf.ipynb</code> and <code class="code-inline">fragment.glsl</code>.
 </p>
 
 <p class="mb-4">
-
-To view the default initial effect for this assignment, you can either use the navigation bar by clicking Assignments and then Assignment 2B, or directly access the URL: <a href="http://localhost:3000/assignment/A2b" class="link-inline">http://localhost:3000/assignment/A2b</a> (Note that the port number may vary depending on the available ports on your local computer). After successfully completing the setup, you should see a blank window.
+    To view the default initial effect for this assignment, you can either use the navigation bar by clicking Assignments and then Assignment 2 B, or directly access the URL: <a href="http://localhost:3000/assignment/A2b" class="link-inline">http://localhost:3000/assignment/A2b</a> (Note that the port number may vary depending on the available ports on your local computer).
+    After successfully completing the setup, you should see a blank window.
 </p>
 
 <h2 class="h2-custom">Requirements</h2>
@@ -114,12 +116,12 @@ In this step, you are asked to create a PyTorch dataset class named <code class=
 </p>
 
 <h3 class="h4-custom">Step 1.1 Preparation</h3>
-<p class="mb-4">    
+<p class="mb-4">
     Upload the Notebook file <code class="code-inline">neural_sdf.ipynb</code> to Google Colab. We prepared a quick tutorial for you for this step in <code class="code-inline">Tutorials/Google Colab Tutorial</code>, please read it carefully and follow the steps. Make sure to run all the cells before Step 1.2. These cells will install required packages and compile helper functions we shall need later in other steps.
 </p>
 
 <h3 class="h4-custom">Step 1.2 NeuralSDFDataset</h3>
-<p class="mb-4">    
+<p class="mb-4">
     In this step, you will implement a <code class="code-inline">NeuralSDFDataset</code> class. We will follow the the way Neural SDF paper sample training points where the majority of points are sampled near the mesh surface while a small amount are sampled in the space of a unit sphere around the shape. We will implement this step by using the <code class="code-inline">mesh_to_sdf</code> package. In our starter code, we've provided the code for loading the mesh with path <code class="code-inline">mesh_path</code> and sample <code class="code-inline">sample_num</code> number of points using <code class="code-inline">sample_sdf_near_surface</code> function from <code class="code-inline">mesh_to_sdf</code> package.
 </p></br>
 
@@ -129,7 +131,7 @@ In this step, you are asked to create a PyTorch dataset class named <code class=
 
 <p class="mb-4">
     <em>[Checkpoint]</em> After finishing this step, you can check the correctness of your implementation by plotting the point cloud in the next block. The expected result for a bunny/cow is as below.
-</p>    
+</p>
 
 <div class="image-container">
     <img src="/assignments/A2b_img/bunny.png" alt="Image 1">
@@ -138,17 +140,17 @@ In this step, you are asked to create a PyTorch dataset class named <code class=
 
 
 <h3 class="h4-custom">Step 1.3: Network Structure</h3>
-<p class="mb-4">    
-    After completing the creation of your training dataset, you will implement a neural network class named <code class="code-inline">NeuralSDF</code>. This step consists of two substeps:  
-    (1) implementing the constructor and forward function for the sine-based neural network layer defined in <code class="code-inline">SineLayer</code>, and  
+<p class="mb-4">
+    After completing the creation of your training dataset, you will implement a neural network class named <code class="code-inline">NeuralSDF</code>. This step consists of two substeps:
+    (1) implementing the constructor and forward function for the sine-based neural network layer defined in <code class="code-inline">SineLayer</code>, and
     (2) implementing the constructor for the overall network architecture defined in <code class="code-inline">NeuralSDF</code>.
     </br></br>
 
     <em>Your Implementation (1): <code class="code-inline">SineLayer</code></em></br>
-    First, you will complete the constructor of the <code class="code-inline">SineLayer</code> class. This requires creating a Linear layer named <code class="code-inline">self.fc</code> with an input feature size of <code class="code-inline">in_features</code> and an output feature size of <code class="code-inline">out_features</code>.  
+    First, you will complete the constructor of the <code class="code-inline">SineLayer</code> class. This requires creating a Linear layer named <code class="code-inline">self.fc</code> with an input feature size of <code class="code-inline">in_features</code> and an output feature size of <code class="code-inline">out_features</code>.
     </br>
 
-    Next, you will implement your <code class="code-inline">forward</code> function of <code class="code-inline">SineLayer</code>. Your implementation should handle the following three cases according to the network layer index:  
+    Next, you will implement your <code class="code-inline">forward</code> function of <code class="code-inline">SineLayer</code>. Your implementation should handle the following three cases according to the network layer index:
     </br></br>
 
     \[
@@ -162,14 +164,14 @@ In this step, you are asked to create a PyTorch dataset class named <code class=
 
     </br>
 
-    In these equations: <strong>s</strong> is a number representing the <code class="code-inline">skip_weight</code> parameter, <strong>w0</strong> is a number representing the activation function frequency, and <strong>g(x)</strong> represents the fully connected layer in the neural network. You will use the flags <code class="code-inline">is_first</code> or <code class="code-inline">is_last</code> to determine whether a network layer passed into the function is the first or last layer or not.  
+    In these equations: <strong>s</strong> is a number representing the <code class="code-inline">skip_weight</code> parameter, <strong>w0</strong> is a number representing the activation function frequency, and <strong>g(x)</strong> represents the fully connected layer in the neural network. You will use the flags <code class="code-inline">is_first</code> or <code class="code-inline">is_last</code> to determine whether a network layer passed into the function is the first or last layer or not.
     </br></br>
-    
+
     <em>Your Implementation (2): <code class="code-inline">NeuralSDF</code></em></br>
-    After implementing the <code class="code-inline">SineLayer</code> class, you will proceed to define the network structure in the <code class="code-inline">NeuralSDF</code> class. This step requires using your previously implemented <code class="code-inline">SineLayer</code> class to construct the network architecture.  
+    After implementing the <code class="code-inline">SineLayer</code> class, you will proceed to define the network structure in the <code class="code-inline">NeuralSDF</code> class. This step requires using your previously implemented <code class="code-inline">SineLayer</code> class to construct the network architecture.
 
     Your task is to append each layer to the list defined by <code class="code-inline">self.network</code>, following these guidelines:
-     
+
     <ul>
         <li><strong>First Layer:</strong> Use the <code class="code-inline">is_first</code> flag to mark it as the first layer. Create a network layer using the <code class="code-inline">SineLayer</code> class with an input feature size of <code class="code-inline">in_features</code> and an output feature size of <code class="code-inline">hidden_features</code>.</li>
         <li><strong>Hidden Layers:</strong> Create <code class="code-inline">hidden_layers</code> number of hidden layers, each with both input and output feature sizes set to <code class="code-inline">hidden_features</code>. The skip weight should be set to <code class="code-inline">skip_weight=sqrt(i+1)</code>, where <code class="code-inline">i</code> is the index of the current hidden layer.</li>
@@ -179,19 +181,19 @@ In this step, you are asked to create a PyTorch dataset class named <code class=
 
 <h3 class="h4-custom">Step 1.4: Train Your Network</h3>
 <p class="mb-4">
-    After creating the network structure, your next task is to train your neural network. You will use Mean Squared Error (MSE) as the loss function.  
+    After creating the network structure, your next task is to train your neural network. You will use Mean Squared Error (MSE) as the loss function.
     At the start of each iteration, ensure that you zero the gradients in your optimizer. At the end of each iteration, propagate the loss backward to update the network parameters. Read the PyTorch tutorials from both the <a href="https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html" class="link-inline">PyTorch official website</a> and <a href="https://cgai-gatech.vercel.app/tutorial/pytorch-tutorial" class="link-inline">our CGAI website</a>.</br>
     </br>
-    Now, start training your network! You should observe a gradual decrease in loss in the printed output. The entire training process is expected to converge after approximately 10,000 epochs (~20 print iterations), which usually takes a few minutes on Colab.  
+    Now, start training your network! You should observe a gradual decrease in loss in the printed output. The entire training process is expected to converge after approximately 10,000 epochs (~20 print iterations), which usually takes a few minutes on Colab.
     </br></br>
-    Note:We have intentionally reduced the network size for faster training. Feel free to increase the network scale for better results by adjusting the provided hyperparameters before calling the <code class="code-inline">train_neuralSDF</code> function.
+    Note: We have intentionally reduced the network size for faster training. Feel free to increase the network scale for better results by adjusting the provided hyperparameters before calling the <code class="code-inline">train_neuralSDF</code> function.
 </p>
 
 <h3 class="h3-custom">Step 2: Neural SDF Rendering</h3>
 
 <h3 class="h4-custom">Step 2.1: Copy Network Weights to Shader</h3>
 <p class="mb-4">
-    Run the final cell in your notebook after the training loop completes. Copy the printed output from your notebook and paste it into <code class="code-inline">sdfBunny</code> for the bunny or <code class="code-inline">sdfCow</code> for the cow.  
+    Run the final cell in your notebook after the training loop completes. Copy the printed output from your notebook and paste it into <code class="code-inline">sdfBunny</code> for the bunny or <code class="code-inline">sdfCow</code> for the cow.
     You should now see your trained results displayed on the screen. If you modify the code, remember to refresh the browser to apply the changes.
 </p>
 
@@ -214,7 +216,7 @@ In this step, you will calculate the surface normal at a given point using the f
 <p class="mb-4">
 In this step, you are asked to color the objects to achieve realistic lighting effects. You are also tasked to assign a unique color to each neural SDF object in the scene based on its position or type. <em>We do not ask for a perfect match of our given video. You may pick any color you like for the rendering of these two objects.</em>
 
-Once you have implemented all these steps, you should be able to observe the two neural SDF models (bunny and cow) as shown in the video below. 
+Once you have implemented all these steps, you should be able to observe the two neural SDF models (bunny and cow) as shown in the video below.
 </p>
 
 <video controls autoplay loop muted style="max-width: 75%; height: auto;">
@@ -227,23 +229,23 @@ In the Creative Expression section of this assignment, you are encouraged to tra
 
 <h2 class="h2-custom">Submission</h2>
 <ul class="list-disc pl-8 mb-4">
-    <li>Your source code <code class="code-inline">neural_sdf.ipynb</code> and <code class="code-inline">fragment.glsl</code></li>
-    <li>Your default ray-marching video after completing the six steps</li>
-    <li>Your customized video with your own neural SDF objects for creative expression</li>
-    <li>A concise technical explanation of your implementation</li>
+    <li class="li-custom">Your source code <code class="code-inline">neural_sdf.ipynb</code> and <code class="code-inline">fragment.glsl</code></li>
+    <li class="li-custom">Your default ray-marching video after completing the six steps</li>
+    <li class="li-custom">Your customized video with your own neural SDF objects for creative expression</li>
+    <li class="li-custom">A concise technical explanation of your implementation</li>
 </ul>
 
 <h2 class="h2-custom">Grading</h2>
 <p>This assignment is worth a total of 8 points, with the grading criteria outlined as follows:</p>
 <ul class="list-disc pl-8 mb-4">
-    <li>
+    <li class="li-custom">
         <strong>Technical Contribution (7 points):</strong> The core of the grading is based on the correct implementation of the neural network architectures and their rendering. The distribution of points is as follows:
         <ul class="list-disc pl-8 mb-4">
-            <li>Step 1: 4 points </li>
-            <li>Step 2: 3 points </li>
+            <li class="li-custom">Step 1: 4 points </li>
+            <li class="li-custom">Step 2: 3 points </li>
         </ul>
     </li>
-    <li>
+    <li class="li-custom">
         <strong>Creative Expression (1 point):</strong> This aspect focuses on your ability to create new SDF objects with neural networks.
     </li>
 </ul>
