@@ -11,7 +11,7 @@ export default function AssignmentPage() {
   useEffect(() => {
     const iframe = iframeRef.current;
     if (!iframe) return;
-    
+
     fetch(withBasePath("/assignments/A4.html"))
       .then((res) => res.text())
       .then((rawHTML) => {
@@ -49,7 +49,7 @@ export default function AssignmentPage() {
               overflow-wrap: break-word;
               line-height: 1.6;
             }
-            
+
             pre, code {
               white-space: pre-wrap;
               word-wrap: break-word;
@@ -67,22 +67,28 @@ export default function AssignmentPage() {
         {/* Logo and Title Section */}
         <div className="flex flex-col sm:flex-row items-center gap-4 w-full">
           {/* Logo */}
-          <Image src={withBasePath("/cgai_logo.png")} alt="CGAI logo" width={256} height={256} priority />
+          <Image
+            src={withBasePath("/cgai_logo.png")}
+            alt="CGAI logo"
+            width={256}
+            height={256}
+            priority
+          />
           {/* Title and Description */}
           <div className="text-center sm:text-left w-full">
             <p className="text-3xl font-bold font-[family-name:var(--font-geist-mono)] leading-loose">
-              CS8803/4803 CGA: Computer Graphics in AI Era
+              CS8803 CGAI: Computer Graphics in AI Era
             </p>
             <p className="text-2xl font-[family-name:var(--font-geist-mono)] mt-2 leading-relaxed">
-              Assignment 4: Position-based Dynamics
+              Assignment 4: Gaussian Splatting
             </p>
           </div>
         </div>
         <NavBar />
         {/* Assignment Content Section */}
-        <iframe 
+        <iframe
           ref={iframeRef}
-          className="w-full h-[5400px] bg-yellow-50 text-black p-8 rounded-lg shadow-lg"
+          className="w-full h-[7800px] bg-yellow-50 text-black p-8 rounded-lg shadow-lg"
           title="Assignment 4"
           allow='autoplay; fullscreen'
         />

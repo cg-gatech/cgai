@@ -55,10 +55,10 @@ export default function AssignmentPage() {
           {/* Title and Description */}
           <div className="text-center sm:text-left w-full">
             <p className="text-3xl font-bold font-[family-name:var(--font-geist-mono)] leading-loose">
-              CS8803/4803 CGA: Computer Graphics in AI Era
+              CS8803 CGAI: Computer Graphics in AI Era
             </p>
             <p className="text-2xl font-[family-name:var(--font-geist-mono)] mt-2 leading-relaxed">
-              Assignment 2B: Neural Radiance Field
+              Assignment 2B: Neural Implicit Surface
             </p>
           </div>
         </div>
@@ -67,7 +67,7 @@ export default function AssignmentPage() {
         <iframe
           ref={iframeRef}
           src={withBasePath("/assignments/A2b.html")}
-          className="w-full h-[4700px] bg-yellow-50 text-black p-8 rounded-lg shadow-lg"
+          className="w-full h-[6000px] bg-yellow-50 text-black p-8 rounded-lg shadow-lg"
         />
       </main>
     </div>

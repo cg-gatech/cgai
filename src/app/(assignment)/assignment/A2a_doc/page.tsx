@@ -35,6 +35,7 @@ export default function AssignmentPage() {
           word-wrap: break-word;
         }
       `;
+
       doc.head.appendChild(style);
     };
   }, []);
@@ -55,10 +56,10 @@ export default function AssignmentPage() {
           {/* Title and Description */}
           <div className="text-center sm:text-left w-full">
             <p className="text-3xl font-bold font-[family-name:var(--font-geist-mono)] leading-loose">
-              CS8803/4803 CGA: Computer Graphics in AI Era
+              CS8803 CGAI: Computer Graphics in AI Era
             </p>
             <p className="text-2xl font-[family-name:var(--font-geist-mono)] mt-2 leading-relaxed">
-              Assignment 2A: Volumetric Rendering
+              Assignment 2A: Signed Distance Field and Ray Marching
             </p>
           </div>
         </div>
@@ -67,7 +68,7 @@ export default function AssignmentPage() {
         <iframe
           ref={iframeRef}
           src={withBasePath("/assignments/A2a.html")}
-          className="w-full h-[4200px] bg-yellow-50 text-black p-8 rounded-lg shadow-lg"
+          className="w-full h-[3800px] bg-yellow-50 text-black p-8 rounded-lg shadow-lg"
         />
       </main>
     </div>

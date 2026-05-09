@@ -1,0 +1,247 @@
+<script id="MathJax-script" defer 
+src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.min.js">
+</script>
+
+<style>
+    /* Custom styles for headings */
+    .h1-custom {
+        font-size: 2.25rem; /* equivalent to text-4xl */
+        font-weight: 700; /* equivalent to font-bold */
+        margin-bottom: 1.5rem; /* equivalent to mb-6 */
+    }
+
+    .h2-custom {
+        font-size: 1.5rem; /* equivalent to text-2xl */
+        font-weight: 600; /* equivalent to font-semibold */
+        margin-top: 1.5rem; /* equivalent to mt-6 */
+        margin-bottom: 1rem; /* equivalent to mb-4 */
+    }
+
+    .h3-custom {
+        font-size: 1.25rem; /* equivalent to text-xl */
+        font-weight: 500; /* equivalent to font-medium */
+        margin-top: 1rem; /* equivalent to mt-4 */
+        margin-bottom: 0.5rem; /* equivalent to mb-2 */
+    }
+
+    .h4-custom {
+        font-size: 1.05rem; /* equivalent to text-xl */
+        font-weight: 500; /* equivalent to font-medium */
+        margin-top: 1rem; /* equivalent to mt-4 */
+        margin-bottom: 0.5rem; /* equivalent to mb-2 */
+    }
+
+    /* Styling for code elements */
+    .code-inline {
+        font-family: 'Fira Code', Consolas, 'Courier New', monospace;
+        font-size: 1.1rem;
+        font-weight: bold;
+    }
+
+    .link-inline {
+        text-decoration: underline;  /* Ensures the links are underlined */
+        color: #1d4ed8;              /* Sets the blue color for the links */
+        font-family: 'Fira Code', Consolas, 'Courier New', monospace;
+        font-size: 1.1rem;
+        font-weight: bold;
+    }
+
+    /* Fixing the problem with ul and li elements */
+    ul {
+        list-style-type: disc;  /* Ensures the default bullet style */
+        margin-left: 2rem;      /* Adds left indentation for the list */
+        padding-left: 1.5rem;   /* Adds extra padding inside the list */
+    }
+
+    li {
+        margin-bottom: 0.5rem; /* Adds space between list items */
+    }
+
+    .image-container {
+        display: flex; 
+        justify-content: center; /* Center images */
+        gap: 20px; /* Space between images */
+    }
+    .image-container img {
+        width: 20%; /* Adjust width */
+        height: auto; /* Maintain aspect ratio */
+    }
+
+    .image-container2 {
+        display: flex; 
+        justify-content: center; /* Center images */
+        gap: 20px; /* Space between images */
+    }
+    .image-container2 img {
+        width: 30%; /* Adjust width */
+        height: auto; /* Maintain aspect ratio */
+    }
+
+</style>
+
+<h1 class="h1-custom">
+    Assignment 3A: Volumetric Rendering
+</h1>
+
+<p class="mb-4">
+    Welcome to the first part of our exploration of NeRF! In this assignment, you explore the first and crucial backbone under the NeRF framework -- volumetric ray tracing! 
+    The main task for this assignment is to first implement the ray intersection interval with an axis-aligned bounding box (AABB).
+    Then, you will render the density fields using the volumetric rendering method we taught in class. All implementions will be in our WebGL shader. Let's get started!
+</p>
+
+<h2 class="h2-custom">Reading</h2>
+<p class="mb-4">
+    Before diving into our code, you may refer to our course slides as well as the supplementary reading materials to get a comprehensive understanding of volumetric rendering. Here is the reading list:
+</p>
+
+<ul class="list-disc pl-8 mb-4">
+    <li>Course Slides on Radiometry Foundation and Participated Media</li>
+    <li><a href="https://raytracing.github.io/books/RayTracingTheNextWeek.html#volumes" class="link-inline">Ray Tracing: The Next Week</a></li>
+    <li><a href="https://courses.cs.duke.edu/spring03/cps296.8/papers/max95opticalModelsForDirectVolumeRendering.pdf" class="link-inline">Optical models for direct volume rendering</a></li>
+    <li><a href="https://arxiv.org/abs/2209.02417" class="link-inline">Volume Rendering Digest (for NeRF)</a></li>
+    <li><a href="https://www.scratchapixel.com/lessons/3d-basic-rendering/volume-rendering-for-developers/volume-rendering-summary-equations.html" class="link-inline">Volume Rendering Notes from Scratchapixel</a></li>
+    <li><a href="https://developer.nvidia.com/gpugems/gpugems/part-vi-beyond-triangles/chapter-39-volume-rendering-techniques" class="link-inline">GPU Gem Chapter 39 Volume Rendering Techniques </a></li>
+    <li><a href="https://www.shadertoy.com/view/XlBSRz" class="link-inline">Shadertoy Example: Smoke Sphere</a></li>
+    <li><a href="https://www.shadertoy.com/view/ds3cWj" class="link-inline">Shadertoy Example: Cloud</a></li>
+</ul>
+
+<h2 class="h2-custom">Starter Code</h2>
+<p class="mb-4">
+    Please visit the following GitHub repository to get our latest starter code: <a href="https://github.com/cg-gatech/cgai" class="link-inline">https://github.com/cg-gatech/cgai</a>. Make sure to run 'git pull' to synchronize the latest version. Make sure you can access the default CGAI web page after starting the npm server. 
+    The starter code for this assignment is located in the folder <code class="code-inline">src/app/(assignment)/assignment/A3a</code>. This folder contains two files, including the main page <code class="code-inline">page.tsx</code> and the GLSL shader <code class="code-inline">fragment.glsl</code>. 
+    Your implementation will focus on <code class="code-inline">fragment.glsl</code>.
+</p>
+
+<p class="mb-4">
+
+To view the default initial effect for this assignment, you can either use the navigation bar by clicking Assignments and then Assignment 3A, or directly access the URL: <a href="http://localhost:3000/assignment/A3a" class="link-inline">http://localhost:3000/assignment/A3a</a> (Note that the port number may vary depending on the available ports on your local computer). After successfully completing the setup, you should see a blank window.
+</p>
+
+<h2 class="h2-custom">Requirements</h2>
+<p class="mb-4">
+    For this assignment, you are expected to implement three key components of a volumetric rendering pipeline: <em>Ray-AABB intersection</em>, <em>front-to-back volume rendering</em>, and <em>back-to-front volume rendering</em>. We will briefly discuss each step as follows.
+</p>
+
+<h3 class="h3-custom">Step 1: Ray-AABB Intersection</h3>
+<p class="mb-4">
+    Instead of marching the ray through an unbounded region, we first compute where the ray enters/exits the volume bounds,
+    and only march within this interval. This significantly accelerates volume rendering by avoiding unnecessary sampling outside the volume.
+    Implement <code class="code-inline">intersectAABB</code>, which computes the intersection interval
+    <code class="code-inline">[tNear, tFar]</code> between a ray and an axis-aligned bounding box.
+    The ray is defined as:
+    \[
+      \mathbf{r}(t) = \mathbf{r_o} + t\mathbf{r_d}.
+    \]
+    The AABB is defined by its minimum corner <code class="code-inline">boxMin</code> and maximum corner <code class="code-inline">boxMax</code>.
+</p>
+
+<h3 class="h3-custom">Step 2: Front-to-Back Volumetric Rendering</h3>
+<p class="mb-4">
+    Implement <code class="code-inline">volumeRenderFrontToBack</code>.
+    This is the standard front-to-back compositing formulation used in absorption-emission volume rendering.
+    We briefly describe the mathematical model as below.
+    Recall the volumetric rendering equation for only considering absorption can be written as:</br>
+    \[ C(\mathbf{r})=\int_{t_n}^{t_f}T(t)\sigma(\mathbf{r}(t))\mathbf{c}(\mathbf{r}(t))dt. \]
+    The discritized version is:</br>
+    \[ C=\sum_{i=1}^n\int_{t_i}^{t_{i+1}}T(t)\sigma_ic_idt. \]
+    Assuming a small truncation of volumetric data with uniform density, the inner integral can be written as:</br>
+    \[ \int_0^{\Delta}T\sigma dt=\int_0^{\Delta}\sigma e^{-\sigma t}dt=(1-e^{-\sigma\Delta}). \]
+    </br>
+    Hence, the final version becomes:</br>
+    \[
+    C=\sum_{i=1}^{n}
+    \underbrace{T_i}_{\text{Term 1}}
+    \underbrace{\left(1 - e^{-\sigma_i \Delta_i}\right)c_i}_{\text{Term 2}},
+    \]
+    with the accumulated transmittance defined as:</br>
+    \[
+    T_i
+    = \prod_{j=1}^{i-1} e^{-\sigma_j \Delta_j}
+    = e^{\sum_{j=1}^{i-1} -\sigma_j \Delta_j}.
+    \]
+
+    Here, within the summation, the first term gives the probability that the light pass through the previous media and reaches the current point, hence gives the attenuation that need to be applied to the color.
+    The second term denotes the probability the light terminates here and hence the camera sees the color of the media.  <br/>
+
+    </br>
+
+    We provide you the for-loop for calculating this summation. In each iteration, you should <br/>
+    <strong>(1)</strong> Sample the volumetric color and extinction at the current point using
+    <code class="code-inline">s=sampleVolume(p, fragCoord, model)</code>.
+    This function returns a <code class="code-inline">vec4</code> where <code class="code-inline">s.rgb</code> is the emitted/scattered color and
+    <code class="code-inline">s.a</code> is the extinction coefficient \(\sigma\) used for Beer-Lambert attenuation.
+    The starter code already provides a density-to-RGB mapping inside
+    <code class="code-inline">sampleVolume</code>. And you may design your own mapping in Creative Expression.<br/>
+    <strong>(2)</strong> Following the equations given above, you will first use the accumulated transmittance and the extinction coefficient to accumulate color at the current point:</br>
+    \[
+    C+=T_i(1-e^{-\sigma_i\Delta_i})c_i.
+    \]
+    <strong>(3)</strong> You will accumulate the transmittance in preparetion for the next iteration:</br>
+    \[
+    T_{i+1}=T_ie^{-\sigma_i\Delta_i}.
+    \]
+</p>
+
+
+<h3 class="h3-custom">Step 3: Back-to-Front Volumetric Rendering</h3>
+<p class="mb-4">
+    Switch the rendering function in <code class="code-inline">mainImage</code>. Implement <code class="code-inline">volumeRenderBackToFront</code>.
+    Here we will compute the same final color by compositing samples from far to near, which leads to a different accumulation update:</br>
+    \[
+    C = (1-e^{-\sigma_i \Delta_i}) c_i + e^{-\sigma_i \Delta_i} C.
+    \]
+    This is equivalent to the original summation above. And the result should be the same as Step 2.
+</p>
+
+<h2 class="h2-custom">Reference Results</h2>
+<p class="mb-4">
+    We provide two reference videos. You can change <code class="code-inline">model</code> to switch between different density fields.
+</p>
+<video controls autoplay loop muted style="max-width: 40%; height: auto;">
+    <source src="/assignments/A3a-ref1.mp4" type="video/mp4">
+    
+    Your browser does not support the video tag.
+</video>
+
+<video controls autoplay loop muted style="max-width: 40%; height: auto;">
+    <source src="/assignments/A3a-ref2.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
+
+<p class="mb-4">
+    Do not worry if you observe a small amount of grain/noise in the reference videos or in your own rendering.
+    This is an effect introduced by the blue-noise jitter used during ray marching to reduce structured banding artifacts caused by uniform step sizes. You can check this by removing the blue-noise jitter.
+</p>
+
+<h2 class="h2-custom">Creative Expression</h2>
+In the Creative Expression section of this assignment, you are encouraged to create your own volumetric rendering scene by leveraging the volumetric ray tracing framework you've implemented.
+You are encouraged to edit the shape of density fields and explore the density-to-color mapping.
+
+We expect your Creative Expression volumetric rendering scene to demonstrate the visual appealing aspect of participating media. The creative expression theme for this assignment is <strong>Nebulous Realms</strong>.
+
+<h2 class="h2-custom">Submission</h2>
+<ul class="list-disc pl-8 mb-4">
+    <li>Your source code <code class="code-inline">fragment.glsl</code></li>
+    <li>Your default volumetric ray tracing video after completing the three steps</li>
+    <li>Your customized video with your own volumetric rendering for creative expression</li>
+    <li>A concise technical explanation of your implementation</li>
+</ul>
+
+<h2 class="h2-custom">Grading</h2>
+<p>This assignment is worth a total of 8 points, with the grading criteria outlined as follows:</p>
+<ul class="list-disc pl-8 mb-4">
+    <li>
+        <strong>Technical Contribution (7 points):</strong> The core of the grading is based on the correct implementation of ray-AABB intersection and volumetric rendering. The distribution of points is as follows:
+        <ul class="list-disc pl-8 mb-4">
+            <li>Step 1: 2 points </li>
+            <li>Step 2: 2 points </li>
+            <li>Step 3: 3 points </li>
+        </ul>
+    </li>
+    <li>
+        <strong>Creative Expression (1 point):</strong> This aspect focuses on your ability to create new volumetric shape and render it out for new expressive scenes.
+    </li>
+</ul>
+
+<h2 class="h2-custom">Sharing Your Work</h2>
+<p>You are encouraged to share your graphical work with the class. If you want to do so, please upload your image to the Ed Discussion post <strong>A3a Gallery: Nebulous Realms</strong>. This is an excellent opportunity to engage with your peers and gain recognition for your work. Share with us the nebulous world you create!</p>
